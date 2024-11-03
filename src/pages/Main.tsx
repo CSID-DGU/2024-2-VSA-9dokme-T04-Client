@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SlidingBanner from "../components/SlidingBanner";
 import Hashtag from "../components/Hashtag";
 import { Book } from "../json/BookList";
+import books from "../json/books.json";
 import { useNavigate } from "react-router-dom";
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";
@@ -56,6 +57,7 @@ const Main = () => {
 
   const handleSearchBtnClick = async () => {
     try {
+      /*
       const response = await axios.get(`${BASE_URL}/api/mainpage/search`, {
         params: {
           title: searchQuery,
@@ -65,6 +67,8 @@ const Main = () => {
       });
 
       const { content } = response.data;
+      */
+      const content = books.bookData;
       console.log("Fetched content: ", content);
       setFilterBooks(content);
     } catch (error) {
@@ -112,7 +116,8 @@ const Main = () => {
                     {filterBooks.map((book) => (
                       <BookCard
                         key={book.bookId}
-                        cover={book.bookUrl}
+                        cover={images[book.bookUrl]}
+                        //cover={book.bookUrl}
                         title={book.title}
                         onClick={() => handleImgClick(book.bookId)}
                         isMarked={book.isMarked}
