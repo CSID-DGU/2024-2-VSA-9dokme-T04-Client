@@ -10,14 +10,16 @@ import AdminQboard from "./pages/AdminQboard";
 import LoginLoading from "./pages/LoginLoading";
 import MyArticle from "./pages/MyArticle";
 import BookDetail from "./pages/BookDetail";
-// import { BrowserView, MobileView } from "react-device-detect";
+import { BrowserView, MobileView, isMobile } from "react-device-detect";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/mainPage/" element={<Main />} />
-        {/* <Route path="/bookdetail/:bookId/" element={<BookDiscription />} /> */}
+        <Route
+          path="/mainPage/"
+          element={isMobile ? <Main mobileView /> : <Main />}
+        />
         <Route path="/bookdetail/:bookId/" element={<BookDetail />} />
         <Route path="/view/:bookId/" element={<PdfViewer />} />
         <Route path="/queryboard/" element={<QueryBoard />} />

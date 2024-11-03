@@ -29,7 +29,11 @@ const images: { [key: string]: string } = {
   "book7.png": book7,
 };
 
-const Main = () => {
+interface MainProps {
+  mobileView?: boolean;
+}
+
+const Main: React.FC<MainProps> = ({ mobileView }) => {
   const navigate = useNavigate();
   const handleImgClick = (bookId: number) => {
     navigate(`/bookdetail/${bookId}`);
