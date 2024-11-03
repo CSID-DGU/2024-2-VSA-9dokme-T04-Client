@@ -29,6 +29,7 @@ const images: { [key: string]: string } = {
   "book7.png": book7,
 };
 
+/*Mobile, Browser view 조건부 렌더링*/
 interface MainProps {
   mobileView?: boolean;
 }
@@ -159,7 +160,7 @@ const NoneBook = styled.div`
   margin: 10vw 0;
 `;
 const BookContainer = styled.div`
-  width: 70%;
+  width: 70vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,7 +168,7 @@ const BookContainer = styled.div`
 `;
 
 const BooksContainer = styled.div`
-  margin-top: 70px;
+  margin-top: 3vw;
   margin-bottom: 100px;
   display: flex;
   justify-content: center;
@@ -181,9 +182,9 @@ const SearchContainer = styled.div`
   justify-content: center;
 `;
 const SearchBox = styled(Input)`
-  width: 850px;
-  height: 45px;
-  font-size: 16px;
+  width: 52vw;
+  height: 3vw;
+  font-size: 1.5vw;
   &:hover,
   &:focus {
     border-color: ${PRIMARY.DEFAULT};
@@ -192,9 +193,9 @@ const SearchBox = styled(Input)`
 `;
 
 const SearchButton = styled(Button)`
-  height: 45px;
-  width: 110px;
-  font-size: 16px;
+  height: 3vw;
+  width: 6vw;
+  font-size: 1vw;
   background-color: ${PRIMARY.DEFAULT};
   color: white;
   border: none;
