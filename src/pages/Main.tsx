@@ -169,7 +169,6 @@ const BookContainer = styled.div`
 
 const BooksContainer = styled.div`
   margin-top: 3vw;
-  margin-bottom: 100px;
   display: flex;
   justify-content: center;
 `;
