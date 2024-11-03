@@ -1,0 +1,60 @@
+{
+  "bookData": [
+    {
+      "bookId": 1,
+      "bookTitle": "Modeling and Simulation of Discrete event systems",
+      "bookCategory": "공학",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book1.png",
+      "isMarked": true
+    },
+    {
+      "bookId": 2,
+      "bookTitle": "신뢰성 공학",
+      "bookCategory": "공학",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book2.png",
+      "isMarked": false
+    },
+    {
+      "bookId": 3,
+      "bookTitle": "AI시대의 컴퓨터 개론",
+      "bookCategory": "공학",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book3.png",
+      "isMarked": false
+    },
+    {
+      "bookId": 4,
+      "bookTitle": "예술방법론",
+      "bookCategory": "예술",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book4.png",
+      "isMarked": true
+    },
+    {
+      "bookId": 5,
+      "bookTitle": "인간과 사회",
+      "bookCategory": "인문/사회",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book5.png",
+      "isMarked": true
+    },
+    {
+      "bookId": 6,
+      "bookTitle": "특수체육론: 이론과 실제",
+      "bookCategory": "체육",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book6.png",
+      "isMarked": false
+    },
+    {
+      "bookId": 7,
+      "bookTitle": "경영학원론",
+      "bookCategory": "경영/경제",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book7.png",
+      "isMarked": true
+    }
+  ]
+}

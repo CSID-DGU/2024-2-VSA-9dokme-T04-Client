@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "NotoSansKR-Medium.ttf";
+  font-weight: normal;
+  src: url("./font/NotoSansKR-Medium.ttf") format("truetype");
+}
+
+body {
+  font-family: "NotoSansKR-Medium.ttf";
+}

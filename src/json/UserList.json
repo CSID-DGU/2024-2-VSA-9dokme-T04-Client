@@ -1,0 +1,46 @@
+{
+  "userList": [
+    {
+      "userId": 1,
+      "username": "유재석",
+      "email": "helloworld1@naver.com",
+      "expirationDate": "2024-10-31"
+    },
+    {
+      "userId": 2,
+      "username": "박명수",
+      "email": "helloworld2@naver.com",
+      "expirationDate": "2024-10-20"
+    },
+    {
+      "userId": 3,
+      "username": "하하",
+      "email": "helloworld3@naver.com",
+      "expirationDate": "2024-09-31"
+    },
+    {
+      "userId": 4,
+      "username": "정준하",
+      "email": "helloworld4@naver.com",
+      "expirationDate": "2024-07-31"
+    },
+    {
+      "userId": 5,
+      "username": "정형돈",
+      "email": "helloworld5@naver.com",
+      "expirationDate": "2024-06-11"
+    },
+    {
+      "userId": 6,
+      "username": "길",
+      "email": "helloworld6@naver.com",
+      "expirationDate": "2024-06-10"
+    },
+    {
+      "userId": 7,
+      "username": "노홍철",
+      "email": "helloworld7@naver.com",
+      "expirationDate": "2024-02-28"
+    }
+  ]
+}

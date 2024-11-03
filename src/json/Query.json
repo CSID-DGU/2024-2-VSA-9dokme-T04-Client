@@ -1,0 +1,65 @@
+{
+  "totalPages": 1,
+  "totalElements": 7,
+  "first": true,
+  "last": true,
+  "size": 10,
+  "content": [
+    {
+      "inquireId": 1,
+      "userId": 1,
+      "title": "문의내용1",
+      "content": "문의내용1입니다."
+    },
+    {
+      "inquireId": 2,
+      "userId": 1,
+      "title": "문의제목2",
+      "content": "문의내용2입니다."
+    },
+    {
+      "inquireId": 3,
+      "userId": 2,
+      "title": "문의제목3",
+      "content": "문의내용3입니다."
+    },
+    {
+      "inquireId": 4,
+      "userId": 3,
+      "title": "문의제목4",
+      "content": "문의내용4입니다."
+    },
+    {
+      "inquireId": 5,
+      "userId": 4,
+      "title": "문의제목5",
+      "content": "문의내용5입니다."
+    },
+    {
+      "inquireId": 6,
+      "userId": 5,
+      "title": "문의제목6",
+      "content": "문의내용6입니다."
+    },
+    {
+      "inquireId": 7,
+      "userId": 6,
+      "title": "문의제목7",
+      "content": "문의내용7입니다."
+    }
+  ],
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 7,
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  }
+}
