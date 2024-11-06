@@ -20,7 +20,7 @@ const Hashtag = ({ onCategoryChange, selectedCategory }: HashtagProps) => {
   ];
 
   return (
-    <div className="flex justify-center items-center flex-wrap gap-4 mx-8">
+    <div className="flex justify-center items-center flex-wrap gap-4">
       {categories.map((category) => (
         <StyledButton
           key={category}

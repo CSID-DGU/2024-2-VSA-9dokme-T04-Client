@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
   font-family: "NotoSansKR-Medium.ttf";
   font-weight: normal;
@@ -9,4 +10,11 @@
 
 body {
   font-family: "NotoSansKR-Medium.ttf";
+}
+
+html,
+#root {
+  width: 100vw;
+  height: 100vw;
+  @apply bg-primary-light;
 }

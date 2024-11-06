@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import SlidingBanner from "../components/SlidingBanner";
 import Hashtag from "../components/Hashtag";
 import { Book } from "../json/BookList";
+import books from "../json/books.json";
 import { useNavigate } from "react-router-dom";
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";
@@ -28,7 +29,12 @@ const images: { [key: string]: string } = {
   "book7.png": book7,
 };
 
-const Main = () => {
+/*Mobile, Browser view 조건부 렌더링*/
+interface MainProps {
+  mobileView?: boolean;
+}
+
+const Main: React.FC<MainProps> = ({ mobileView }) => {
   const navigate = useNavigate();
   const handleImgClick = (bookId: number) => {
     navigate(`/bookdetail/${bookId}`);
@@ -56,6 +62,7 @@ const Main = () => {
 
   const handleSearchBtnClick = async () => {
     try {
+      /*
       const response = await axios.get(`${BASE_URL}/api/mainpage/search`, {
         params: {
           title: searchQuery,
@@ -65,6 +72,8 @@ const Main = () => {
       });
 
       const { content } = response.data;
+      */
+      const content = books.bookData;
       console.log("Fetched content: ", content);
       setFilterBooks(content);
     } catch (error) {
@@ -112,7 +121,8 @@ const Main = () => {
                     {filterBooks.map((book) => (
                       <BookCard
                         key={book.bookId}
-                        cover={book.bookUrl}
+                        cover={images[book.bookUrl]}
+                        //cover={book.bookUrl}
                         title={book.title}
                         onClick={() => handleImgClick(book.bookId)}
                         isMarked={book.isMarked}
@@ -135,6 +145,7 @@ const Root = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: ${PRIMARY.LiGHT};
 `;
 const Container = styled.div`
   width: 100%;
@@ -150,7 +161,7 @@ const NoneBook = styled.div`
   margin: 10vw 0;
 `;
 const BookContainer = styled.div`
-  width: 70%;
+  width: 70vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,8 +169,7 @@ const BookContainer = styled.div`
 `;
 
 const BooksContainer = styled.div`
-  margin-top: 70px;
-  margin-bottom: 100px;
+  margin-top: 3vw;
   display: flex;
   justify-content: center;
 `;
@@ -172,9 +182,9 @@ const SearchContainer = styled.div`
   justify-content: center;
 `;
 const SearchBox = styled(Input)`
-  width: 850px;
-  height: 45px;
-  font-size: 16px;
+  width: 52vw;
+  height: 3vw;
+  font-size: 1.5vw;
   &:hover,
   &:focus {
     border-color: ${PRIMARY.DEFAULT};
@@ -183,9 +193,9 @@ const SearchBox = styled(Input)`
 `;
 
 const SearchButton = styled(Button)`
-  height: 45px;
-  width: 110px;
-  font-size: 16px;
+  height: 3vw;
+  width: 6vw;
+  font-size: 1vw;
   background-color: ${PRIMARY.DEFAULT};
   color: white;
   border: none;

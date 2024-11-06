@@ -78,8 +78,8 @@ const BookmarkIcon = styled.img`
   position: absolute;
   top: -7px;
   right: 2px;
-  width: 30px;
-  height: 30px;
+  width: 2vw;
+  height: 2vw;
   cursor: pointer;
   z-index: 1;
 `;
@@ -87,7 +87,6 @@ const BookmarkIcon = styled.img`
 const CoverImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 0;
   padding-top: 150%;
   overflow: hidden;
   border-radius: 10px 10px 0 0;
@@ -106,14 +105,14 @@ const CoverImage = styled.img`
 const Title = styled.div`
   padding: 12px;
   text-align: center;
-  font-size: 16px;
+  font-size: 1vw;
   font-weight: bold;
   color: #333;
 `;
 
 const CardContainer = styled.div`
-  width: 200px;
-  height: 300px;
+  width: 12vw;
+  height: 17vw;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
