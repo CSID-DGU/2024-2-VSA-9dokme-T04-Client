@@ -7,6 +7,8 @@ import AIChat from "../components/AIChat";
 import axios from "axios";
 import { BASE_URL } from "../env";
 import BookmarkSuccess from "../components/BookmarkSuccess";
+import bookDetailData from "../json/BookDetail.json";
+import { BookDetailType } from "../json/BookDetailType";
 pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 
 interface Book {
@@ -43,13 +45,13 @@ const PdfViewer: React.FC = () => {
     setIsOpen(false);
   };
   // 책 상세 정보를 위한 인터페이스 정의
-  interface BookDetailType {
-    title: string;
-    cateogry: string;
-    author: string;
-    category: string;
-    pdfUrl: string;
-  }
+  // interface BookDetailType {
+  //   title: string;
+  //   cateogry: string;
+  //   author: string;
+  //   category: string;
+  //   pdfUrl: string;
+  // }
   const fetchBookData = async (bookId: number) => {
     try {
       const response = await axios.get<BookDetailType>(`${BASE_URL}/api/view`, {
@@ -63,6 +65,7 @@ const PdfViewer: React.FC = () => {
     }
   };
 
+  /** 
   useEffect(() => {
     const fetchData = async () => {
       if (!bookId) return;
@@ -77,7 +80,20 @@ const PdfViewer: React.FC = () => {
 
     fetchData();
   }, [bookId]);
+  */
 
+  useEffect(() => {
+    if (bookId) {
+      console.log("bookId: ", bookId);
+      const foundBook = bookDetailData.books.find(
+        (book) => book.bookId === numericBookId
+      );
+      console.log("foundBook: ", foundBook);
+      setBookData(foundBook);
+    }
+  }, [bookId]);
+
+  /*
   useEffect(() => {
     console.log("받아온 book정보: ", bookData);
 
@@ -98,7 +114,23 @@ const PdfViewer: React.FC = () => {
 
     loadPdf();
   }, [bookData]);
+  */
 
+  /**mockdata 로드용 */
+  useEffect(() => {
+    const loadPdf = async () => {
+      if (bookData?.bookURL) {
+        try {
+          const pdfUrl = bookData.bookURL;
+          const loadedPdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+          setPdfDoc(loadedPdfDoc);
+          setNumPages(loadedPdfDoc.numPages);
+        } catch (error) {
+          console.error("Error loading PDF document: ", error);
+        }
+      }
+    };
+  });
   useEffect(() => {
     localStorage.setItem("lastPage", page.toString());
   }, [page]);
@@ -110,7 +142,7 @@ const PdfViewer: React.FC = () => {
   useEffect(() => {
     const lastPage = localStorage.getItem("lastPage");
     console.log("마지막으로 읽은 페이지:", lastPage);
-  }, []);
+  }, [bookData]);
 
   useEffect(() => {
     const renderPage = async (pageNum: number) => {
@@ -169,11 +201,11 @@ const PdfViewer: React.FC = () => {
       <AIChat />
       <div className="flex flex-col items-center justify-center">
         <div className="text-center mt-20 mb-5">
-          <div className="font-bold text-[1.5vw]">[{book?.title}]</div>
-          <p className="text-[1.2vw] mt-[0.2vw]">{book?.author}</p>
+          <div className="font-bold text-[1.5vw]">[{bookData?.bookTitle}]</div>
+          <p className="text-[1.2vw] mt-[0.2vw]">{bookData?.author}</p>
         </div>
         <div>
-          <TagBtn>{book?.category}</TagBtn>
+          <TagBtn>{bookData?.bookCategory}</TagBtn>
         </div>
 
         <CanvasWrapper>

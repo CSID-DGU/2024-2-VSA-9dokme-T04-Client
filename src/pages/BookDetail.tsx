@@ -8,7 +8,13 @@ import { PRIMARY } from "../utils/colors";
 import { BASE_URL } from "../env";
 import bookDetailData from "../json/BookDetail.json";
 import { BookDetailType } from "../json/BookDetailType";
-
+import book1 from "../images/books/book1.png";
+import book2 from "../images/books/book2.png";
+import book3 from "../images/books/book3.png";
+import book4 from "../images/books/book4.png";
+import book5 from "../images/books/book5.png";
+import book6 from "../images/books/book6.png";
+import book7 from "../images/books/book7.png";
 const BookDetail = () => {
   const navigate = useNavigate();
   const { bookId } = useParams<{ bookId: string }>();
@@ -50,6 +56,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     if (bookId) {
+      console.log("bookId: ", bookId);
       const mockBookData = bookDetailData.books.find(
         (book) => book.bookId.toString() === bookId
       );
@@ -93,11 +100,16 @@ const BookDetail = () => {
   };
 
   if (!book) return <p>Loading...</p>;
+  const bookImage: any = require("../images/books/book1.png");
+
   return (
     <Root>
       <Sidebanner />
       <Container>
-        <BookImage src={book.bookURL} alt={`Cover of ${book.bookTitle}`} />
+        <BookImage
+          src={require(`../images/books/${book.bookImage}`)}
+          alt={`Cover of ${book.bookTitle}`}
+        />
         <ContentContainer>
           <div>
             <BookTypo>{book.bookTitle}</BookTypo>

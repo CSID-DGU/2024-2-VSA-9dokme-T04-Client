@@ -4,6 +4,7 @@ export interface BookDetailType {
   publishDate: string;
   bookTitle: string;
   bookCategory: string;
+  bookImage: string;
   bookURL: string;
   author: string;
   description: string;
