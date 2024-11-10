@@ -8,6 +8,25 @@ import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
 import API from "../api/axios";
+import booksData from "../json/books.json";
+
+import book1 from "../images/books/book1.png";
+import book2 from "../images/books/book2.png";
+import book3 from "../images/books/book3.png";
+import book4 from "../images/books/book4.png";
+import book5 from "../images/books/book5.png";
+import book6 from "../images/books/book6.png";
+import book7 from "../images/books/book7.png";
+
+const images: { [key: string]: string } = {
+  "book1.png": book1,
+  "book2.png": book2,
+  "book3.png": book3,
+  "book4.png": book4,
+  "book5.png": book5,
+  "book6.png": book6,
+  "book7.png": book7,
+};
 
 const MyPage = () => {
   interface Book {
@@ -33,6 +52,12 @@ const MyPage = () => {
   };
 
   useEffect(() => {
+    setBooks(booksData.bookData);
+    console.log("books: ", books);
+    setLoading(false);
+  }, []);
+  /**
+  useEffect(() => {
     const fetchMypageData = async () => {
       try {
         const memberId = localStorage.getItem("memberId");
@@ -56,9 +81,11 @@ const MyPage = () => {
         setLoading(false);
       }
     };
+     
 
     fetchMypageData();
   }, []);
+   */
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -95,33 +122,35 @@ const MyPage = () => {
         </p>
 
         <SubscribeBtn onClick={goToPayment}>구독 연장하기</SubscribeBtn>
-        <BgContainer>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
-              <div className="grid grid-cols-4 gap-10 m-4">
-                {books.map((book) => (
-                  <BookCard
-                    bookId={book.bookId}
-                    // key={book.bookId}
-                    cover={book.bookUrl} // bookImage를 cover로 매핑
-                    title={book.title}
-                    isMarked={book.isMarked}
-                    // bookImage={book.bookImage}
-                    onClick={() => handleImgClick(book.bookId)} // 핸들러에서 book.bookId를 인자로 전달
-                  />
-                ))}
+        <div className="flex justify-center">
+          <BgContainer>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="grid grid-cols-4 gap-10 m-4">
+                  {books.map((book) => (
+                    <BookCard
+                      bookId={book.bookId}
+                      // key={book.bookId}
+                      cover={images[book.bookUrl]}
+                      title={book.title}
+                      isMarked={book.isMarked}
+                      // bookImage={book.bookImage}
+                      onClick={() => handleImgClick(book.bookId)} // 핸들러에서 book.bookId를 인자로 전달
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </BgContainer>
+            )}
+          </BgContainer>
+        </div>
       </div>
     </div>
   );
@@ -129,10 +158,13 @@ const MyPage = () => {
 
 const BgContainer = styled.div`
   background-image: url(${bg});
-  background-size: 100% auto;
+  background-size: cover;
+  width: 70vw;
+  height: auto;
   background-repeat: no-repeat;
   padding: 2vw;
-  margin-top: 2vw;
+  margin: auto;
+  display: inline-block;
 `;
 
 const SubscribeBtn = styled.button`
@@ -156,6 +188,7 @@ const SubscribeBtn = styled.button`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s;
   margin-top: 2vw;
+  margin-bottom: 2vw;
 
   &:hover {
     opacity: 0.8;
