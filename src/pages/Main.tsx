@@ -65,7 +65,7 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
       );
     }
     console.log("Updated filterBooks: ", filterBooks);
-  }, []);
+  }, [category]);
 
   const handleSearchBtnClick = async () => {
     /*
