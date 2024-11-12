@@ -162,10 +162,12 @@ const NoneBook = styled.div`
 `;
 const BookContainer = styled.div`
   width: 70vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 50px;
 `;
 
 const BooksContainer = styled.div`
