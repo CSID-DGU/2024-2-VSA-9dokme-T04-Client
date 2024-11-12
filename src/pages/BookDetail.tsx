@@ -6,20 +6,15 @@ import Sidebanner from "../components/Sidebanner";
 import { Divider, message } from "antd";
 import { PRIMARY } from "../utils/colors";
 import { BASE_URL } from "../env";
-
-// 책 상세 정보를 위한 인터페이스 정의
-interface BookDetailType {
-  bookId: number;
-  pdfImage: string;
-  title: string;
-  author: string;
-  category: string;
-  publisher: string;
-  description: string;
-  lastPage: number;
-  marked: boolean;
-}
-
+import bookDetailData from "../json/BookDetail.json";
+import { BookDetailType } from "../json/BookDetailType";
+import book1 from "../images/books/book1.png";
+import book2 from "../images/books/book2.png";
+import book3 from "../images/books/book3.png";
+import book4 from "../images/books/book4.png";
+import book5 from "../images/books/book5.png";
+import book6 from "../images/books/book6.png";
+import book7 from "../images/books/book7.png";
 const BookDetail = () => {
   const navigate = useNavigate();
   const { bookId } = useParams<{ bookId: string }>();
@@ -42,6 +37,8 @@ const BookDetail = () => {
     }
   };
 
+  /**API 호출 */
+  /*
   useEffect(() => {
     const fetchData = async () => {
       if (!bookId) return;
@@ -54,6 +51,17 @@ const BookDetail = () => {
     };
 
     fetchData();
+  }, [bookId]);
+  */
+
+  useEffect(() => {
+    if (bookId) {
+      console.log("bookId: ", bookId);
+      const mockBookData = bookDetailData.books.find(
+        (book) => book.bookId.toString() === bookId
+      );
+      setBook(mockBookData || null);
+    }
   }, [bookId]);
 
   const handleBookmarkBtn = async () => {
@@ -92,16 +100,20 @@ const BookDetail = () => {
   };
 
   if (!book) return <p>Loading...</p>;
+  const bookImage: any = require("../images/books/book1.png");
 
   return (
     <Root>
       <Sidebanner />
       <Container>
-        <BookImage src={book.pdfImage} alt={`Cover of ${book.title}`} />
+        <BookImage
+          src={require(`../images/books/${book.bookImage}`)}
+          alt={`Cover of ${book.bookTitle}`}
+        />
         <ContentContainer>
           <div>
-            <BookTypo>{book.title}</BookTypo>
-            <TagBtn>{book.category}</TagBtn>
+            <BookTypo>{book.bookTitle}</BookTypo>
+            <TagBtn>{book.bookCategory}</TagBtn>
             <ContentTypo>{book.description}</ContentTypo>
           </div>
           <Divider style={{ borderColor: "#cacaca" }} />
@@ -111,7 +123,7 @@ const BookDetail = () => {
             >
               PDF 보러가기
             </GradientButton>
-            {!book.marked ? (
+            {!book.isMarked ? (
               <GradientButton onClick={() => handleBookmarkBtn()}>
                 책갈피에 추가하기
               </GradientButton>
@@ -135,7 +147,6 @@ const Root = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   background-color: ${PRIMARY.LiGHT};
 `;
@@ -144,11 +155,9 @@ const Container = styled.div`
   width: 85%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: top;
   justify-content: center;
-  padding: 30px;
-  margin-top: 80px;
-  margin-bottom: 80px;
+  margin: auto;
 `;
 
 const BookImage = styled.img`
@@ -167,24 +176,23 @@ const BookContainer = styled.div`
 `;
 
 const BookTypo = styled.div`
-  font-size: 25px;
+  font-size: 1.5vw;
   font-weight: bold;
 `;
 
 const ContentTypo = styled.div`
-  font-size: 15px;
+  font-size: 1vw;
 `;
 
 const ContentContainer = styled.div`
   width: 65%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   border: 1px solid lightgray;
   border-radius: 8px;
-  padding: 40px;
+  padding: 4vw;
   background-color: white;
-  height: 500px;
   justify-content: space-between;
 `;
 
@@ -200,16 +208,10 @@ const GradientButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 8px;
-  padding: 1rem 2rem;
+  padding: 1vw;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.5vw;
   transition: transform 0.2s;
-
-  &:hover {
-  }
-
-  &:active {
-  }
 `;
 
 const GreyButton = styled.button`
@@ -219,9 +221,9 @@ const GreyButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 8px;
-  padding: 1rem 2rem;
+  padding: 1vw;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.5vw;
   transition: transform 0.2s;
 
   &:hover {

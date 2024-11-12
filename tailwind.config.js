@@ -1,6 +1,7 @@
 //custom utiity 정의
+const colors = require("./src/utils/colors.js");
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./src/index.css"],
   theme: {
     extend: {
       fontSize: {
@@ -8,6 +9,10 @@ module.exports = {
         "vw-2": "2vw",
       },
       colors: {
+        primary: {
+          default: colors.PRIMARY.DEFAULT,
+          light: colors.PRIMARY.LiGHT,
+        },
         customColor: "#C5B5F7",
         customColor2: "#F3F5FF",
         customColor3: "#2519B2",
