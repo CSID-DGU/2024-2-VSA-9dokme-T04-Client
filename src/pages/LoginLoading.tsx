@@ -23,21 +23,30 @@ const LoginLoading = () => {
         const nicknameMatch = message.match(/nickname=([^,]*)/);
         const emailMatch = message.match(/email=([^,]*)/);
         const memberIdMatch = message.match(/memberId=([^}]*)/);
+        const tokenMatch = message.match(/token=([^}]*)/);
 
         // 추출한 값을 localStorage에 저장
         if (nicknameMatch && emailMatch) {
           const nickname = nicknameMatch[1];
           const email = emailMatch[1];
           const memberId = memberIdMatch[1];
+          const token = tokenMatch[1];
+
           localStorage.setItem("name", nickname);
           localStorage.setItem("email", email);
           localStorage.setItem("memberId", memberId);
+          localStorage.setItem("token", token);
+
           //콘솔 출력으로 확인
           console.log("로컬스토리지 닉네임: ", localStorage.getItem("name"));
           console.log("로컬스토리지 이메일: ", localStorage.getItem("email"));
           console.log(
             "로컬스토리지 memberId: ",
             localStorage.getItem("memberId")
+          );
+          console.log(
+            "로컬스토리지 token: ",
+            localStorage.getItem("token")
           );
         } else {
           console.error("Failed to parse nickname or email from message");
