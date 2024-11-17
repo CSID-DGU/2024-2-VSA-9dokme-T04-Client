@@ -12,6 +12,7 @@ import MyArticle from "./pages/MyArticle";
 import BookDetail from "./pages/BookDetail";
 import { PRIMARY } from "./utils/colors.js";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
+import Payment from "./pages/Payment";
 function App() {
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/admin/adminQboard/" element={<AdminQboard />} />
         <Route path="/login/oauth2/callback/kakao" element={<LoginLoading />} />
         <Route path="/myarticle/" element={<MyArticle />} />
+        <Route path="/payment/" element={<Payment />} />
       </Routes>
     </>
   );
