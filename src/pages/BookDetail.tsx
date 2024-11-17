@@ -16,6 +16,7 @@ import book5 from "../images/books/book5.png";
 import book6 from "../images/books/book6.png";
 import book7 from "../images/books/book7.png";
 const BookDetail = () => {
+  const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
   const navigate = useNavigate();
   const { bookId } = useParams<{ bookId: string }>();
   const [book, setBook] = useState<BookDetailType | null>(null);
@@ -64,14 +65,22 @@ const BookDetail = () => {
     }
   }, [bookId]);
 
+  //북마크 추가: 헤더에 토큰 값 추가
   const handleBookmarkBtn = async () => {
     try {
       console.log(bookId);
+  
       await axios.post(
-        `${BASE_URL}/api/bookmark?BookId=${bookId}&memberId=${memberId}`
+        `${BASE_URL}/api/bookmark?BookId=${bookId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+  
       message.success("북마크에 추가되었습니다!");
-
+  
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -80,16 +89,23 @@ const BookDetail = () => {
       message.error("이미 북마크에 등록되었습니다.");
     }
   };
+  
 
+  //북마크 취소: 헤더에 토큰 값 추가
   const handleDeleteBookmark = async () => {
     try {
       const response = await axios.delete(
-        `${BASE_URL}/api/bookmark?bookId=${bookId}&memberId=${memberId}`
+        `${BASE_URL}/api/bookmark?bookId=${bookId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-
+  
       if (response.status === 200) {
         message.success("북마크가 취소되었습니다 :)");
-
+  
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -98,6 +114,7 @@ const BookDetail = () => {
       message.error("오류가 발생했습니다.");
     }
   };
+  
 
   if (!book) return <p>Loading...</p>;
   const bookImage: any = require("../images/books/book1.png");

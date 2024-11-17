@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
 import banner from "../images/banner.png";
+import { GRAY } from "../utils/colors";
 
 const Sidebanner = () => {
   const navigate = useNavigate();
@@ -90,6 +91,7 @@ const Container = styled.div<{ isClicked: boolean }>`
   padding: 15px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+  border: 1px ${GRAY.DEFAULT} solid;
 
   animation: ${({ isClicked }) => (isClicked ? "slideIn 0.4s ease-in-out" : "none")};
   transform: ${({ isClicked }) => (isClicked ? "none" : "translateX(100%)")};
