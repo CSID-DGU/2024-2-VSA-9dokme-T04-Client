@@ -16,5 +16,5 @@ html,
 #root {
   width: 100vw;
   height: 100vw;
-  /* @apply bg-primary-light; */
+  @apply bg-primary-light;
 }
