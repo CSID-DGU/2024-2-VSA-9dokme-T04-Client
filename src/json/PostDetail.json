@@ -5,6 +5,7 @@
       "title": "ch1 12페이지 질문 있습니다.",
       "content": "12p에서 5번째줄 내용이 잘 이해가 안갑니다. 설명해주실 분 계신가요? 감사합니다.",
       "commentCount": 2,
+      "chapter": "ch1",
       "createdAt": "2024-08-16",
       "nickName": "유재석",
       "commentList": [
@@ -27,6 +28,7 @@
       "title": "이거 오타인가요?",
       "content": "질문 2번입니다.",
       "commentCount": 1,
+      "chapter": "ch2",
       "createdAt": "2024-07-09",
       "nickName": "박명수",
 
@@ -44,6 +46,7 @@
       "title": "질문이 있습니다",
       "content": "질문 3번입니다. 질문 3번입니다. 질문 3번입니다.",
       "commentCount": 0,
+      "chapter": "ch3",
       "createdAt": "2024-01-22",
       "nickName": "정형돈",
       "commentList": []
@@ -54,6 +57,7 @@
       "content": "질문 4번입니다.",
       "createdAt": "2023-10-31",
       "commentCount": 2,
+      "chapter": "ch4",
       "nickName": "길",
       "commentList": [
         {
@@ -76,6 +80,7 @@
       "content": "질문 5번입니다.",
       "createdAt": "2023-02-01",
       "commentCount": 3,
+      "chapter": "ch5",
       "nickName": "하하",
       "commentList": [
         {

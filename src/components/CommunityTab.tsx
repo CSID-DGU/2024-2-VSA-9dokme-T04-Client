@@ -6,6 +6,8 @@ import community from "../images/community.png";
 import communitytalk from "../images/communitytalk.png";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import communityposts from "../json/Community.json";
+import postdetail from "../json/PostDetail.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +45,12 @@ const CommunityTab = ({ bookId }) => {
   //   fetchCommunityPosts();
   // }, [bookId, searchChapter, searchPage]);
 
+  /*목데이터 교체*/
+  useEffect(() => {
+    setFilterPost(communityposts.questionList);
+  }, []);
+
+  /*
   useEffect(() => {
     if (selectedQuestionId !== null) {
       const fetchQuestionDetail = async () => {
@@ -59,6 +67,20 @@ const CommunityTab = ({ bookId }) => {
       };
 
       fetchQuestionDetail();
+    }
+  }, [selectedQuestionId]);
+  */
+  useEffect(() => {
+    if (selectedQuestionId !== null) {
+      const filteredQuestionDetail = postdetail.PostDetail.filter(
+        (post) => post.questionId === selectedQuestionId
+      );
+      if (filteredQuestionDetail.length > 0) {
+        const fetchQuestionDetail = filteredQuestionDetail[0];
+        console.log(fetchQuestionDetail);
+      } else {
+        console.log("해당 질문을 찾을 수 없습니다.");
+      }
     }
   }, [selectedQuestionId]);
 
@@ -99,7 +121,7 @@ const CommunityTab = ({ bookId }) => {
   //   fetchCommunityPosts();
   // };
   const handleSearch = () => {
-    const filtered = questionDetail.questionList.filter((post) => {
+    const filtered = communityposts.questionList.filter((post) => {
       const matchTitle =
         searchTitle === "" ||
         post.title.toLowerCase().includes(searchTitle.toLowerCase());
@@ -112,7 +134,7 @@ const CommunityTab = ({ bookId }) => {
       return matchTitle && matchChapter && matchPage;
     });
 
-    setFilterPost(filtered.length > 0 ? filtered : questionDetail.questionList);
+    setFilterPost(filtered.length > 0 ? filtered : communityposts.questionList);
   };
 
   const selectedPost = filterPost.find(
@@ -159,7 +181,7 @@ const CommunityTab = ({ bookId }) => {
                   <div className="flex flex-col justify-center items-center m-[1vw]">
                     <div className="flex w-full mb-[1vw]">
                       <Input
-                        className="flex-grow m-[0.5vw]"
+                        className="flex-grow m-[0.5vw] text-[1.3vw]"
                         placeholder="게시글 제목을 통해 검색해보세요."
                         value={searchTitle}
                         onChange={(e) => setSearchTitle(e.target.value)}
@@ -201,7 +223,7 @@ const CommunityTab = ({ bookId }) => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                       <Input
-                        className="flex-grow m-[0.5vw]"
+                        className="flex-grow m-[0.5vw] text-[1vw]"
                         placeholder="페이지를 검색하세요."
                         value={searchPage}
                         onChange={(e) => setSearchPage(e.target.value)}
@@ -268,8 +290,8 @@ const CommunityBox = ({ title, content, commentsCount, chapter, onClick }) => (
 );
 
 const WritingBtn = styled.div`
-  width: 80%;
-  height: 7%;
+  width: 33vw;
+  height: 6vw;
   border-radius: 30px;
   margin-left: 10%;
   background-color: #e6e5ef;
@@ -278,7 +300,7 @@ const WritingBtn = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5%;
-  font-size: 1vw;
+  font-size: 1.2vw;
 `;
 
 export default CommunityTab;
