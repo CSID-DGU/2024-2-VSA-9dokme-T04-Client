@@ -4,7 +4,7 @@ import styled from "styled-components";
 import API from "../api/axios";
 import { BASE_URL } from "../env";
 import AddComment from "./AddComment";
-
+import postdetail from "../json/PostDetail.json";
 import back from "../images/back.png";
 
 interface Props {
@@ -23,24 +23,40 @@ const DetailPost: React.FC<Props> = ({
   const [questionDetail, setQuestionDetail] = useState(null);
   const [onBackBtn, setOnBackBtn] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchQuestionDetail = async () => {
-      try {
-        const response = await API.get(
-          `${BASE_URL}/api/questiondetail/${questionId}`
-        );
-        if (response.status === 200) {
-          setQuestionDetail(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching question detail:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchQuestionDetail = async () => {
+  //     try {
+  //       const response = await API.get(
+  //         `${BASE_URL}/api/questiondetail/${questionId}`
+  //       );
+  //       if (response.status === 200) {
+  //         setQuestionDetail(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching question detail:", error);
+  //     }
+  //   };
 
-    if (questionId) {
-      fetchQuestionDetail();
+  //   if (questionId) {
+  //     fetchQuestionDetail();
+  //   }
+  // }, [questionId]);
+
+  useEffect(() => {
+    console.log("postdetail:", postdetail.PostDetail);
+    if (questionId !== null) {
+      const filteredQuestionDetail = postdetail.PostDetail.filter(
+        (post) => post.questionId === questionId
+      );
+      if (filteredQuestionDetail.length > 0) {
+        setQuestionDetail(filteredQuestionDetail[0]);
+        console.log("상세글: ", questionDetail);
+      } else {
+        console.log("해당 질문을 찾을 수 없습니다.");
+      }
+      setQuestionDetail(questionDetail);
     }
-  }, [questionId]);
+  }, []);
 
   const handleBackBtnClick = () => {
     setSelectedQuestionId(null);
@@ -68,15 +84,13 @@ const DetailPost: React.FC<Props> = ({
       </div>
       {questionDetail ? (
         <div className="m-[1vw] bg-white shadow-lg rounded-lg p-4 border-solid border-[0.05vw] border-slate-300 mt-[1.5vw]">
-          <h2 className="font-bold text-[1vw]">
-            {questionDetail.question.title}
-          </h2>
+          <h2 className="font-bold text-[1vw]">{questionDetail.title}</h2>
           <span className=" text-[1vw] bg-customColor rounded px-[0.5vw]">
             {chapter}
           </span>
           <br />{" "}
           <p className="text-[1vw] mt-[0.3vw] text-slate-500">
-            작성자: {questionDetail.question.nickName || "익명"}
+            작성자: {questionDetail.nickName || "익명"}
           </p>
           <br />
           <p className=" text-[1vw] ">{questionDetail.question.content}</p>

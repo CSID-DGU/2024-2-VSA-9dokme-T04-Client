@@ -106,7 +106,7 @@ const MyPage = () => {
   };
 
   return (
-    <div className="w-screen h-[130vh] bg-customColor bg-opacity-20">
+    <div className="w-screen h-[130vh] bg-primary-light bg-opacity-20">
       <Sidebanner />
       <div className="flex flex-col justify-center items-center">
         <img src={profile} className="w-[10vw] mt-[5vw]" alt="Profile" />

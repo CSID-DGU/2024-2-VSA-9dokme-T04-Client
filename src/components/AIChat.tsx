@@ -8,68 +8,6 @@ import { Button } from "./ui/button";
 import aichat from "../images/aichat.png";
 import Teacher from "../images/Teacher.png";
 
-// 스타일 정의
-const ChatContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 0px 0px 0px 12px;
-  width: 30vw;
-  margin: 0 auto;
-  position: relative;
-`;
-
-const MessageBox = styled.div`
-  width: 100%;
-  max-height: 400px;
-  overflow-y: auto;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-`;
-
-const Message = styled.div<{ isUser?: boolean }>`
-  margin-bottom: 10px;
-  text-align: ${(props) => (props.isUser ? "right" : "left")};
-  padding: 10px;
-  background-color: ${(props) => (props.isUser ? "#e3f2fd" : "#f1f8e9")};
-  border-radius: 12px;
-`;
-
-const InputArea = styled.div`
-  display: flex;
-  width: 100%;
-  margin-top: 20px;
-`;
-
-const StyledInput = styled(Input)`
-  flex-grow: 1;
-  margin-right: 10px;
-`;
-
-const StyledButton = styled(Button)`
-  background-color: #007bff;
-  color: #ffffff;
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #333;
-`;
-
 // AIChat 컴포넌트 구현
 const AIChat: React.FC = () => {
   const [chatLog, setChatLog] = useState<
@@ -151,5 +89,67 @@ const AIChat: React.FC = () => {
     </>
   );
 };
+
+// 스타일 정의
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 0px 0px 0px 12px;
+  width: 30vw;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const MessageBox = styled.div`
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+`;
+
+const Message = styled.div<{ isUser?: boolean }>`
+  margin-bottom: 10px;
+  text-align: ${(props) => (props.isUser ? "right" : "left")};
+  padding: 10px;
+  background-color: ${(props) => (props.isUser ? "#e3f2fd" : "#f1f8e9")};
+  border-radius: 12px;
+`;
+
+const InputArea = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const StyledInput = styled(Input)`
+  flex-grow: 1;
+  margin-right: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  background-color: #007bff;
+  color: #ffffff;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+`;
 
 export default AIChat;

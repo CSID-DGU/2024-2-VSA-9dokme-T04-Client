@@ -142,7 +142,7 @@ const CommunityTab = ({ bookId }) => {
   );
 
   return (
-    <div className="fixed top-0 right-0 z-50">
+    <div className="fixed top-0 right-0 z-50 ">
       {!isClicked ? (
         <div className="flex">
           <img
@@ -175,14 +175,14 @@ const CommunityTab = ({ bookId }) => {
             <>
               {selectedQuestionId === null ? (
                 <>
-                  <div className="font-bold text-[1.2vw] ml-[1vw]">
+                  <div className="font-bold text-[1vw] ml-[1vw] h-[2vw]">
                     커뮤니티 게시판
                   </div>
                   <div className="flex flex-col justify-center items-center m-[1vw]">
                     <div className="flex w-full mb-[1vw]">
                       <Input
-                        className="flex-grow m-[0.5vw] text-[1.3vw]"
-                        placeholder="게시글 제목을 통해 검색해보세요."
+                        className="flex-grow m-[0.5vw] text-[1vw]"
+                        placeholder="게시글 제목을 검색해보세요."
                         value={searchTitle}
                         onChange={(e) => setSearchTitle(e.target.value)}
                       />
@@ -250,13 +250,6 @@ const CommunityTab = ({ bookId }) => {
                       />
                     ))}
                   </div>
-
-                  <WritingBtn
-                    onClick={handleCreatePostBtnClick}
-                    className="cursor-pointer"
-                  >
-                    글 작성하기
-                  </WritingBtn>
                 </>
               ) : (
                 questionDetail && (

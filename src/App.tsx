@@ -13,11 +13,13 @@ import BookDetail from "./pages/BookDetail";
 import { PRIMARY } from "./utils/colors.js";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
+import WritingForm from "./components/WritingForm";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/writingform/" element={<WritingForm />} />
         <Route
           path="/mainPage/"
           element={isMobile ? <Main mobileView /> : <Main />}
