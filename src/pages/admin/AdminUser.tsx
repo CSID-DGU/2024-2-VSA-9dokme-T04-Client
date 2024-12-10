@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import AdminBanner from "../components/AdminBanner";
-import Users from "../json/UserList.json";
-import { User, UserList } from "../json/UserList";
+import AdminBanner from "../../components/AdminBanner";
+import Users from "../../json/UserList.json";
+import { User, UserList } from "../../json/UserList";
 import { useState } from "react";
-import EditProfile from "../components/EditProfile";
-import API from "../api/axios";
+import EditProfile from "../../components/EditProfile";
+import API from "../../api/axios";
 import {
   Table,
   TableHeader,
@@ -14,7 +14,7 @@ import {
   TableRow,
   TableCell,
   TableCaption,
-} from "../components/ui/table";
+} from "../../components/ui/table";
 
 const AdminUser = () => {
   const [openEditor, setOpenEditor] = useState<boolean>(false);
