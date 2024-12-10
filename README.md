@@ -16,3 +16,8 @@ npm install
 ### 2. 로컬에서 실행시, 이래 커맨드 실행 시 나오는 url로 접속합니다.
 
 npm run dev
+
+### 참조 문서
+
+https://nextjs.org/docs/app/building-your-application
+https://book.hajoeun.dev/friendly-next-js

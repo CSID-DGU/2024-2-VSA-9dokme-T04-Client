@@ -1,15 +1,15 @@
 import landingPage from "../images/landingPage.png";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 
 import { KAKAO_AUTH_URL } from "../auth/Auth";
 const Landing = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleKakaoButtonClick = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
   const handleLoginBtn = () => {
-    navigate("/api/mainPage");
+    router.push("/main");
   };
 
   return (
