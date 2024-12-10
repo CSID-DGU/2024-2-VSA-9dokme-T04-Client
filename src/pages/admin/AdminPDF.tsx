@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import PDFAdd from "../components/PDFAdd";
-import PDFEdit from "../components/PDFEdit";
-import PDFDelete from "../components/PDFDelete";
+import PDFAdd from "../../components/PDFAdd";
+import PDFEdit from "../../components/PDFEdit";
+import PDFDelete from "../../components/PDFDelete";
 import styled from "styled-components";
-import AdminBanner from "../components/AdminBanner";
-import { BASE_URL } from "../env";
+import AdminBanner from "../../components/AdminBanner";
+import { BASE_URL } from "../../env";
 const AdminPDF: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"add" | "edit" | "delete">("add");
   const [books, setBooks] = useState([]);

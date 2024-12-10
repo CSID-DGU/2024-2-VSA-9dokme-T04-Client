@@ -1,20 +1,19 @@
-import landingPage from "../images/landingPage.png";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 
 import { KAKAO_AUTH_URL } from "../auth/Auth";
 const Landing = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleKakaoButtonClick = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
   const handleLoginBtn = () => {
-    navigate("/api/mainPage");
+    router.push("/main");
   };
 
   return (
-    <Div className="flex justify-center w-[100%]">
-      <img src={landingPage} className="w-[65%] md:w-[50%] " />
+    <Div className="flex justify-center w-[100%] items-center">
+      <img src="/images/landingPage.png" className="w-[65%] md:w-[50%] " />
       <GradientDiv
         onClick={handleKakaoButtonClick}
         className="w-[55%] min-h-[4%] md:w-[40%] fixed bottom-[5%] bg-cumtomColor"

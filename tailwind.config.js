@@ -13,6 +13,7 @@ module.exports = {
           default: colors.PRIMARY.DEFAULT,
           light: colors.PRIMARY.LiGHT,
         },
+        buttonColor: "#9F81F7",
         customColor: "#C5B5F7",
         customColor2: "#F3F5FF",
         customColor3: "#2519B2",
