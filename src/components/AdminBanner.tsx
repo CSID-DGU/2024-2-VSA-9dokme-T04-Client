@@ -1,15 +1,14 @@
-import banner from "../images/banner.png";
 import styled from "styled-components";
-import pdf from "../images/adminBanner/pdf.png";
-import user from "../images/adminBanner/user.png";
-import qboard from "../images/adminBanner/qboard.png";
-import logout from "../images/banner/logout.png";
+import pdf from "../../public/images/adminBanner/pdf.png";
+import user from "../../public/images/adminBanner/user.png";
+import qboard from "../../public/images/adminBanner/qboard.png";
+import logout from "../../public/images/banner/logout.png";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import API from "../api/axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useRouter } from "next/router";
 const AdminBanner = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
   const [activeBtn, setActiveBtn] = useState("adminpdf");
   const handleBannerClickOn = () => {
@@ -24,34 +23,38 @@ const AdminBanner = () => {
       "/admin/adminUser": "adminuser",
       "/admin/adminQboard": "adminqboard",
     };
-    const currentKey = pathToKeyMap[location.pathname];
+    const currentKey = pathToKeyMap[router.pathname];
     if (currentKey) {
       setActiveBtn(currentKey);
     }
-  }, [location.pathname]);
+  }, [router.pathname]);
   const handleNavigate = (path: string, btnKey: string) => {
     setActiveBtn(btnKey);
-    navigate(path);
+    router.push(path);
   };
-  const handleLogout = async (): Promise<void> => {
-    try {
-      // API 호출
-      const response = await API.get("/logout");
-      alert("로그아웃되었습니다.");
-      navigate("/");
+  // const handleLogout = async (): Promise<void> => {
+  //   try {
+  //     // API 호출
+  //     const response = await API.get("/logout");
+  //     alert("로그아웃되었습니다.");
+  //     router.push("/");
 
-      // 응답 로깅
-      console.log("Logout successful:", response.data);
-    } catch (error) {
-      // 오류 처리
-      console.error("Logout failed:", error);
-    }
-  };
+  //     // 응답 로깅
+  //     console.log("Logout successful:", response.data);
+  //   } catch (error) {
+  //     // 오류 처리
+  //     console.error("Logout failed:", error);
+  //   }
+  // };
   return (
     <div className="fixed top-0 right-0 z-50">
       {!isClicked ? (
-        <img
-          src={banner}
+        <Image
+          src="/public/images/banner.jpg"
+          alt="Banner Image"
+          width={1200}
+          height={400}
+          layout="intrinsic" // 원본 비율 유지하면서 크기 조정
           className="w-[3vw] fixed top-[2vw] right-[2vw]"
           onClick={handleBannerClickOn}
         />
@@ -91,7 +94,7 @@ const AdminBanner = () => {
               text="로그아웃 (관리자)"
               icon={logout}
               isActive={activeBtn === "logout"}
-              onClick={handleLogout}
+              //onClick={handleLogout}
             />
           </BtnComponent>
         </div>
@@ -117,7 +120,10 @@ const NavBarBtn: React.FC<NavBarBtnProps> = ({
   return (
     <NavBarBtnStyle onClick={onClick} isActive={isActive}>
       {icon && (
-        <img
+        <Image
+          width={1200}
+          height={400}
+          layout="intrinsic"
           src={icon}
           alt={text}
           style={{ marginRight: "10px", width: "18%" }}
