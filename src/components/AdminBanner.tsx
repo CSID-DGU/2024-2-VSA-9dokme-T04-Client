@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import pdf from "../../public/images/adminBanner/pdf.png";
-import user from "../../public/images/adminBanner/user.png";
-import qboard from "../../public/images/adminBanner/qboard.png";
-import logout from "../../public/images/banner/logout.png";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useRouter } from "next/router";
+const banner = "/images/banner.png";
+const pdf = "/images/adminBanner/pdf.png";
+const user = "/images/adminBanner/user.png";
+const qboard = "/images/adminBanner/qboard.png";
+const logout = "/images/banner/logout.png";
 const AdminBanner = () => {
   const router = useRouter();
   const [isClicked, setIsClicked] = useState(false);
@@ -53,7 +54,7 @@ const AdminBanner = () => {
     <div className="fixed top-0 right-0 z-50">
       {!isClicked ? (
         <Image
-          src="/public/images/banner.jpg"
+          src={banner}
           alt="Banner Image"
           width={1200}
           height={400}
