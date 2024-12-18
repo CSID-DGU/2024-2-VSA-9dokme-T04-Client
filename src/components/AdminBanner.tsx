@@ -46,6 +46,9 @@ const AdminBanner = () => {
   //     console.error("Logout failed:", error);
   //   }
   // };
+  const handleLogout = async (): Promise<void> => {
+    console.log("임시");
+  };
   return (
     <div className="fixed top-0 right-0 z-50">
       {!isClicked ? (
@@ -95,6 +98,7 @@ const AdminBanner = () => {
               icon={logout}
               isActive={activeBtn === "logout"}
               //onClick={handleLogout}
+              onClick={handleLogout}
             />
           </BtnComponent>
         </div>

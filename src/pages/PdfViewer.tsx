@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";

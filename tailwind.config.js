@@ -1,7 +1,20 @@
 //custom utiity 정의
+/** @type {import('tailwindcss').Config} */
+const path = require("path"); // path 모듈 import
 const colors = require("./src/utils/colors.js");
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./src/index.css"],
+  // content: [
+  //   "./src/**/*.{js,jsx,ts,tsx}",
+  //   "./src/index.css",
+  //   "./src/pages/**/*.{js,ts,jsx,tsx}",
+  //   "./src/components/**/*.{js,ts,jsx,tsx}",
+  //   "./public/**/*.html",
+
+  // ],
+  content: [
+    path.join(__dirname, "./src/**/*.{js,jsx,ts,tsx}"),
+    path.join(__dirname, "./public/**/*.html"),
+  ],
   theme: {
     extend: {
       fontSize: {
