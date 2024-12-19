@@ -237,6 +237,7 @@ const PdfViewer: React.FC = () => {
   );
 };
 
+
 const Frame = styled.div`
   min-height: 100vh;
   background: radial-gradient(
@@ -244,8 +245,8 @@ const Frame = styled.div`
     rgb(163, 175, 243) 0%,
     rgb(220, 182, 232) 100.2%
   );
-  padding: 20px;
-  overflow: auto;
+  overflow-x: hidden; /* 가로 스크롤 숨김 */
+  overflow-y: auto; /* 세로 스크롤은 필요시 활성화 */
 `;
 
 const TagBtn = styled.button`

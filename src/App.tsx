@@ -14,6 +14,8 @@ import { PRIMARY } from "./utils/colors.js";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
 import WritingForm from "./components/WritingForm";
+import PostDetail from "./components/PostDetail";
+
 function App() {
   return (
     <>
@@ -34,6 +36,8 @@ function App() {
         <Route path="/login/oauth2/callback/kakao" element={<LoginLoading />} />
         <Route path="/myarticle/" element={<MyArticle />} />
         <Route path="/payment/" element={<Payment />} />
+        <Route path="/post/:questionId" element={<PostDetail />} />
+
       </Routes>
     </>
   );
