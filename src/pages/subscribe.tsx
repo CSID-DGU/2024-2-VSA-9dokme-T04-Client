@@ -47,10 +47,10 @@ const Subscribe = () => {
         </tbody>
       </table>
       <div className="flex gap-6 mt-20">
-        <button className="w-[28vw] h-[4vw] px-6 py-3 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 to-blue-500 to-90% text-white text-lg rounded-lg shadow-lg">
+        <button className="w-[25vw] h-[4vw] px-6 py-3 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 to-blue-500 to-90% text-white text-lg rounded-lg shadow-sm hover:shadow hover:scale-105 transition transform shadow-lg">
           Standard 플랜 구독하기
         </button>
-        <button className="w-[28vw] h-[4vw] px-6 py-3 text-white text-lg rounded-lg bg-gradient-to-r from-red-500 via-purple-500 to-pink-500">
+        <button className="w-[25vw] h-[4vw] px-6 py-3 text-white text-lg rounded-lg bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 hover:scale-105 transition transform shadow-lg">
           Premium 플랜 구독하기
         </button>
       </div>
