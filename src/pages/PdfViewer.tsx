@@ -197,8 +197,8 @@ const PdfViewer: React.FC = () => {
 
   return (
     <Frame className="bg-customGradient w-full h-[150vh]">
-      <CommunityTab bookId={bookId} />
-      <AIChat />
+<CommunityTab bookId={bookId ? parseInt(bookId, 10) : 0} />
+<AIChat />
       <div className="flex flex-col items-center justify-center">
         <div className="text-center mt-20 mb-5">
           <div className="font-bold text-[1.5vw]">[{bookData?.bookTitle}]</div>

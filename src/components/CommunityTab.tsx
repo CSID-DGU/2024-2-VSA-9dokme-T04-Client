@@ -1,29 +1,48 @@
-// @ts-nocheck
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import community from "../images/community.png";
 import communitytalk from "../images/communitytalk.png";
 import communityposts from "../json/Community.json";
 import CreatePost from "./CreatePost";
+import PostDetail from "./PostDetail"; // PostDetail 컴포넌트 추가
 import XIcon from "../images/xIcon.png";
-import CommentIcon from "../images/comment.png"
+import CommentIcon from "../images/comment.png";
 import { Dropdown, Menu, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+interface Post {
+  questionId: number;
+  title: string;
+  content: string;
+  commentCount: number;
+  chapter: string;
+  createdAt: string;
+}
 
-const CommunityTab = ({ bookId }) => {
-  const [isClicked, setIsClicked] = useState(false);
-  const [createPostBtn, setCreatePostBtn] = useState(false);
-  const [searchTitle, setSearchTitle] = useState("");
-  const [searchPage, setSearchPage] = useState("");
-  const [filterPost, setFilterPost] = useState([]);
+interface CommunityTabProps {
+  bookId: number;
+}
+const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
+  
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [createPostBtn, setCreatePostBtn] = useState<boolean>(false);
+  const [searchTitle, setSearchTitle] = useState<string>("");
+  const [searchPage, setSearchPage] = useState<string>("");
+  const [filterPost, setFilterPost] = useState<Post[]>([]);
+  const [selectedPost, setSelectedPost] = useState<number | null>(null);
   const navigate = useNavigate(); // 페이지 이동 훅
 
-
-  // 목데이터 교체
   useEffect(() => {
     setFilterPost(communityposts.questionList);
   }, []);
+
+  const handlePostClick = (questionId: number) => {
+    setSelectedPost(questionId);
+  };
+
+  const handleBackFromDetail = () => {
+    setSelectedPost(null);
+  };
 
   const handleBannerClickOn = () => {
     setIsClicked(true);
@@ -39,10 +58,6 @@ const CommunityTab = ({ bookId }) => {
 
   const handleBackFromWriting = () => {
     setCreatePostBtn(false);
-  };
-
-  const handlePostClick = (questionId) => {
-    navigate(`/post/${questionId}`); // 상세 페이지로 이동
   };
 
   const items = [
@@ -77,28 +92,30 @@ const CommunityTab = ({ bookId }) => {
           <CreatePost
             onBack={handleBackFromWriting}
             bookId={bookId}
-            userEmail='example@gmail.com'
+            userEmail="example@gmail.com"
           />
+        ) : selectedPost ? (
+          <PostDetail questionId={selectedPost} onBack={handleBackFromDetail} />
         ) : (
           <>
             <Title>커뮤니티</Title>
             <SearchWrapper>
               <TitleInput
-                placeholder='게시글 제목을 검색해보세요.'
+                placeholder="게시글 제목을 검색해보세요."
                 value={searchTitle}
                 onChange={(e) => setSearchTitle(e.target.value)}
               />
               <PageInput
-                placeholder='페이지'
+                placeholder="페이지"
                 value={searchPage}
                 onChange={(e) => setSearchPage(e.target.value)}
               />
               <ChapterDropdown
-                placement='bottomRight'
+                placement="bottomRight"
                 overlay={menu}
                 trigger={["click"]}
               >
-                <a href='#' onClick={(e) => e.preventDefault()}>
+                <a href="#" onClick={(e) => e.preventDefault()}>
                   <ChapterButton>챕터 ▼</ChapterButton>
                 </a>
               </ChapterDropdown>
@@ -137,14 +154,15 @@ const CommunityTab = ({ bookId }) => {
                 </CommunityBox>
               ))}
             </PostList>
-            <WriteButton>글 작성하기</WriteButton>
+            <WriteButton onClick={handleCreatePostBtnClick}>
+              글 작성하기
+            </WriteButton>
           </>
         )}
       </ModalRoot>
     </div>
   );
 };
-
 const WriteButton = styled.div`
   background-color: #9772b6;
   display: flex;
@@ -206,7 +224,7 @@ const BannerTalkIcon = styled.img`
   cursor: pointer;
 `;
 
-const ModalRoot = styled.div`
+const ModalRoot = styled.div<{ isClicked: boolean }>`
   position: fixed;
   top: 0;
   right: 0;
@@ -264,15 +282,6 @@ const TitleInput = styled(Input)`
 const PageInput = styled(Input)`
   width: 18%;
   height: 2vw;
-`;
-
-const StyledButton = styled(Button)`
-  border-color: #c5b5f7;
-  font-size: 1vw;
-  margin: 0.5vw;
-  &:hover {
-    background-color: #c5b5f7;
-  }
 `;
 
 const PostList = styled.div`

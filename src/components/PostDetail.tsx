@@ -1,72 +1,83 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import postDetailData from "../json/PostDetail.json"; // 파일 이름 변경
+import postDetailData from "../json/PostDetail.json";
+import { Button, Input } from "antd";
 
-const PostDetail = () => {
-  const { questionId } = useParams(); // questionId 받아오기
-  const [postDetail, setPostDetail] = useState<PostDetail | null>(null);
-  const [comment, setComment] = useState("");
+interface Comment {
+  commentId: number;
+  comment: string;
+  nickName: string;
+  createdAt: string | null;
+}
+
+interface PostDetailType {
+  questionId: number;
+  title: string;
+  content: string;
+  commentCount: number;
+  chapter: string;
+  createdAt: string;
+  nickName: string;
+  commentList: Comment[];
+}
+
+interface PostDetailProps {
+  questionId: number;
+  onBack: () => void;
+}
+
+const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
+  const [postDetail, setPostDetail] = useState<PostDetailType | null>(null);
+  const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<Comment[]>([]);
 
-  interface Comment {
-    commentId: number;
-    comment: string;
-    nickName: string;
-    createdAt: string | null;
-  }
-  
-  interface PostDetail {
-    questionId: number;
-    title: string;
-    content: string;
-    commentCount: number;
-    chapter: string;
-    createdAt: string;
-    nickName: string;
-    commentList: Comment[];
-  }  
-
   useEffect(() => {
-    // 목데이터에서 해당 questionId의 데이터를 가져오기
-    const foundPost = postDetailData.PostDetail.find(
-      // @ts-ignore
-      (post) => post.questionId === parseInt(questionId, 10)
-    );
+    const foundPost = (
+      postDetailData as { PostDetail: PostDetailType[] }
+    ).PostDetail.find((post) => post.questionId === questionId);
+
     if (foundPost) {
       setPostDetail(foundPost);
-      setComments(foundPost.commentList); // 댓글 초기화
+      setComments(foundPost.commentList);
     }
   }, [questionId]);
-
-  const handleCommentSubmit = () => {
-    // 새로운 댓글 추가
-    // const newComment = {
-    //   commentId: comments.length + 1,
-    //   comment,
-    //   nickName: "현재 사용자", // 임의 값
-    //   createdAt: new Date().toISOString(), // 현재 시간
-    // };
-    // setComments((prevComments) => [...prevComments, newComment]);
-    // setComment(""); // 입력란 초기화
-  };
 
   if (!postDetail) {
     return <div>Loading...</div>;
   }
 
+  const handleCommentSubmit = () => {
+    if (comment.trim()) {
+      const newComment: Comment = {
+        commentId: comments.length + 1,
+        comment,
+        nickName: "현재 사용자",
+        createdAt: new Date().toISOString(),
+      };
+      setComments((prevComments) => [...prevComments, newComment]);
+      setComment("");
+    }
+  };
+
   return (
     <Container>
+      <BackButton onClick={onBack}>← 이전</BackButton>
       <Title>{postDetail.title}</Title>
-      <Author>작성자: {postDetail.nickName}</Author>
-      <CreatedAt>작성일: {postDetail.createdAt}</CreatedAt>
+      <div style={{ display: "flex" }}>
+        <Author>{postDetail.nickName}</Author>
+        <CreatedAt>{postDetail.createdAt}</CreatedAt>
+      </div>
       <Content>{postDetail.content}</Content>
       <Divider />
-      <CommentsTitle>댓글</CommentsTitle>
+      <CommentsTitle>댓글 {postDetail.commentCount}</CommentsTitle>
       <CommentsList>
-        {comments.map((comment, index) => (
-          <Comment key={index}>
-            <strong>{comment.nickName}</strong>: {comment.comment}
+        {comments.map((comment) => (
+          <Comment key={comment.commentId}>
+            <div style={{ display: "flex", gap: "7px", marginBottom: "10px" }}>
+              {comment.nickName}
+              <CreatedAt>{comment.createdAt}</CreatedAt>
+            </div>
+            {comment.comment}
           </Comment>
         ))}
       </CommentsList>
@@ -74,7 +85,7 @@ const PostDetail = () => {
         <CommentInput
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="댓글을 입력하세요."
+          placeholder='댓글을 입력하세요.'
         />
         <SubmitButton onClick={handleCommentSubmit}>등록</SubmitButton>
       </CommentInputWrapper>
@@ -82,30 +93,43 @@ const PostDetail = () => {
   );
 };
 
-
 export default PostDetail;
+
+// 스타일 정의
+const BackButton = styled.button`
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #ad7ed1;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 const Container = styled.div`
   padding: 20px;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: 10px;
 `;
 
 const Author = styled.div`
   font-size: 1rem;
-  color: gray;
+  margin-right: 5px;
 `;
 
 const CreatedAt = styled.div`
-  font-size: 0.9rem;
-  color: gray;
+  font-size: 1rem;
+  color: #b4b4b4;
 `;
 
 const Content = styled.p`
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 20px 0;
 `;
 
@@ -117,7 +141,8 @@ const Divider = styled.hr`
 `;
 
 const CommentsTitle = styled.h2`
-  font-size: 1.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
   margin-bottom: 10px;
 `;
 
@@ -128,8 +153,10 @@ const CommentsList = styled.div`
 const Comment = styled.div`
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 5px;
+  border: 0.5px solid #ccc;
+  font-size: 1rem;
 `;
 
 const CommentInputWrapper = styled.div`
@@ -137,22 +164,10 @@ const CommentInputWrapper = styled.div`
   gap: 10px;
 `;
 
-const CommentInput = styled.textarea`
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+const CommentInput = styled(Input)`
+  height: 60px;
 `;
 
-const SubmitButton = styled.button`
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #45a049;
-  }
+const SubmitButton = styled(Button)`
+  height: 60px;
 `;
