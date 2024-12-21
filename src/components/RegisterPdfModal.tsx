@@ -18,6 +18,10 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
     setModalSize({ width: `${width}px`, height: `${height}px` });
   };
 
+  const registerPdfRequest = () => {
+    alert("pdf 등록이 요청되었습니다!");
+    window.location.href = "/mypage";
+  };
   useEffect(() => {
     const debouncedResize = () => {
       clearTimeout((window as any).resizeTimeout);
@@ -74,7 +78,7 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
             해당 PDF 조회하기
           </RegisterButton>
         ) : (
-          <RegisterButton onClick={handleModalClose}>
+          <RegisterButton onClick={registerPdfRequest}>
             등록 요청 보내기
           </RegisterButton>
         )}
