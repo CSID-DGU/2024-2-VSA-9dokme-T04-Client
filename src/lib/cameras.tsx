@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
 import SendPhotoModal from "./sendPhotoModal";
-import API from "../api/axios";
 import refreshBtn from "../images/refreshBtn.png";
 import captureBtn from "../images/captureBtn.png";
+import RedirectPdfModal from "../components/RegisterPdfModal";
+import RegisterPdfModal from "../components/RegisterPdfModal";
 
 const videoConstraints = {
   width: 400,
@@ -13,8 +14,11 @@ const videoConstraints = {
 
 const Camera: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
   const [url, setUrl] = useState<string | null>(null);
   const webcamRef = useRef<Webcam | null>(null);
+  /* 이미 등록된 url인지 아닌지 판별*/
+  const [isExisted, setisExisted] = useState<boolean>(true);
 
   const handleOpenModal = () => setIsModalOpen(true);
 
@@ -23,21 +27,37 @@ const Camera: React.FC = () => {
       const imageSrc = webcamRef.current.getScreenshot();
       if (imageSrc) {
         setUrl(imageSrc);
+        console.log("url: ", imageSrc);
+
+        // 이미지 다운로드 링크 생성 및 다운로드 실행
+        const downloadLink = document.createElement("a");
+        downloadLink.href = imageSrc;
+        downloadLink.download = "captured_image.png"; // 다운로드 파일 이름 지정
+
+        document.body.appendChild(downloadLink); // 링크를 문서에 추가
+        downloadLink.click(); // 클릭 이벤트로 다운로드 실행
+        document.body.removeChild(downloadLink); // 링크 요소 제거
       }
     }
   }, [webcamRef]);
 
   const sendPhotoServer = async () => {
-    handleOpenModal();
-    if (!url) return;
+    setIsSubmitModalOpen(true);
+    // handleOpenModal();
+    // if (!url) return;
 
-    const formData = new FormData();
-    formData.append("image", url);
-    console.log("Photo sent!");
+    // const formData = new FormData();
+    // formData.append("image", url);
+    // console.log("Photo sent!");
+  };
+
+  const handleCloseModal = () => {
+    setIsSubmitModalOpen(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center mt-[5vw] h-screen bg-gray-100">
+      <p>바코드 사진을 촬영하여 전송하세요!</p>
       <div className="w-[80%] max-w-md aspect-square bg-black rounded-md overflow-hidden shadow-lg">
         <Webcam
           ref={webcamRef}
@@ -61,7 +81,7 @@ const Camera: React.FC = () => {
       {url && (
         <div
           id="screenShot"
-          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-lg p-4 w-[90%] max-w-md"
+          className="fixed top-80 left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-lg p-4 w-[90%] max-w-md"
         >
           <div className="flex flex-col items-center gap-4">
             <img
@@ -76,6 +96,12 @@ const Camera: React.FC = () => {
               >
                 ✓ 전송하기
               </button>
+              {isSubmitModalOpen && (
+                <RegisterPdfModal
+                  handleModalClose={handleCloseModal}
+                  isExisted={isExisted}
+                />
+              )}
               <button
                 onClick={() => setUrl(null)}
                 className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
