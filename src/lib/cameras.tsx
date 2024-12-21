@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Webcam from "react-webcam";
-import "./receiptFilming.css";
+//import "../css/receiptFilming.css";
+import photoAlbum from "../images/photoAlbum.png";
 import SendPhotoModal from "./sendPhotoModal";
 import API from "../api/axios";
-
+import refreshBtn from "../images/refreshBtn.png";
+import turtleBtn from "../images/turtleBtn.png";
 const videoConstraints = {
   width: { ideal: window.innerWidth },
   height: { ideal: window.innerHeight },
@@ -99,18 +101,10 @@ const Camera: React.FC = () => {
 
       <div className="container">
         <button id="album">
-          <img
-            id="album"
-            src={require("../image/photoAlbum.png")}
-            alt="photoAlbum"
-          />
+          <img id="album" src={photoAlbum} alt="photoAlbum" />
         </button>
         <button id="turtleBtn" onClick={capturePhoto}>
-          <img
-            id="turtleBtn"
-            src={require("../image/turtleBtn.png")}
-            alt="captureBtn"
-          />
+          <img id="turtleBtn" src={turtleBtn} alt="captureBtn" />
         </button>
         <button
           id="refresh"
@@ -118,11 +112,7 @@ const Camera: React.FC = () => {
             setUrl(null);
           }}
         >
-          <img
-            id="refreshBtn"
-            src={require("../image/refreshBtn.png")}
-            alt="refreshBtn"
-          />
+          <img id="refreshBtn" src={refreshBtn} alt="refreshBtn" />
         </button>
       </div>
 

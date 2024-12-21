@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import React from "react";
-import "../../app/sendPhotoModal.css";
+import "../css/sendPhotoModal.css";
 
 type SendPhotoModalProps = {
   isModalOpen: boolean;
