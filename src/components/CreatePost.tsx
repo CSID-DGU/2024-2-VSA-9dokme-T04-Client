@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import API from "../api/axios";
 import { BASE_URL } from "../env";
+import { Button, Input } from "antd";
 
 interface Props {
   onBack: () => void;
@@ -47,63 +49,146 @@ const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
   };
 
   return (
-    <div className="fixed top-0 right-0 z-50 pointer w-[30vw] h-auto bg-white rounded-bl-[2vw] text-[1.5vw] shadow-sm">
-      <div className="m-[2vw]">
-        <div className="flex justify-between items-center mb-[3vw]">
-          <div className="font-bold text-[1.2vw]">커뮤니티 글 작성하기</div>
-          <button onClick={onBack} className="font-bold cursor-pointer">
-            x
-          </button>
-        </div>
-        <div className="grid grid-cols-[1fr_5fr] gap-x-[1vw] gap-y-[1.5vw]">
-          <label className="text-[1.2vw]">제목</label>
-          <input
-            type="text"
-            className="col-span-1 p-[0.5vw] text-[1vw] border border-gray-300 rounded"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+    <ModalContainer>
+      <Header>
+        <BackButton onClick={onBack}>← 뒤로가기</BackButton>
+      </Header>
 
-          <label className="text-[1.2vw]">챕터</label>
-          <input
-            type="number"
-            className="col-span-1 p-[0.5vw] text-[1vw] border border-gray-300 rounded"
-            value={chapter}
-            onChange={(e) => setChapter(e.target.value)}
-          />
+      <Form>
+        <FormLabel>제목</FormLabel>
+        <StyledInput
+          type='text'
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-          <label className="text-[1.2vw]">페이지</label>
-          <input
-            type="number"
-            className="col-span-1 p-[0.5vw] text-[1vw] border border-gray-300 rounded"
-            value={page}
-            onChange={(e) => setPage(e.target.value)}
-          />
+        <FormLabel>챕터</FormLabel>
+        <StyledInput
+          type='number'
+          value={chapter}
+          onChange={(e) => setChapter(e.target.value)}
+        />
 
-          <label className="text-[1.2vw] col-span-2">글내용</label>
-          <textarea
-            className="col-span-2 p-[0.5vw] text-[1vw] h-[10vw] border border-gray-300 rounded resize-none"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="mt-[2vw] flex justify-between">
-        <button
-          onClick={handleSubmit}
-          className="bg-customColor3 text-white p-[1vw] text-[1vw] w-[48%] font-bold"
-        >
-          작성 완료하기
-        </button>
-        <button
-          onClick={onBack}
-          className="bg-gray-300 text-black p-[1vw] text-[1vw] w-[48%] font-bold"
-        >
-          작성 취소하기
-        </button>
-      </div>
-    </div>
+        <FormLabel>페이지</FormLabel>
+        <StyledInput
+          type='number'
+          value={page}
+          onChange={(e) => setPage(e.target.value)}
+        />
+
+        <FormLabel>글내용</FormLabel>
+        <Textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </Form>
+
+      <ButtonContainer>
+        <WriteButton onClick={handleSubmit}>글 등록하기</WriteButton>
+      </ButtonContainer>
+    </ModalContainer>
   );
 };
 
 export default CreatePost;
+
+const WriteButton = styled(Button)`
+width: 100%;
+height: 5vh;
+  font-size: 1.1vw;
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px;
+  height: 100vh;
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2vw;
+`;
+
+const BackButton = styled.button`
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #ad7ed1;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const Title = styled.h2`
+  font-size: 1.5vw;
+  font-weight: bold;
+  color: #333;
+`;
+
+const Form = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 1vw 1.5vw;
+  margin-bottom: 2vw;
+`;
+
+const FormLabel = styled.label`
+  font-size: 1vw;
+  color: #555;
+  font-weight: bold;
+`;
+
+const StyledInput = styled(Input)`
+  padding: 0.8vw;
+`;
+
+const Textarea = styled(Input)`
+  height: 10vw;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const SubmitButton = styled.button`
+  width: 48%;
+  padding: 1vw;
+  font-size: 1vw;
+  font-weight: bold;
+  color: white;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #45a049;
+  }
+`;
+
+const CancelButton = styled.button`
+  width: 48%;
+  padding: 1vw;
+  font-size: 1vw;
+  font-weight: bold;
+  color: #333;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #d6d6d6;
+  }
+`;
