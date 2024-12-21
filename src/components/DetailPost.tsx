@@ -5,7 +5,7 @@ import API from "../api/axios";
 import { BASE_URL } from "../env";
 import AddComment from "./AddComment";
 import postdetail from "../json/PostDetail.json";
-import back from "../images/back.png";
+const back = "/images/back.png";
 
 interface Props {
   questionId: number;

@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import PDFAdd from "../components/PDFAdd";
-import PDFEdit from "../components/PDFEdit";
-import PDFDelete from "../components/PDFDelete";
+import PDFAdd from "../../components/PDFAdd";
+import PDFEdit from "../../components/PDFEdit";
+import PDFDelete from "../../components/PDFDelete";
 import styled from "styled-components";
-import AdminBanner from "../components/AdminBanner";
-import { BASE_URL } from "../env";
+import AdminBanner from "../../components/AdminBanner";
+import { BASE_URL } from "../../env";
 const AdminPDF: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"add" | "edit" | "delete">("add");
   const [books, setBooks] = useState([]);
@@ -22,13 +22,13 @@ const AdminPDF: React.FC = () => {
   useEffect(() => {
     // 검색어를 포함한 API 호출
     const defaultSearchTerm = ""; // 기본 검색어 설정
-    axios
-      .get(`${BASE_URL}/api/admin/books?search=${defaultSearchTerm}`)
-      .then((response) => {
-        console.log("서버 응답:", response.data);
-        setBooks(response.data);
-      })
-      .catch((error) => console.error("데이터 로딩 중 오류 발생:", error));
+    // axios
+    //   .get(`${BASE_URL}/api/admin/books?search=${defaultSearchTerm}`)
+    //   .then((response) => {
+    //     console.log("서버 응답:", response.data);
+    //     setBooks(response.data);
+    //   })
+    //   .catch((error) => console.error("데이터 로딩 중 오류 발생:", error));
   }, []);
 
   const handleTabChange = (tab: "add" | "edit" | "delete") => {

@@ -8,13 +8,13 @@ import { PRIMARY } from "../utils/colors";
 import { BASE_URL } from "../env";
 import bookDetailData from "../json/BookDetail.json";
 import { BookDetailType } from "../json/BookDetailType";
-import book1 from "../images/books/book1.png";
-import book2 from "../images/books/book2.png";
-import book3 from "../images/books/book3.png";
-import book4 from "../images/books/book4.png";
-import book5 from "../images/books/book5.png";
-import book6 from "../images/books/book6.png";
-import book7 from "../images/books/book7.png";
+const book1 = "/images/books/book1.png";
+const book2 = "/images/books/book2.png";
+const book3 = "/images/books/book3.png";
+const book4 = "/images/books/book4.png";
+const book5 = "/images/books/book5.png";
+const book6 = "/images/books/book6.png";
+const book7 = "/images/books/book7.png";
 const BookDetail = () => {
   const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
   const navigate = useNavigate();
@@ -69,18 +69,15 @@ const BookDetail = () => {
   const handleBookmarkBtn = async () => {
     try {
       console.log(bookId);
-  
-      await axios.post(
-        `${BASE_URL}/api/bookmark?BookId=${bookId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
+
+      await axios.post(`${BASE_URL}/api/bookmark?BookId=${bookId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       message.success("북마크에 추가되었습니다!");
-  
+
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -89,7 +86,6 @@ const BookDetail = () => {
       message.error("이미 북마크에 등록되었습니다.");
     }
   };
-  
 
   //북마크 취소: 헤더에 토큰 값 추가
   const handleDeleteBookmark = async () => {
@@ -102,10 +98,10 @@ const BookDetail = () => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         message.success("북마크가 취소되었습니다 :)");
-  
+
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -114,17 +110,17 @@ const BookDetail = () => {
       message.error("오류가 발생했습니다.");
     }
   };
-  
 
   if (!book) return <p>Loading...</p>;
-  const bookImage: any = require("../images/books/book1.png");
+  const bookImage: any = "/images/books/book1.png";
 
   return (
     <Root>
       <Sidebanner />
       <Container>
         <BookImage
-          src={require(`../images/books/${book.bookImage}`)}
+          // 추후 수정
+          src={bookImage}
           alt={`Cover of ${book.bookTitle}`}
         />
         <ContentContainer>

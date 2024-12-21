@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../env";
+import { BASE_URL } from "../../../../env";
 
 const LoginLoading = () => {
   const code = new URL(window.location.href).searchParams.get("code");
@@ -11,9 +11,7 @@ const LoginLoading = () => {
     const kakaoLogin = async () => {
       try {
         console.log("Authorization code:", code); // 인가 code 출력
-        const res = await axios.get(
-          `${BASE_URL}/api/oauth?code=${code}`
-        );
+        const res = await axios.get(`${BASE_URL}/api/oauth?code=${code}`);
 
         console.log(res.data);
         // 로그인 시 message 추출
@@ -44,10 +42,7 @@ const LoginLoading = () => {
             "로컬스토리지 memberId: ",
             localStorage.getItem("memberId")
           );
-          console.log(
-            "로컬스토리지 token: ",
-            localStorage.getItem("token")
-          );
+          console.log("로컬스토리지 token: ", localStorage.getItem("token"));
         } else {
           console.error("Failed to parse nickname or email from message");
         }

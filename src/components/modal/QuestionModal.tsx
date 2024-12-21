@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Teacher from "../images/Teacher.png";
-import back from "../images/back.png";
+const Teacher = "/images/Teacher.png";
+const back = "/images/back.png";
 
 interface Book {
   bookId: number;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import User from "../json/User.json";
-import profile from "../images/profile.png";
+const profile = "/images/profile.png";
 import Sidebanner from "../components/Sidebanner";
 import API from "../api/axios";
 import { BASE_URL } from "../env";
@@ -11,14 +11,14 @@ const QueryBoard = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       alert("로그인이 필요합니다.");
       return;
     }
-  
+
     try {
       const response = await API.post(
         `${BASE_URL}/api/inquire`,
@@ -32,13 +32,13 @@ const QueryBoard = () => {
           },
         }
       );
-  
+
       if (response.status === 200 || response.status === 201) {
         message.success("문의글이 관리자에게 성공적으로 제출되었습니다:)");
-  
+
         setTitle("");
         setContent("");
-  
+
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -50,7 +50,6 @@ const QueryBoard = () => {
       alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
-  
 
   return (
     <div className="w-screen h-[100vh] bg-customColor bg-opacity-20 p-[5vw]">

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
-import community from "../images/community.png";
-import communitytalk from "../images/communitytalk.png";
+const community = "/images/community.png";
+const communitytalk = "/images/communitytalk.png";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import communityposts from "../json/Community.json";

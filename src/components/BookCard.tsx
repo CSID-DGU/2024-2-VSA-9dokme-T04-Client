@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import onBookmark from "../images/onBookmark.png";
-import offBookmark from "../images/offBookmark.png";
-import defaultCover from "../images/bookcover.png";
+const onBookmark = "/images/onBookmark.png";
+const offBookmark = "/images/offBookmark.png";
+const defaultCover = "/images/bookcover.png";
 import API from "../api/axios";
 
 interface BookCardProps {

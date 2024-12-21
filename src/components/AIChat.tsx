@@ -5,9 +5,8 @@ import styled from "styled-components";
 import API from "../api/axios";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import aichat from "../images/aichat.png";
-import Teacher from "../images/Teacher.png";
-
+const aichat = "/images/aichat.png";
+const Teacher = "/images/Teacher.png";
 // AIChat 컴포넌트 구현
 const AIChat: React.FC = () => {
   const [chatLog, setChatLog] = useState<
