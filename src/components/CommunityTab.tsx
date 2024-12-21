@@ -23,7 +23,6 @@ interface CommunityTabProps {
   bookId: number;
 }
 const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
-  
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [createPostBtn, setCreatePostBtn] = useState<boolean>(false);
   const [searchTitle, setSearchTitle] = useState<string>("");
@@ -80,8 +79,8 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
     <div>
       {!isClicked ? (
         <BannerWrapper>
-          <BannerIcon src={community} onClick={handleBannerClickOn} />
           <BannerTalkIcon src={communitytalk} onClick={handleBannerClickOn} />
+          <BannerIcon src={community} onClick={handleBannerClickOn} />
         </BannerWrapper>
       ) : null}
 
@@ -180,7 +179,7 @@ const ImageIcon = styled.img`
   height: 0.8vw;
   color: gray;
   margin-right: 3px;
-`
+`;
 
 const ChapterTag = styled.div`
   background-color: #e8d8f5;
@@ -196,7 +195,6 @@ const Divider = styled.div`
   background-color: #e0e0e0;
   margin-top: 0.8vw;
   margin-bottom: 0.4vw;
-
 `;
 
 const ChapterButton = styled(Button)`

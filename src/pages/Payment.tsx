@@ -20,6 +20,8 @@ const PaymentPage: React.FC = () => {
       setLoading(true);
       await requestBilling(tossPayments, "카드", requestJson);
       alert("결제가 완료되었습니다.");
+      // 프론트단에서 redirect url 강제변환
+      window.location.href = "/mainpage";
     } catch {
       alert("결제에 실패했습니다. 다시 시도해주세요.");
     } finally {
@@ -52,11 +54,11 @@ const PaymentPage: React.FC = () => {
             신용 / 체크
           </button>
           <button
-            className="flex-1 px-4 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-500 transition duration-300"
+            className="flex-1 px-4 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-500 transition duration-300 flex items-center justify-center space-x-2"
             onClick={() => alert("카카오페이 결제를 선택하셨습니다.")}
           >
-            <img src={kakaoLogo} className="h-4 mx-auto" />
-            카카오페이
+            <img src={kakaoLogo} className="h-5" alt="카카오페이 로고" />
+            <span>카카오페이</span>
           </button>
         </div>
       </div>
