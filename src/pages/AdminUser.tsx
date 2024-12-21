@@ -5,16 +5,7 @@ import { User, UserList } from "../json/UserList";
 import { useState } from "react";
 import EditProfile from "../components/EditProfile";
 import API from "../api/axios";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
-} from "../components/ui/table";
+import { Button } from "antd";
 
 const AdminUser = () => {
   const [openEditor, setOpenEditor] = useState<boolean>(false);
@@ -38,50 +29,94 @@ const AdminUser = () => {
     }
   };
   return (
-    <div className="flex-col -screen h-screen bg-customColor bg-opacity-20 flex justify-center items-center">
-      {openEditor === true ? <EditProfile onBack={onBack} /> : null}
+    <Root>
+      <Container>
+        {openEditor === true ? <EditProfile onBack={onBack} /> : null}
 
-      <AdminBanner />
-      <h1 className="font-bold">유저 관리 페이지</h1>
-      <Table className="bg-white m-[3vw] w-[60vw] ml-[20vw]">
-        <TableHeader>
-          <TableRow className="bg-[#D8E7FF]">
-            <TableHead className="w-[10vw]">유저이름</TableHead>
-            <TableHead className="w-[20vw]">이메일</TableHead>
-            <TableHead className="w-[13vw]">만료일자</TableHead>
-            <TableHead className="w-[7vw]">수정</TableHead>
-            <TableHead className="w-[7vw]">삭제</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {Users.userList.map((user: User) => (
-            <TableRow key={user.username} className="text-left">
-              <TableCell className="font-medium">{user.username}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.expirationDate}</TableCell>
-              <TableCell>
-                <button
-                  onClick={onEditClick}
-                  className="bg-slate-400 text-[0.8vw] text-white px-[0.5vw] rounded hover:bg-customColor3"
-                >
-                  수정
-                </button>
-              </TableCell>
-              <TableCell>
-                <button
-                  onClick={() => onDeleteClick(String(user.userId))}
-                  className="bg-slate-400 text-[0.8vw] text-white px-[0.5vw] rounded hover:bg-[#FF7E7E]"
-                >
-                  삭제
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        <AdminBanner />
+        <Title>유저 관리 페이지</Title>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>유저이름</TableHeader>
+              <TableHeader>이메일</TableHeader>
+              <TableHeader>만료일자</TableHeader>
+              <TableHeader>수정</TableHeader>
+              <TableHeader>삭제</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {Users.userList.map((user: User) => (
+              <TableRow key={user.username}>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.expirationDate}</TableCell>
+                <TableCell>
+                  <StyledButton
+                    onClick={onEditClick}
+                  >
+                    수정
+                  </StyledButton>
+                </TableCell>
+                <TableCell>
+                  <StyledButton
+                    onClick={() => onDeleteClick(String(user.userId))}
+                  >
+                    삭제
+                  </StyledButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
+    </Root>
   );
 };
+
+const StyledButton = styled(Button)`
+  
+`
+const Root = styled.div`
+  padding-top: 20vh;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+`;
+const Container = styled.div`
+  width: 80%;
+`;
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+`;
+
+const TableHeader = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-align: left;
+`;
+
+const TableRow = styled.tr`
+  background-color: white;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+`;
 
 const Box = styled.div`
   width: 75vw;

@@ -13,13 +13,13 @@
           "commentId": 1,
           "comment": "질문 1에 대한 댓글 1입니다.",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         },
         {
           "commentId": 2,
           "comment": "질문 1에대한 댓글 2입니다.",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         }
       ]
     },
@@ -37,7 +37,7 @@
           "commentId": 1,
           "comment": "이건 조금 쉬운 문제인거 같네요",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         }
       ]
     },
@@ -64,13 +64,13 @@
           "commentId": 1,
           "comment": "저도 궁금해요",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         },
         {
           "commentId": 3,
           "comment": "배고프네요, 점메추 부탁드립니다.",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         }
       ]
     },
@@ -87,19 +87,19 @@
           "commentId": 1,
           "comment": "동해물과 백두산이 마르고 닳도록",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         },
         {
           "commentId": 2,
           "comment": "제가 설명드릴게요.",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         },
         {
           "commentId": 3,
           "comment": "이건 어려운 문제인거 같네요",
           "nickName": "유재석",
-          "createdAt": null
+          "createdAt": "2024-01-22"
         }
       ]
     }

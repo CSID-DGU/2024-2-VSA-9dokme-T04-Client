@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
+import { Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 const PDFAdd: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -67,6 +69,7 @@ const PDFAdd: React.FC = () => {
       alert("PDF 등록에 실패했습니다.");
     }
   };
+  
 
   return (
     <Box>
@@ -115,8 +118,7 @@ const PDFAdd: React.FC = () => {
           </StyledSelect>
 
           <Tag className="text-[1.2vw]">교재 설명</Tag>
-          <StyledInput
-            as="textarea"
+          <StyledText
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
@@ -130,7 +132,6 @@ const PDFAdd: React.FC = () => {
 
           <Tag className="text-[1.2vw]">PDF URL</Tag>
           <StyledInput
-            type="text"
             value={bookURL}
             onChange={(e) => setBookURL(e.target.value)}
           />
@@ -184,28 +185,16 @@ const FormContainer = styled.form`
   overflow-y: auto; /* Add vertical scrolling if content overflows */
 `;
 
-const StyledInput = styled.input`
-  border: 1px solid black;
-  border-radius: 0.2vw;
-  padding: 0.5vw;
-  font-size: 1vw;
-
-  &:focus {
-    outline: none; /* 포커스 스타일 제거 */
-    border: 1px solid black; /* 포커스 시 동일한 테두리 유지 */
-  }
+const StyledInput = styled(Input)`
 `;
 
+const StyledText = styled(TextArea)`
+`
+
 const StyledSelect = styled.select`
-  border: 1px solid black;
   border-radius: 0.2vw;
   padding: 0.5vw;
   font-size: 1vw;
-
-  &:focus {
-    outline: none; /* 포커스 스타일 제거 */
-    border: 1px solid black; /* 포커스 시 동일한 테두리 유지 */
-  }
 `;
 
 const Tag = styled.div`
