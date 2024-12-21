@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "message": "새로운 댓글이 달렸습니다.",
+    "type": "comment",
+    "paramId": 101,
+    "createdAt": "2024-12-21T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "message": "새로운 공지가 등록되었습니다.",
+    "type": "notice",
+    "paramId": 102,
+    "createdAt": "2024-12-20T15:00:00Z"
+  },
+  {
+    "id": 3,
+    "message": "답변이 달렸습니다.",
+    "type": "reply",
+    "paramId": 103,
+    "createdAt": "2024-12-19T08:30:00Z"
+  }
+]
