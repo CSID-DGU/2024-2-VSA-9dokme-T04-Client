@@ -1,16 +1,18 @@
+"use client";
 import { useState, useEffect } from "react";
 import SlidingBanner from "../components/SlidingBanner";
 import Hashtag from "../components/Hashtag";
 import { Book } from "../json/BookList";
 import books from "../json/books.json";
-import { useNavigate } from "react-router-dom";
-import book1 from "../images/books/book1.png";
-import book2 from "../images/books/book2.png";
-import book3 from "../images/books/book3.png";
-import book4 from "../images/books/book4.png";
-import book5 from "../images/books/book5.png";
-import book6 from "../images/books/book6.png";
-import book7 from "../images/books/book7.png";
+//import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+const book1 = "/images/books/book1.png";
+const book2 = "/images/books/book2.png";
+const book3 = "/images/books/book3.png";
+const book4 = "/images/books/book4.png";
+const book5 = "/images/books/book5.png";
+const book6 = "/images/books/book6.png";
+const book7 = "/images/books/book7.png";
 import Sidebanner from "../components/Sidebanner";
 import { PRIMARY } from "../utils/colors";
 import { Button, Card, Input } from "antd";
@@ -35,9 +37,9 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({ mobileView }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleImgClick = (bookId: number) => {
-    navigate(`/bookdetail/${bookId}`);
+    router.push(`/bookdetail/${bookId}`);
   };
 
   const [category, setCategory] = useState<string>("전체보기");

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
-import banner from "../images/banner.png";
+const banner = "/images/banner.png";
 import { GRAY } from "../utils/colors";
 
 const Sidebanner = () => {
@@ -53,24 +53,16 @@ const Sidebanner = () => {
           }}
         >
           <ToggleArrow onClick={handleBannerClickOff}>{">>"}</ToggleArrow>
-          <MenuItem
-            onClick={() => handleNavigate("/mainpage", "mainpage")}
-          >
+          <MenuItem onClick={() => handleNavigate("/mainpage", "mainpage")}>
             메인 페이지
           </MenuItem>
-          <MenuItem
-            onClick={() => handleNavigate("/mypage", "mypage")}
-          >
+          <MenuItem onClick={() => handleNavigate("/mypage", "mypage")}>
             나의 책갈피
           </MenuItem>
-          <MenuItem
-            onClick={() => handleNavigate("/myarticle", "myarticle")}
-          >
+          <MenuItem onClick={() => handleNavigate("/myarticle", "myarticle")}>
             나의 작성글
           </MenuItem>
-          <MenuItem
-            onClick={() => handleNavigate("/queryBoard", "queryboard")}
-          >
+          <MenuItem onClick={() => handleNavigate("/queryBoard", "queryboard")}>
             문의글 작성
           </MenuItem>
           <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
@@ -84,7 +76,7 @@ const Container = styled.div<{ isClicked: boolean }>`
   z-index: 50;
   width: 18vw;
   height: 100vh;
-    background-color: WHITE;
+  background-color: WHITE;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -93,7 +85,8 @@ const Container = styled.div<{ isClicked: boolean }>`
   border-bottom-left-radius: 15px;
   border: 1px ${GRAY.DEFAULT} solid;
 
-  animation: ${({ isClicked }) => (isClicked ? "slideIn 0.4s ease-in-out" : "none")};
+  animation: ${({ isClicked }) =>
+    isClicked ? "slideIn 0.4s ease-in-out" : "none"};
   transform: ${({ isClicked }) => (isClicked ? "none" : "translateX(100%)")};
   transition: transform 0.4s ease-in-out;
 
@@ -106,7 +99,6 @@ const Container = styled.div<{ isClicked: boolean }>`
     }
   }
 `;
-
 
 const ToggleArrow = styled.div`
   padding: 10px;

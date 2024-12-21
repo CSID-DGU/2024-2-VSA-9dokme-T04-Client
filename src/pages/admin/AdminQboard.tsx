@@ -17,7 +17,7 @@ import {
 } from "../../components/ui/table";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import styles from "./AdminQBoard.module.css";
+import styles from "../AdminQBoard.module.css";
 import { message } from "antd";
 import { BASE_URL } from "../../env";
 

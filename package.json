@@ -29,6 +29,8 @@
     "navigate": "^0.3.6",
     "next": "^15.0.4",
     "pdfjs-dist": "^4.5.136",
+    "rc-picker": "^2.6.1",
+    "rc-util": "^5.24.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
     "react-device-detect": "^2.2.3",
@@ -81,5 +83,6 @@
     "cross-env": "^7.0.3",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "type": "module"
 }

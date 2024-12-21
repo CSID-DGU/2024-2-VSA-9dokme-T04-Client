@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Slide1 from "../images/ads/ad1.jpg";
-import Slide2 from "../images/ads/ad2.jpg";
-import Slide3 from "../images/ads/ad3.jpg";
-import Slide4 from "../images/ads/ad4.jpg";
-import Slide5 from "../images/ads/ad5.jpg";
+const Slide1 = "/images/ads/ad1.jpg";
+const Slide2 = "/images/ads/ad2.jpg";
+const Slide3 = "/images/ads/ad3.jpg";
+const Slide4 = "/images/ads/ad4.jpg";
+const Slide5 = "/images/ads/ad5.jpg";
 
 const slides = [
   { id: 1, content: Slide1 },

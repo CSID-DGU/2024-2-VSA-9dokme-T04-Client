@@ -1,22 +1,23 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import profile from "../images/profile.png";
+const profile = "/images/profile.png";
 import User from "../json/User.json";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import bg from "../images/bg.png";
+const bg = "/images/bg.png";
 import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
 import API from "../api/axios";
 import booksData from "../json/books.json";
 
-import book1 from "../images/books/book1.png";
-import book2 from "../images/books/book2.png";
-import book3 from "../images/books/book3.png";
-import book4 from "../images/books/book4.png";
-import book5 from "../images/books/book5.png";
-import book6 from "../images/books/book6.png";
-import book7 from "../images/books/book7.png";
+const book1 = "/images/books/book1.png";
+const book2 = "/images/books/book2.png";
+const book3 = "/images/books/book3.png";
+const book4 = "/images/books/book4.png";
+const book5 = "/images/books/book5.png";
+const book6 = "/images/books/book6.png";
+const book7 = "/images/books/book7.png";
 
 const images: { [key: string]: string } = {
   "book1.png": book1,
@@ -112,6 +113,9 @@ const MyPage = () => {
         <img src={profile} className="w-[10vw] mt-[5vw]" alt="Profile" />
         <p className="text-[1.2vw] mt-[2vw] text-center">
           <span className="text-sky-600 font-bold">
+            {/* {useEffect(()=> {
+              const result = localStorage.geItem("name")
+            },[])} */}
             {localStorage.getItem("name")}
           </span>
           <span className="font-bold">님, 안녕하세요:)</span>
