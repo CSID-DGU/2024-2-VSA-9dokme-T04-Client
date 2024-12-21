@@ -51,8 +51,13 @@ const AdminQboard: React.FC = () => {
 
   const onDeleteClick = async (inquireId: number) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `${BASE_URL}/api/admin/inquiries/delete/${inquireId}`
+        `${BASE_URL}/api/admin/inquiries/delete/${inquireId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 200 || response.status === 204) {
         fetchQueries(currentPage);
