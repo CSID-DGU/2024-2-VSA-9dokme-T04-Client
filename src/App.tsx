@@ -15,6 +15,7 @@ import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
 import WritingForm from "./components/WritingForm";
 import PostDetail from "./components/PostDetail";
+import AdminPaymentList from "./pages/AdminPaymentList";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/adminPdf/" element={<AdminPDF />} />
         <Route path="/admin/adminUser/" element={<AdminUser />} />
         <Route path="/admin/adminQboard/" element={<AdminQboard />} />
+        <Route path="/admin/adminPaymentList/" element={<AdminPaymentList />} />
         <Route path="/login/oauth2/callback/kakao" element={<LoginLoading />} />
         <Route path="/myarticle/" element={<MyArticle />} />
         <Route path="/payment/" element={<Payment />} />

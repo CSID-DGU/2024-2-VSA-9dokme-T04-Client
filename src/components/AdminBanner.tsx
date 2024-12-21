@@ -33,7 +33,7 @@ const AdminBanner = () => {
   //   }
   // }, [location.pathname]);
 
-  const handleNavigate = (path: string, btnKey: string) => {
+  const handleNavigate = (path: string) => {
     navigate(path);
   };
 
@@ -53,11 +53,11 @@ const AdminBanner = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 z-50">
+    <div className='fixed top-0 right-0 z-50'>
       {!isClicked && !isAnimating ? (
         <img
           src={banner}
-          className="w-[3vw] fixed top-[2vw] right-[2vw]"
+          className='w-[3vw] fixed top-[2vw] right-[2vw]'
           onClick={handleBannerClickOn}
         />
       ) : (
@@ -71,21 +71,20 @@ const AdminBanner = () => {
         >
           <AdminBadge>Admin</AdminBadge>
           <ToggleArrow onClick={handleBannerClickOff}>{">>"}</ToggleArrow>
-            <MenuItem
-              onClick={() => handleNavigate("/admin/adminPdf", "adminpdf")}
-            >PDF 관리</MenuItem>
-            <MenuItem
-              onClick={() => handleNavigate("/admin/adminUser", "adminuser")}
-            >유저정보 관리</MenuItem>
-            <MenuItem
-              onClick={() =>
-                handleNavigate("/admin/adminQboard", "adminqboard")
-              }
-            >문의게시판 관리</MenuItem>
-            <MenuItem
-              onClick={handleLogout}
-            >로그아웃</MenuItem>
-          </Container>
+          <MenuItem onClick={() => handleNavigate("/admin/adminPdf")}>
+            PDF 관리
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/admin/adminUser")}>
+            유저정보 관리
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/admin/adminQboard")}>
+            문의게시판 관리
+          </MenuItem>
+          <MenuItem onClick={() => handleNavigate("/admin/adminPaymentList")}>
+            결제정보 관리
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+        </Container>
       )}
     </div>
   );
@@ -97,7 +96,7 @@ const AdminBadge = styled.div`
   position: absolute;
   background-color: #e8d8f5;
   color: #6b448b;
-  padding:3px;
+  padding: 3px;
   border-radius: 5px;
 `;
 
@@ -105,7 +104,7 @@ const Container = styled.div<{ isClicked: boolean }>`
   z-index: 50;
   width: 18vw;
   height: 100vh;
-    background-color: WHITE;
+  background-color: WHITE;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -114,7 +113,8 @@ const Container = styled.div<{ isClicked: boolean }>`
   border-bottom-left-radius: 15px;
   border: 1px ${GRAY.DEFAULT} solid;
 
-  animation: ${({ isClicked }) => (isClicked ? "slideIn 0.4s ease-in-out" : "none")};
+  animation: ${({ isClicked }) =>
+    isClicked ? "slideIn 0.4s ease-in-out" : "none"};
   transform: ${({ isClicked }) => (isClicked ? "none" : "translateX(100%)")};
   transition: transform 0.4s ease-in-out;
 
@@ -127,7 +127,6 @@ const Container = styled.div<{ isClicked: boolean }>`
     }
   }
 `;
-
 
 const ToggleArrow = styled.div`
   padding: 10px;
