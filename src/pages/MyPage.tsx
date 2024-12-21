@@ -102,7 +102,7 @@ const MyPage = () => {
   };
 
   const goToBarcodeSearch = () => {
-    navigate("/searchpdf");
+    navigate("/barcodefilming");
   };
 
   return (
