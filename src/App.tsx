@@ -10,6 +10,7 @@ import AdminQboard from "./pages/AdminQboard";
 import LoginLoading from "./pages/LoginLoading";
 import MyArticle from "./pages/MyArticle";
 import BookDetail from "./pages/BookDetail";
+import Subscribe from "./pages/subscribe";
 import { PRIMARY } from "./utils/colors.js";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login/oauth2/callback/kakao" element={<LoginLoading />} />
         <Route path="/myarticle/" element={<MyArticle />} />
         <Route path="/payment/" element={<Payment />} />
+        <Route path="/subscribe/" element={<Subscribe />} />
       </Routes>
     </>
   );
