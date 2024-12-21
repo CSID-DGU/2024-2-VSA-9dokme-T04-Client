@@ -15,10 +15,20 @@ const AdminQboard: React.FC = () => {
     totalPages: 0,
   });
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  const fetchQueries = async (pageNo: number) => {
+  const fetchQueries = async (page: number) => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/admin/inquiries/${pageNo}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`${BASE_URL}/api/admin/inquiries/${page}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          size: 10,
+        },
+      });
       setQueryData(response.data);
     } catch (error) {
       console.error("API 호출 오류: ", error);
