@@ -1,30 +1,15 @@
-import styled from "styled-components";
-import AdminBanner from "../components/AdminBanner";
-import QueryData from "../json/Query.json";
-import { Inquiry, InquiryResponse, SortInfo, Pageable } from "../json/Query";
 import React, { useState, useEffect } from "react";
-import QueryDetail from "../components/QueryDetail";
-import API from "../api/axios";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
-} from "../components/ui/table";
+import styled from "styled-components";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import styles from './AdminQBoard.module.css';
-import { message } from "antd";
+import AdminBanner from "../components/AdminBanner";
+// import QueryDetail from "../components/QueryDetail";
 import { BASE_URL } from "../env";
+import { Button } from "antd";
 
-
-const AdminQboard = () => {
+const AdminQboard: React.FC = () => {
   const [openEditor, setOpenEditor] = useState<boolean>(false);
-  const [selectedQuery, setSelectedQuery] = useState<Inquiry | null>(null);
+  const [selectedQuery, setSelectedQuery] = useState<any | null>(null);
   const [queryData, setQueryData] = useState<any>({
     content: [],
     totalPages: 0,
@@ -33,14 +18,10 @@ const AdminQboard = () => {
 
   const fetchQueries = async (pageNo: number) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/admin/inquiries/${pageNo}`
-      );
+      const response = await axios.get(`${BASE_URL}/api/admin/inquiries/${pageNo}`);
       setQueryData(response.data);
-      console.log(response.data);
     } catch (error) {
-      console.log("API 호출 오류: ", error);
-      
+      console.error("API 호출 오류: ", error);
     }
   };
 
@@ -53,7 +34,7 @@ const AdminQboard = () => {
     setSelectedQuery(null);
   };
 
-  const detailViewClick = (query: Inquiry) => {
+  const detailViewClick = (query: any) => {
     setSelectedQuery(query);
     setOpenEditor(true);
   };
@@ -61,17 +42,16 @@ const AdminQboard = () => {
   const onDeleteClick = async (inquireId: number) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/admin/inquiries/delete/${inquireId}`
+        `${BASE_URL}/api/admin/inquiries/delete/${inquireId}`
       );
       if (response.status === 200 || response.status === 204) {
-        
-        fetchQueries(currentPage); // 삭제 후 데이터 새로고침
-        message.success("문의글이 삭제되었습니다.");
+        fetchQueries(currentPage);
+        alert("문의글이 삭제되었습니다.");
       } else {
-        message.error("문의글 삭제에 실패했습니다.");
+        alert("문의글 삭제에 실패했습니다.");
       }
     } catch (error) {
-      console.log("문의글 삭제 오류: ", error);
+      console.error("문의글 삭제 오류: ", error);
       alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
@@ -81,95 +61,144 @@ const AdminQboard = () => {
   };
 
   return (
-    <div className='flex-col h-screen bg-customColor bg-opacity-20 flex justify-center items-center'>
-      {openEditor && selectedQuery && (
-        <QueryDetail query={selectedQuery} onBack={onBack} />
-      )}
-
-      <AdminBanner />
-      <h1 className='font-bold'>문의게시판 관리 페이지</h1>
-      <Table className='bg-white m-[3vw] w-[60vw] ml-[20vw]'>
-        <TableHeader>
-          <TableRow className='bg-[#D8E7FF]'>
-            <TableHead className='w-[10vw]'>문의글 제목</TableHead>
-            <TableHead className='w-[30vw]'>문의글 내용</TableHead>
-            <TableHead className='w-[10vw]'>조회</TableHead>
-            <TableHead className='w-[7vw]'>삭제</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {queryData.content.map((query: Inquiry) => (
-            <TableRow key={query.inquireId} className='text-left'>
-              <TableCell className='font-medium'>{query.title}</TableCell>
-              <TableCell className='font-medium'>
-                {query.content.length > 40
-                  ? query.content.slice(0, 40) + "..."
-                  : query.content}
-              </TableCell>
-
-              <TableCell>
-                <button
-                  onClick={() => detailViewClick(query)}
-                  className='bg-slate-400 text-[0.8vw] text-white px-[0.5vw] rounded hover:bg-customColor3'
-                >
-                  상세조회
-                </button>
-              </TableCell>
-              <TableCell>
-                <button
-                  onClick={() => onDeleteClick(query.inquireId)}
-                  className='bg-slate-400 text-[0.8vw] text-white px-[0.5vw] rounded hover:bg-[#FF7E7E]'
-                >
-                  삭제
-                </button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <PageContainer>
-        <ReactPaginate
-          previousLabel={"이전"}
-          nextLabel={"다음"}
-          breakLabel={"..."}
-          pageCount={queryData.totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName={styles.pagination}
-          pageClassName={styles.pageItem}
-          pageLinkClassName={styles.pageLink}
-          previousClassName={styles.pageItem}
-          previousLinkClassName={styles.pageLink}
-          nextClassName={styles.pageItem}
-          nextLinkClassName={styles.pageLink}
-          breakClassName={styles.pageItem}
-          breakLinkClassName={styles.pageLink}
-          activeClassName={styles.active}
-        />
-      </PageContainer>
-    </div>
+    <Root>
+      <Container>
+        <AdminBanner />
+        <Title>문의게시판 관리 페이지</Title>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>유저 Id</TableHeader>
+              <TableHeader>문의글 제목</TableHeader>
+              <TableHeader>문의글 내용</TableHeader>
+              {/* <TableHeader>조회</TableHeader> */}
+              <TableHeader>삭제</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {queryData.content.map((query: any) => (
+              <TableRow key={query.inquireId}>
+                <TableCell>{query.userId}</TableCell>
+                <TableCell>{query.title}</TableCell>
+                <TableCell>
+                  {query.content.length > 40
+                    ? query.content.slice(0, 40) + "..."
+                    : query.content}
+                </TableCell>
+                {/* <TableCell>
+                  <ActionButton onClick={() => detailViewClick(query)}>
+                    상세조회
+                  </ActionButton>
+                </TableCell> */}
+                <TableCell>
+                  <DeleteButton onClick={() => onDeleteClick(query.inquireId)}>
+                    삭제
+                  </DeleteButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+        <PaginationWrapper>
+          <ReactPaginate
+            previousLabel={"이전"}
+            nextLabel={"다음"}
+            breakLabel={"..."}
+            pageCount={queryData.totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            activeClassName="active"
+          />
+        </PaginationWrapper>
+      </Container>
+    </Root>
   );
 };
 
-const Box = styled.div`
-  width: 75vw;
-  height: auto;
-  border: 0.2vw solid black;
+const Root = styled.div`
+  padding-top: 20vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  height: 100vh;
+`;
+
+const Container = styled.div`
+  width: 80%;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
   font-weight: bold;
-  background-color: transparent;
-  background-color: rgba(197, 181, 247, 0.4);
-  border-top: none;
-  overflow-x: auto;
 `;
-const PageContainer = styled.div`
-  align-items: center;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+`;
+
+const TableHeader = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-align: left;
+`;
+
+const TableRow = styled.tr`
+  background-color: white;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+`;
+
+const DeleteButton = styled(Button)`
+`;
+
+const PaginationWrapper = styled.div`
+  margin-top: 30px;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+  }
+
+  .pagination li {
+    margin: 0 5px;
+  }
+
+  .pagination a {
+    text-decoration: none;
+    padding: 8px 12px;
+    color: #aa84c9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: white;
+    &:hover {
+    border-color: #aa84c9;
+    background-color: #f0f0f0;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+
+  }
+  }
+
+  .pagination .active a {
+    background-color:#aa84c9;
+    color: white;
+  }
 `;
+
 
 export default AdminQboard;
