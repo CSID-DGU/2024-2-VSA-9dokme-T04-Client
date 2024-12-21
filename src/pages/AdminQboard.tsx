@@ -136,7 +136,7 @@ const Title = styled.h1`
 `;
 
 const Table = styled.table`
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
   margin: 0 auto;
   font-size: 16px;

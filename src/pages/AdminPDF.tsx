@@ -1,92 +1,187 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import PDFAdd from "../components/PDFAdd";
-import PDFEdit from "../components/PDFEdit";
-import PDFDelete from "../components/PDFDelete";
+import React, { useState, useEffect } from "react";
+import API from "../api/axios";
+import { Input, Modal, Button } from "antd";
 import styled from "styled-components";
+import BookDetail from "../json/BookDetail.json";
+import EditPDFForm from "../components/EditPDFForm";
+import AddPDFForm from "../components/AddPDFFrom";
+import { BookDetailType } from "../json/BookDetailType";
 import AdminBanner from "../components/AdminBanner";
-import { BASE_URL } from "../env";
+
 const AdminPDF: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"add" | "edit" | "delete">("add");
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<BookDetailType[]>([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<BookDetailType | null>(null);
 
+  // Fetch book data
   // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/admin/books?search=""")
-  //     .then((response) => {
-  //       console.log("서버 응답:", response.data);
+  //   const fetchBooks = async () => {
+  //     try {
+  //       const response = await API.get("/admin/books");
   //       setBooks(response.data);
-  //     })
-  //     .catch((error) => console.error("데이터 로딩 중 오류 발생:", error));
+  //     } catch (error) {
+  //       console.error("Error fetching books:", error);
+  //     }
+  //   };
+  //   fetchBooks();
   // }, []);
-  useEffect(() => {
-    // 검색어를 포함한 API 호출
-    const defaultSearchTerm = ""; // 기본 검색어 설정
-    axios
-      .get(`${BASE_URL}/api/admin/books?search=${defaultSearchTerm}`)
-      .then((response) => {
-        console.log("서버 응답:", response.data);
-        setBooks(response.data);
-      })
-      .catch((error) => console.error("데이터 로딩 중 오류 발생:", error));
-  }, []);
 
-  const handleTabChange = (tab: "add" | "edit" | "delete") => {
-    setActiveTab(tab);
+  // Handle delete action
+  const handleDelete = async (bookId: number) => {
+    if (window.confirm("정말로 이 책을 삭제하시겠습니까?")) {
+      try {
+        await API.delete(`/admin/books/${bookId}`);
+        alert("책이 성공적으로 삭제되었습니다.");
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book.bookId !== bookId)
+        );
+      } catch (error) {
+        alert("책 삭제에 실패하였습니다.");
+        console.error("Error deleting book:", error);
+      }
+    }
+  };
+
+  // Open Add Modal
+  const handleOpenAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  // Open Edit Modal
+  const handleOpenEditModal = (book: BookDetailType) => {
+    setSelectedBook(book);
+    setIsEditModalOpen(true);
+  };
+
+  // Close modals
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedBook(null);
   };
 
   return (
-    <div className="w-screen h-[100vh] bg-customColor bg-opacity-20">
-      <AdminBanner />
-      <div className="text-center w-full h-[7vw] flex items-center justify-center font-bold text-[2vw]">
-        PDF 관리 페이지
-      </div>
-      <div className="tab-buttons flex justify-center items-center w-full">
-        <OptionTab
-          className={`tab-button ${activeTab === "add" ? "active" : ""}`}
-          onClick={() => handleTabChange("add")}
+    <Root>
+      <Container>
+        <AdminBanner />
+        <Title>PDF 관리 페이지</Title>
+
+        <ButtonContainer>
+          <AddButton onClick={handleOpenAddModal}>새로운 PDF 추가하기</AddButton>
+        </ButtonContainer>
+
+        <Table>
+          <thead>
+            <TableRow>
+              <TableHeader>책 제목</TableHeader>
+              <TableHeader>저자</TableHeader>
+              <TableHeader>수정</TableHeader>
+              <TableHeader>삭제</TableHeader>
+            </TableRow>
+          </thead>
+          <tbody>
+            {BookDetail.books.map((book) => (
+              <TableRow key={book.bookId}>
+                <TableCell>{book.bookTitle}</TableCell>
+                <TableCell>{book.author}</TableCell>
+                <TableCell>
+                  <button onClick={() => handleOpenEditModal(book)}>
+                    수정
+                  </button>
+                </TableCell>
+                <TableCell>
+                  <button onClick={() => handleDelete(book.bookId)}>
+                    삭제
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+
+        {/* Add Modal */}
+        <Modal
+          title='PDF 추가하기'
+          open={isAddModalOpen}
+          onCancel={handleCloseAddModal}
+          footer={null}
         >
-          PDF 추가
-        </OptionTab>
-        <OptionTab
-          className={`tab-button ${activeTab === "edit" ? "active" : ""}`}
-          onClick={() => handleTabChange("edit")}
+          <AddPDFForm onClose={handleCloseAddModal} />
+        </Modal>
+
+        {/* Edit Modal */}
+        <Modal
+          title='PDF 수정하기'
+          open={isEditModalOpen}
+          onCancel={handleCloseEditModal}
+          footer={null}
         >
-          PDF 수정
-        </OptionTab>
-        <OptionTab
-          className={`tab-button ${activeTab === "delete" ? "active" : ""}`}
-          onClick={() => handleTabChange("delete")}
-        >
-          PDF 삭제
-        </OptionTab>
-      </div>
-      <div className="text-center w-full flex items-center justify-center font-bold mt-[-0.1vw]">
-        {activeTab === "add" && <PDFAdd />}
-        {activeTab === "edit" && <PDFEdit />}
-        {activeTab === "delete" && <PDFDelete />}
-      </div>
-    </div>
+          {selectedBook && (
+            <EditPDFForm book={selectedBook} onClose={handleCloseEditModal} />
+          )}
+        </Modal>
+      </Container>
+    </Root>
   );
 };
 
-const OptionTab = styled.button`
-  width: 25vw;
-  height: 6vw;
-  border-radius: 1vw 1vw 0 0;
-  border: 1px solid black;
+const AddButton = styled(Button)`
+  right: 10%;
+  margin-bottom: 10px;
+`;
+
+const ButtonContainer = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const Root = styled.div`
+  padding-top: 20vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.7vw;
-  background-color: transparent;
-  cursor: pointer;
+  height: 100vh;
+`;
 
-  &.active {
-    background-color: rgba(197, 181, 247, 0.4);
-    border-bottom: none;
-  }
+const Container = styled.div`
+  width: 80%;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const Table = styled.table`
+  width: 80%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+`;
+
+const TableHeader = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-align: left;
+`;
+
+const TableRow = styled.tr`
+  background-color: white;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 `;
 
 export default AdminPDF;
