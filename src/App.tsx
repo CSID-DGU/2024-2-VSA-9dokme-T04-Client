@@ -11,6 +11,7 @@ import LoginLoading from "./pages/LoginLoading";
 import MyArticle from "./pages/MyArticle";
 import BookDetail from "./pages/BookDetail";
 import Subscribe from "./pages/subscribe";
+import SearchPDF from "./pages/SearchPDF";
 import { PRIMARY } from "./utils/colors.js";
 import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
@@ -36,6 +37,7 @@ function App() {
         <Route path="/myarticle/" element={<MyArticle />} />
         <Route path="/payment/" element={<Payment />} />
         <Route path="/subscribe/" element={<Subscribe />} />
+        <Route path="/searchpdf" element={<SearchPDF />} />
       </Routes>
     </>
   );

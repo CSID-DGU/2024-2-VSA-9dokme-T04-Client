@@ -101,8 +101,8 @@ const MyPage = () => {
     }
   };
 
-  const goToPayment = () => {
-    navigate("https://www.9dokme.p-e.kr/payments");
+  const goToBarcodeSearch = () => {
+    navigate("/searchpdf");
   };
 
   return (
@@ -121,7 +121,9 @@ const MyPage = () => {
           입니다.
         </p>
 
-        <SubscribeBtn onClick={goToPayment}>구독 연장하기</SubscribeBtn>
+        <SubscribeBtn onClick={goToBarcodeSearch}>
+          𝄂𝄀𝄁𝄃𝄂 바코드 교재인식 𝄃𝄂𝄂𝄀𝄁
+        </SubscribeBtn>
         <div className="flex justify-center">
           <BgContainer>
             {loading ? (
