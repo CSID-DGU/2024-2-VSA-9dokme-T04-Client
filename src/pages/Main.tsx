@@ -102,6 +102,10 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
     handleSearchBtnClick();
   }, [category, page]);
 
+  const goToBarcodeSearch = () => {
+    navigate("/barcodefilming");
+  };
+
   return (
     <>
       <Root>
@@ -131,7 +135,16 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
             </div>
             <div className="flex justify-center">
               {filterBooks.length === 0 ? (
-                <NoneBook>검색 결과가 없습니다.</NoneBook>
+                <NoneBook>
+                  텅!💨💨 등록된 교재가 없습니다.
+                  <br />
+                  조회하려는 PDF 교재의 실물 바코드를 통해 <br />
+                  9DOKME 서비스 등록 요청을 보내보세요!
+                  <br />
+                  <SubscribeBtn onClick={goToBarcodeSearch}>
+                    𝄂𝄀𝄁𝄃𝄂 바코드 교재인식 𝄃𝄂𝄂𝄀𝄁
+                  </SubscribeBtn>
+                </NoneBook>
               ) : (
                 <BooksContainer>
                   <div className="grid grid-cols-4 gap-10 m-4">
@@ -174,6 +187,7 @@ const Container = styled.div`
 `;
 
 const NoneBook = styled.div`
+  text-align: center;
   width: 100%;
   margin: 10vw 0;
 `;
@@ -228,4 +242,34 @@ const SearchButton = styled(Button)`
   }
 `;
 
+const SubscribeBtn = styled.button`
+  background: linear-gradient(
+    90deg,
+    #ffe3e4 0%,
+    #ffabb5 22%,
+    #ffa6b3 45%,
+    #ff8f91 55%,
+    #f5666f 79%,
+    #ff3f43 100%
+  );
+  color: white;
+  border: none;
+  padding: 0.8vw 5vw;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  font-size: 1.2vw;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  width: 35vw;
+  height: 5vw;
+  font-size: 1.6vw;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 export default Main;

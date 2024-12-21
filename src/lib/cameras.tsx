@@ -18,7 +18,7 @@ const Camera: React.FC = () => {
   const [url, setUrl] = useState<string | null>(null);
   const webcamRef = useRef<Webcam | null>(null);
   /* 이미 등록된 url인지 아닌지 판별*/
-  const [isExisted, setisExisted] = useState<boolean>(false);
+  const [isExisted, setisExisted] = useState<boolean>(true);
 
   const handleOpenModal = () => setIsModalOpen(true);
 
