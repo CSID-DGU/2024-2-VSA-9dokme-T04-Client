@@ -1,0 +1,24 @@
+.xbutton {
+  display: flex;
+  justify-content: right;
+}
+#xbutton {
+  width: 3vw;
+  border-radius: 1vw;
+  padding: 2vw;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 7vw 0vw 0vw 0vw;
+  text-align: center;
+}
+.full_container {
+  max-width: 420px;
+  position: relative;
+  margin: 0 auto;
+  overflow-x: hidden;
+}

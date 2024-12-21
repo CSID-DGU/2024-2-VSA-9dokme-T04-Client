@@ -33,6 +33,7 @@
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.3.1",
     "react-iamport": "^0.0.2",
+    "react-modal": "^3.16.3",
     "react-paginate": "^8.2.0",
     "react-pdf": "^9.1.0",
     "react-query": "^3.39.3",
@@ -74,7 +75,7 @@
   "devDependencies": {
     "@types/antd": "^1.0.0",
     "@types/node": "^22.1.0",
-    "@types/react-webcam": "^3.0.0",
+    "@types/react-modal": "^3.16.3",
     "@types/resolve": "^1.20.6",
     "@types/send": "^0.17.4",
     "@types/serve-static": "^1.15.7",

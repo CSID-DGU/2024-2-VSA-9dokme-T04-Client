@@ -17,6 +17,7 @@ import { BrowserView, MobileView, isMobile } from "react-device-detect";
 import Payment from "./pages/Payment";
 import WritingForm from "./components/WritingForm";
 import AdminPaymentList from "./pages/AdminPaymentList";
+import BarcodeFilming from "./pages/barcodeFilming";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
         <Route path="/myarticle/" element={<MyArticle />} />
         <Route path="/payment/" element={<Payment />} />
         <Route path="/subscribe/" element={<Subscribe />} />
-        <Route path="/searchpdf" element={<SearchPDF />} />
+        <Route path="/barcodefilming" element={<BarcodeFilming />} />
       </Routes>
     </>
   );
