@@ -1,0 +1,109 @@
+[
+  {
+    "questionId": 1,
+    "bookId": 101,
+    "title": "Chapter 12의 알고리즘 효율성 관련 질문",
+    "content": "Chapter 12에서 설명된 알고리즘 효율성 분석에서 시간 복잡도가 O(n^2)인 경우, 실제로 최적화 가능한 방법이 무엇인지 궁금합니다.",
+    "commentCount": 3,
+    "chapter": 12,
+    "page": 12,
+    "createdAt": "2024-12-20T14:30:00",
+    "nickName": "sg.baek",
+    "commentList": [
+      {
+        "commentId": 101,
+        "content": "Divide and Conquer 방법을 적용해보면 최적화가 가능할 수 있습니다.",
+        "nickName": "helper_101",
+        "createdAt": "2024-12-20T15:00:00"
+      },
+      {
+        "commentId": 102,
+        "content": "해당 알고리즘을 Dynamic Programming으로 변경해보세요.",
+        "nickName": "browser_fix",
+        "createdAt": "2024-12-20T15:10:00"
+      }
+    ]
+  },
+  {
+    "questionId": 2,
+    "bookId": 102,
+    "title": "Chapter 5의 시장 구조 관련 개념 질문",
+    "content": "Chapter 5에서 언급된 독점 시장 구조의 특성과 사례를 좀 더 구체적으로 알고 싶습니다. 관련 참고 자료가 있을까요?",
+    "commentCount": 5,
+    "chapter": 5,
+    "page": 45,
+    "createdAt": "2024-12-18T11:00:00",
+    "nickName": "sg.baek",
+    "commentList": [
+      {
+        "commentId": 201,
+        "content": "독점 시장 구조의 대표적 사례로 구글과 같은 기술 기업을 참고하세요.",
+        "nickName": "server_issue_report",
+        "createdAt": "2024-12-18T11:30:00"
+      }
+    ]
+  },
+  {
+    "questionId": 3,
+    "bookId": 103,
+    "title": "3장의 수요와 공급 이론 질문",
+    "content": "수요와 공급 곡선의 교차점에서 발생하는 균형 가격이 현실에서 항상 일치하는지 궁금합니다.",
+    "commentCount": 2,
+    "chapter": 3,
+    "page": 78,
+    "createdAt": "2024-12-17T09:45:00",
+    "nickName": "sg.baek",
+    "commentList": [
+      {
+        "commentId": 301,
+        "content": "실제 시장에서는 다양한 외부 요인으로 인해 균형 가격이 변동할 수 있습니다.",
+        "nickName": "book_update_fan",
+        "createdAt": "2024-12-17T10:00:00"
+      }
+    ]
+  },
+  {
+    "questionId": 4,
+    "bookId": 104,
+    "title": "Chapter 7의 DNA 복제 과정 질문",
+    "content": "Chapter 7에서 설명된 DNA 복제 과정에서 상보적 염기쌍의 오류율은 어떻게 계산되는지 알고 싶습니다.",
+    "commentCount": 1,
+    "chapter": 7,
+    "page": 5,
+    "createdAt": "2024-12-16T08:00:00",
+    "nickName": "sg.baek",
+    "commentList": [
+      {
+        "commentId": 401,
+        "content": "오류율은 일반적으로 특정 실험 데이터로 추정됩니다. 논문 검색을 추천합니다.",
+        "nickName": "policy_helper",
+        "createdAt": "2024-12-16T08:30:00"
+      }
+    ]
+  },
+  {
+    "questionId": 5,
+    "bookId": 105,
+    "title": "5장의 심리학 이론과 인간 행동 질문",
+    "content": "5장에서 언급된 인간 행동의 결정 요인으로 작용하는 심리학 이론 중 가장 널리 쓰이는 이론은 무엇인가요?",
+    "commentCount": 4,
+    "chapter": 5,
+    "page": 9,
+    "createdAt": "2024-12-15T20:00:00",
+    "nickName": "sg.baek",
+    "commentList": [
+      {
+        "commentId": 501,
+        "content": "행동주의 심리학에서 스키너의 강화 이론이 많이 사용됩니다.",
+        "nickName": "reset_password",
+        "createdAt": "2024-12-15T20:15:00"
+      },
+      {
+        "commentId": 502,
+        "content": "인지 행동 심리학도 인간 행동을 이해하는 데 유용합니다.",
+        "nickName": "cookie_clearer",
+        "createdAt": "2024-12-15T20:20:00"
+      }
+    ]
+  }
+]

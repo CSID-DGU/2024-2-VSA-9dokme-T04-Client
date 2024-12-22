@@ -13,7 +13,7 @@
     },
     {
       "questionId": 2,
-      "title": "이거 오타인가요?",
+      "title": "이거 오타인가요? Discete라고 써져있던데 이거 Discrete event  system 맞을까요?",
       "content": "질문 2번입니다.",
       "chapter": "ch6",
       "page": 32,
@@ -22,7 +22,7 @@
     },
     {
       "questionId": 3,
-      "title": "질문이 있습니다",
+      "title": "질문이 있습니다. Event List가 뭔가요?",
       "content": "질문 3번입니다. 질문 3번입니다. 질문 3번입니다.",
       "chapter": "ch5",
       "page": 77,
@@ -31,7 +31,7 @@
     },
     {
       "questionId": 4,
-      "title": "다들 어떻게 생각하시나요",
+      "title": "유전생명공학과 시스템 모델링은 어떤 연관성이 있나요? 유전생명공학분야에서의 시스템 모델링 실응용 사례가 궁금합니다.",
       "content": "질문 4번입니다.",
       "chapter": "ch6",
       "page": 9,
@@ -40,8 +40,8 @@
     },
     {
       "questionId": 5,
-      "title": "꽤 재밌네요",
-      "content": "질문 5번입니다.",
+      "title": "",
+      "content": "전공공부하는데 너무 어렵네요..ㅜㅜ 도움주실분~~",
       "chapter": "ch2",
       "page": 21,
       "commentCount": 3,

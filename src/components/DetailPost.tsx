@@ -93,7 +93,7 @@ const DetailPost: React.FC<Props> = ({
             작성자: {questionDetail.nickName || "익명"}
           </p>
           <br />
-          <p className=" text-[1vw] ">{questionDetail.question.content}</p>
+          <p className=" text-[0.5vw] ">{questionDetail.question.content}</p>
           <hr className="mt-[1vw] mb-[0.5vw] border-slate-400" />
           {questionDetail.commentList.length > 0 ? (
             questionDetail.commentList.map((comment) => (
