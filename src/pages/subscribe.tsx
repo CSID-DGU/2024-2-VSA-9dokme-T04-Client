@@ -1,6 +1,9 @@
 import React from "react";
 
 const Subscribe = () => {
+  const goToPayment = () => {
+    window.location.href = "/payment";
+  };
   return (
     <div className="flex flex-col justify-center items-center px-10 min-h-screen">
       <h1 className="text-3xl font-bold mb-8">9DOKME 서비스 구독 플랜</h1>
@@ -25,7 +28,7 @@ const Subscribe = () => {
         <tbody>
           <tr className="bg-gray-50">
             <td className="border border-gray-300 p-4 font-medium">Standard</td>
-            <td className="border border-gray-300 p-4">월구독 9,999원</td>
+            <td className="border border-gray-300 p-4">월구독 9,900원</td>
             <td className="border border-gray-300 p-4 text-left">
               <ul className="list-disc list-inside">
                 <li>모든 교재 PDF 열람 가능</li>
@@ -35,7 +38,7 @@ const Subscribe = () => {
           </tr>
           <tr className="bg-gray-50">
             <td className="border border-gray-300 p-4 font-medium">Premium</td>
-            <td className="border border-gray-300 p-4">월구독 12,999원</td>
+            <td className="border border-gray-300 p-4">월구독 12,900원</td>
             <td className="border border-gray-300 p-4 text-left">
               <ul className="list-disc list-inside">
                 <li>모든 교재 PDF 열람 가능</li>
@@ -47,10 +50,16 @@ const Subscribe = () => {
         </tbody>
       </table>
       <div className="flex gap-6 mt-20">
-        <button className="w-[25vw] h-[4vw] px-6 py-3 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 to-blue-500 to-90% text-white text-[1.3vw] rounded-lg shadow-sm hover:shadow hover:scale-105 transition transform shadow-lg">
+        <button
+          className="w-[25vw] h-[4vw] px-6 py-3 bg-gradient-to-r from-indigo-500 from-10% via-sky-500 to-blue-500 to-90% text-white text-[1.3vw] rounded-lg shadow-sm hover:shadow hover:scale-105 transition transform shadow-lg"
+          onClick={goToPayment}
+        >
           Standard 플랜 구독하기
         </button>
-        <button className="w-[25vw] h-[4vw] px-6 py-3 text-white text-[1.3vw] rounded-lg bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 hover:scale-105 transition transform shadow-lg">
+        <button
+          className="w-[25vw] h-[4vw] px-6 py-3 text-white text-[1.3vw] rounded-lg bg-gradient-to-r from-red-500 via-purple-500 to-pink-500 hover:scale-105 transition transform shadow-lg"
+          onClick={goToPayment}
+        >
           Premium 플랜 구독하기
         </button>
       </div>

@@ -8,7 +8,7 @@ import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
 import API from "../api/axios";
-import booksData from "../json/books.json";
+import booksData from "../json/mybooks.json";
 
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";

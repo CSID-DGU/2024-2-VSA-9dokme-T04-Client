@@ -1,0 +1,38 @@
+{
+  "bookData": [
+    {
+      "bookId": 1,
+      "title": "Modeling and Simulation of Discrete event systems",
+      "category": "공학",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book1.png",
+      "isMarked": true
+    },
+
+    {
+      "bookId": 4,
+      "title": "예술방법론",
+      "category": "예술",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book4.png",
+      "isMarked": true
+    },
+    {
+      "bookId": 5,
+      "title": "인간과 사회",
+      "category": "인문/사회",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book5.png",
+      "isMarked": true
+    },
+
+    {
+      "bookId": 7,
+      "title": "경영학원론",
+      "category": "경영/경제",
+      "bookImage": "example1.pdf",
+      "bookUrl": "book7.png",
+      "isMarked": true
+    }
+  ]
+}
