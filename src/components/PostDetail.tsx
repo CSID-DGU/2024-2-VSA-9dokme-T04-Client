@@ -62,7 +62,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
     if (questionId) {
       fetchQuestionDetail();
     }
-  }, [questionId]);
+  }, [questionId, comments]);
 
   if (!postDetail) {
     return <div>Loading...</div>;
@@ -91,14 +91,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
         if (response.status === 200) {
           alert("댓글이 성공적으로 등록되었습니다.");
           console.log("response.data: ", response.data);
-          const newComment: Comment = {
-            commentId: response.data.commentId,
-            content: comment,
-            nickName: "나의 작성댓글",
-            createdAt: new Date().toISOString(),
-            isAiGenerated: false,
-          };
-          setComments((prevComments) => [...prevComments, newComment]);
           setComment("");
         }
       } catch (error) {

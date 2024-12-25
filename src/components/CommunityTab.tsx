@@ -53,12 +53,9 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
     }
   };
 
-  // useEffect(() => {
-  //   setFilterPost(communityposts.questionList);
-  // }, []);
   useEffect(() => {
     fetchCommunityData();
-  }, [bookId]);
+  }, [bookId, filterPost]);
 
   const handlePostClick = (questionId: number) => {
     setSelectedPost(questionId);
@@ -101,7 +98,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
   );
   const handlePostCreated = (newPost: Post) => {
     // 새 게시글을 기존 상태 앞에 추가
-    setFilterPost((prevPosts) => [newPost, ...prevPosts]);
+    setFilterPost((prevPosts) => [...prevPosts, newPost]);
     setCreatePostBtn(false); // 글 작성 화면 닫기
   };
 
@@ -122,7 +119,6 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
             onBack={handleBackFromWriting}
             bookId={bookId}
             userEmail="example@gmail.com"
-            onPostCreated={handlePostCreated} // callback
           />
         ) : selectedPost ? (
           <PostDetail questionId={selectedPost} onBack={handleBackFromDetail} />

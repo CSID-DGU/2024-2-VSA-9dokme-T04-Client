@@ -17,15 +17,9 @@ interface Props {
   onBack: () => void;
   bookId: number;
   userEmail: string;
-  onPostCreated: (newPost: Post) => void;
 }
 
-const CreatePost: React.FC<Props> = ({
-  onBack,
-  bookId,
-  userEmail,
-  onPostCreated,
-}) => {
+const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
   const [title, setTitle] = useState<string>("");
   const [chapter, setChapter] = useState<string>("");
   const [page, setPage] = useState<string>("");
@@ -56,15 +50,6 @@ const CreatePost: React.FC<Props> = ({
       );
 
       if (response.status === 200) {
-        const newPost: Post = {
-          questionId: response.data.questionId, // 서버가 반환한 고유 ID
-          title,
-          content,
-          commentCount: 0,
-          chapter,
-          createdAt: new Date().toISOString(),
-        };
-        onPostCreated(newPost); // 부모로 새 게시글 데이터 전달
         alert("질문이 성공적으로 등록되었습니다.");
         onBack();
       }
