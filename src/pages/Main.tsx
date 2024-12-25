@@ -71,7 +71,7 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
 
   const handleSearchBtnClick = async () => {
     const token = localStorage.getItem("token");
-    console.log("token");
+    console.log("token: ", token);
     try {
       const response = await axios.get(`${BASE_URL}/api/mainpage/search`, {
         params: {

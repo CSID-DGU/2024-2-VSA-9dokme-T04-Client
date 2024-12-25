@@ -234,7 +234,7 @@ const ChapterDropdown = styled(Dropdown)`
 const BannerWrapper = styled.div`
   display: flex;
   position: fixed;
-  top: 2vw;
+  top: 6vw;
   right: 2vw;
 `;
 

@@ -7,7 +7,8 @@ import bg from "../images/bg.png";
 import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
-import API from "../api/axios";
+import { BASE_URL } from "../env";
+
 // import booksData from "../json/mybooks.json";
 
 import book1 from "../images/books/book1.png";
@@ -64,14 +65,14 @@ const MyPage = () => {
         const memberId = localStorage.getItem("memberId");
 
         if (memberId) {
-          const response = await API.get(`/api/mypage`, {
-            params: { userId: memberId },
+          const response = await axios.get(`${BASE_URL}/api/mypage`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
 
           const { profileDto, bookList } = response.data;
+          console.log("response.data: ", response.data);
           setBooks(bookList.content);
           setExpiredAt(profileDto.expirationDate);
           console.log("Profile Data:", profileDto);
@@ -90,9 +91,14 @@ const MyPage = () => {
   }, []);
 
   const handleLogout = async (): Promise<void> => {
+    const token = localStorage.getItem("token");
     try {
       // API 호출
-      const response = await API.get("/api/logout");
+      const response = await axios.get(`${BASE_URL}/api/user/logout`, {
+        headers: {
+          Autorization: `Bearer ${token}`,
+        },
+      });
       navigate("/");
 
       // 응답 로깅
