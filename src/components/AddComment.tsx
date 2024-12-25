@@ -14,17 +14,20 @@ const AddComment: React.FC<Props> = ({ onBackFn, questionId }) => {
   const memberId = localStorage.getItem("memberId");
 
   const handleSubmit = async () => {
+    const token = localStorage.getItem("token");
+    console.log("questionId: ", questionId);
     try {
       const payload = {
         content: content,
       };
 
       const response = await API.post(
-        `${BASE_URL}/api/community/comment/${questionId}?memberId=${memberId}`,
+        `${BASE_URL}/api/community/comment/${questionId}`,
         payload,
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

@@ -161,7 +161,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
                         alignItems: "center",
                       }}
                     >
-                      <ChapterTag>{post.chapter}</ChapterTag>
+                      <ChapterTag>chapter {post.chapter}</ChapterTag>
                       <PostContent>{post.createdAt}</PostContent>
                     </div>
                     <div
