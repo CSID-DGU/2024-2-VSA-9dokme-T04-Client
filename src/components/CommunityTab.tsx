@@ -99,6 +99,11 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
       }}
     />
   );
+  const handlePostCreated = (newPost: Post) => {
+    // 새 게시글을 기존 상태 앞에 추가
+    setFilterPost((prevPosts) => [newPost, ...prevPosts]);
+    setCreatePostBtn(false); // 글 작성 화면 닫기
+  };
 
   return (
     <div>
@@ -117,6 +122,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
             onBack={handleBackFromWriting}
             bookId={bookId}
             userEmail="example@gmail.com"
+            onPostCreated={handlePostCreated} // callback
           />
         ) : selectedPost ? (
           <PostDetail questionId={selectedPost} onBack={handleBackFromDetail} />
