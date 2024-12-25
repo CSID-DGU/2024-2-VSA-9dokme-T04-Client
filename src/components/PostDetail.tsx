@@ -91,13 +91,12 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
         if (response.status === 200) {
           alert("댓글이 성공적으로 등록되었습니다.");
           console.log("response.data: ", response.data);
-
-          // 새로 등록된 댓글을 추가
           const newComment: Comment = {
             commentId: response.data.commentId,
-            content: response.data.content,
-            nickName: "나의 작성 댓글",
+            content: comment,
+            nickName: "나의 작성댓글",
             createdAt: new Date().toISOString(),
+            isAiGenerated: false,
           };
           setComments((prevComments) => [...prevComments, newComment]);
           setComment("");
