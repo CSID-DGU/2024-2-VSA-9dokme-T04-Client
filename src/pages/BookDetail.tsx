@@ -67,15 +67,19 @@ const BookDetail = () => {
   const handleBookmarkBtn = async () => {
     try {
       console.log(bookId);
-
-      await axios.post(`${BASE_URL}/api/bookmark?BookId=${bookId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+  
+      await axios.post(
+        `${BASE_URL}/api/bookmark?BookId=${bookId}`, 
+        {}, // POST 요청에서 데이터가 없으므로 빈 객체 전달
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
       message.success("북마크에 추가되었습니다!");
-
+  
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -96,18 +100,20 @@ const BookDetail = () => {
           },
         }
       );
-
+  
       if (response.status === 200) {
         message.success("북마크가 취소되었습니다 :)");
-
+  
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       }
     } catch (error) {
+      console.error("Error deleting the bookmark:", error);
       message.error("오류가 발생했습니다.");
     }
   };
+  
 
   if (!book) return <p>Loading...</p>;
   //const bookImage: any = require("../images/books/book1.png");
