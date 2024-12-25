@@ -2,8 +2,8 @@
   "PostDetail": [
     {
       "questionId": 1,
-      "title": "ch1 12페이지 질문 있습니다.",
-      "content": "12p에서 5번째줄 내용이 잘 이해가 안갑니다. 설명해주실 분 계신가요? 감사합니다.",
+      "title": "해당 책 실습 문제 해결하다가, 이벤트 스케줄링 방식 구현하는데 어려움을 겪고 있는데, Event List를 효율적으로 관리하려면 어떻게 하는게 좋을까요?",
+      "content": "",
       "commentCount": 2,
       "chapter": "ch1",
       "createdAt": "2024-08-16",
@@ -11,21 +11,21 @@
       "commentList": [
         {
           "commentId": 1,
-          "comment": "질문 1에 대한 댓글 1입니다.",
-          "nickName": "유재석",
+          "comment": "저도 궁금해요 ㅜㅜ",
+          "nickName": "노홍철",
           "createdAt": "2024-01-22"
         },
         {
           "commentId": 2,
-          "comment": "질문 1에대한 댓글 2입니다.",
-          "nickName": "유재석",
+          "comment": "제생각엔 우선순위 큐를 써보시면 어떨까 싶은데...",
+          "nickName": "박명수",
           "createdAt": "2024-01-22"
         }
       ]
     },
     {
       "questionId": 2,
-      "title": "이거 오타인가요?",
+      "title": "이거 오타인가요? Discete라고 써져있던데 이거 Discrete event  system 맞을까요?",
       "content": "질문 2번입니다.",
       "commentCount": 1,
       "chapter": "ch2",
@@ -35,7 +35,7 @@
       "commentList": [
         {
           "commentId": 1,
-          "comment": "이건 조금 쉬운 문제인거 같네요",
+          "comment": "시스템 모델링 아키텍트가 되려면 어떤 자질을 갖춰야 할까요? ",
           "nickName": "유재석",
           "createdAt": "2024-01-22"
         }
@@ -43,7 +43,7 @@
     },
     {
       "questionId": 3,
-      "title": "질문이 있습니다",
+      "title": "질문이 있습니다. Event List가 뭔가요?",
       "content": "질문 3번입니다. 질문 3번입니다. 질문 3번입니다.",
       "commentCount": 0,
       "chapter": "ch3",

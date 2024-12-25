@@ -6,6 +6,7 @@ import MyPostDetail from "../components/MyPosttDetail"; // MyPostDetail 컴포�
 import Sidebanner from "../components/Sidebanner";
 import axios from "axios";
 import { BASE_URL } from "../env";
+import MyAskedPosts from "../json/myAskPosts.json";
 
 interface Inquire {
   questionId: number;
@@ -61,6 +62,11 @@ const MyArticle: React.FC = () => {
       console.error("Failed to fetch posts", error);
     }
   };
+
+  //목데이터용
+  useEffect(() => {
+    setFilteredPosts(MyAskedPosts);
+  }, []);
 
   useEffect(() => {
     handleSearchBtnClick();

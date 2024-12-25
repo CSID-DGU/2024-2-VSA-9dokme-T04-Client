@@ -44,7 +44,9 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterBooks, setFilterBooks] = useState<Book[]>([]);
   const [page, setPage] = useState<number>(0);
-  const [memberId] = useState<number>(1);
+  //const [memberId] = useState<number>(1);
+  const memberId = localStorage.getItem("memberId");
+  console.log("member_id: ", memberId);
 
   const handleHashBtnClick = (newCategory: string) => {
     setCategory(newCategory);
@@ -56,21 +58,19 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
     setSearchQuery(event.target.value);
   };
 
-  useEffect(() => {
-    if (category === "전체보기") {
-      setFilterBooks(books.bookData);
-    } else {
-      setFilterBooks(
-        books.bookData.filter((book) => book.category === category)
-      );
-    }
-    console.log("Updated filterBooks: ", filterBooks);
-  }, [category]);
+  // useEffect(() => {
+  //   if (category === "전체보기") {
+  //     setFilterBooks(books.bookData);
+  //   } else {
+  //     setFilterBooks(
+  //       books.bookData.filter((book) => book.category === category)
+  //     );
+  //   }
+  //   console.log("Updated filterBooks: ", filterBooks);
+  // }, [category]);
 
   const handleSearchBtnClick = async () => {
-    /*
     try {
-      
       const response = await axios.get(`${BASE_URL}/api/mainpage/search`, {
         params: {
           title: searchQuery,
@@ -79,16 +79,15 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
         },
       });
       const { content } = response.data;
-     \
-    
-      const content = books.bookData;
+
+      //const content = books.bookData;
       console.log("Fetched content: ", content);
- 
+
       setFilterBooks(content);
     } catch (error) {
       console.error("Failed to fetch books", error);
     }
-     */
+
     if (searchQuery) {
       setFilterBooks((prevBooks) =>
         prevBooks.filter((book) =>

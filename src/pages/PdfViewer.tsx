@@ -27,10 +27,10 @@
 //   const [page, setPage] = useState<number>(() =>
 //     parseInt(localStorage.getItem("lastPage") || "1")
 //   );
-// const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
-// const [numPages, setNumPages] = useState<number>(0);
-// const { bookId } = useParams<{ bookId: string }>();
-// const numericBookId = Number(bookId);
+//   const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
+//   const [numPages, setNumPages] = useState<number>(0);
+//   const { bookId } = useParams<{ bookId: string }>();
+//   const numericBookId = Number(bookId);
 
 //   const location = useLocation();
 //   const { book }: { book?: Book } = location.state || {};

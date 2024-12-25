@@ -11,9 +11,7 @@ const LoginLoading = () => {
     const kakaoLogin = async () => {
       try {
         console.log("Authorization code:", code); // 인가 code 출력
-        const res = await axios.get(
-          `${BASE_URL}/api/oauth?code=${code}`
-        );
+        const res = await axios.get(`${BASE_URL}/api/oauth?code=${code}`);
 
         console.log(res.data);
         // 로그인 시 message 추출
@@ -22,7 +20,8 @@ const LoginLoading = () => {
         //message에서 닉네임, 이메일, 멤버아이디 추출
         const nicknameMatch = message.match(/nickname=([^,]*)/);
         const emailMatch = message.match(/email=([^,]*)/);
-        const memberIdMatch = message.match(/memberId=([^}]*)/);
+        // const memberIdMatch = message.match(/memberId=([^}]*)/);
+        const memberIdMatch = message.match(/memberId=(\d+)/);
         const tokenMatch = message.match(/token=([^}]*)/);
 
         // 추출한 값을 localStorage에 저장

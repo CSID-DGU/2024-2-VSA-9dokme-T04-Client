@@ -241,7 +241,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
       const aiReply: Comment = {
         commentId: comments.length + 1,
         comment:
-          "12p에서 5번째줄 내용이 무엇인지 더 자세하게 기술해주시면 상세하게 답변을 드리겠습니다. 저의 답변이 도움이 되었길 바랍니다!",
+          "이벤트 처리시에는 시간별로 처리 순서르 정확히 유지하는 것이 중요하므로, 같은 시간대의 이벤트 처리 정책을 미리 정의해두시는게 좋습니다. Priority Queue를 사용하면 삽입과 추출 모두 평균 O(log N)의 시간 복잡도를 가지므로, 성능이 중요한 시뮬레이션에 적합합니다.",
         nickName: "AI Assistant",
         createdAt: new Date().toISOString(),
         isAiGenerated: true,
@@ -319,7 +319,7 @@ const BackButton = styled.button`
 `;
 
 const Title = styled.h1`
-  font-size: 1.6rem;
+  font-size: 1.2vw;
   margin-bottom: 10px;
 `;
 
