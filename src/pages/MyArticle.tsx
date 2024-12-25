@@ -1,12 +1,9 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
-import MyPostDetail from "../components/MyPosttDetail"; // MyPostDetail 컴포넌트 임포트
-import Sidebanner from "../components/Sidebanner";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // useNavigate 사용
 import { BASE_URL } from "../env";
-import MyAskedPosts from "../json/myAskPosts.json";
+import { Button } from "antd";
 
 interface Inquire {
   questionId: number;
@@ -29,131 +26,156 @@ interface InquireResponse {
 
 const MyArticle: React.FC = () => {
   const [page, setPage] = useState<number>(0);
-  const [selectedInquire, setSelectedInquire] = useState<Inquire | null>(null);
-  const [isDetailView, setIsDetailView] = useState<boolean>(false);
-  const [searchTitle, setSearchTitle] = useState<string>("");
-  const [filteredPosts, setFilteredPosts] = useState<Inquire[]>([]);
-  const [memberId] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [posts, setPosts] = useState<Inquire[]>([]);
+  const navigate = useNavigate();
 
-  const handlePostClick = (post: Inquire) => {
-    setSelectedInquire(post);
-    setIsDetailView(true);
-  };
-
-  const handleBack = () => {
-    setIsDetailView(false);
-  };
-
-  const handleSearchBtnClick = async () => {
-    const token = localStorage.getItem("token");
+  const fetchPosts = async () => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(`${BASE_URL}/api/myHistory`, {
-        params: {
-          page: page,
-          memberId: memberId,
-        },
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          page,
+        },
       });
 
-      const { content } = response.data;
-      const filtered = content.filter((post: Inquire) =>
-        post.title.toLowerCase().includes(searchTitle.toLowerCase())
-      );
-      setFilteredPosts(filtered);
+      const { content, totalPages } = response.data as InquireResponse;
+      setPosts(content);
+      setTotalPages(totalPages);
     } catch (error) {
       console.error("Failed to fetch posts", error);
     }
   };
 
-  //목데이터용
   useEffect(() => {
-    setFilteredPosts(MyAskedPosts);
-  }, []);
-
-  useEffect(() => {
-    handleSearchBtnClick();
+    fetchPosts();
   }, [page]);
 
+  const handleNavigate = (bookId: number) => {
+    navigate(`/view/${bookId}`);
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 0; i < totalPages; i++) {
+      pages.push(
+        <PaginationButton
+          key={i}
+          onClick={() => setPage(i)}
+          active={i === page}
+        >
+          {i + 1}
+        </PaginationButton>
+      );
+    }
+    return pages;
+  };
+
   return (
-    <div className="w-screen h-[150vh] bg-customColor bg-opacity-20 p-[2vw] relative">
-      <Sidebanner />
-      <div className="w-[80vw] mx-auto bg-white p-[2vw] rounded-lg shadow-lg">
-        {isDetailView && selectedInquire ? (
-          <MyPostDetail postDetail={selectedInquire} onBack={handleBack} />
-        ) : (
-          <>
-            <div className="text-center font-bold text-[1.5vw] mb-[1vw]">
-              나의 작성글
-            </div>
-            <div className="flex w-full mb-[2vw]">
-              <Input
-                className="flex-grow m-[0.5vw]"
-                placeholder="게시글 제목을 통해 검색해보세요."
-                value={searchTitle}
-                onChange={(e) => setSearchTitle(e.target.value)}
-              />
-              <Button
-                variant="outline"
-                className="border-[#C5B5F7] text-[1vw] hover:bg-[#C5B5F7] m-[0.5vw]"
-                onClick={handleSearchBtnClick}
-              >
-                검색
-              </Button>
-            </div>
-            <div className="h-full flex flex-col overflow-y-auto">
-              {filteredPosts.length > 0 ? (
-                filteredPosts.map((post) => (
-                  <CommunityBox
-                    key={post.questionId}
-                    title={post.title}
-                    content={post.content}
-                    commentsCount={post.commentCount}
-                    chapter={post.chapter}
-                    onClick={() => handlePostClick(post)}
-                  />
-                ))
-              ) : (
-                <p className="text-center text-gray-500">
-                  해당 제목의 작성글이 없습니다.
-                </p>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+    <Root>
+      <Container>
+        <Title>나의 작성글</Title>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>제목</TableHeader>
+              <TableHeader>내용</TableHeader>
+              <TableHeader>댓글 수</TableHeader>
+              <TableHeader>이동</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((post) => (
+              <TableRow key={post.questionId}>
+                <TableCell>{post.title}</TableCell>
+                <TableCell>
+                  {post.content.length > 40
+                    ? post.content.slice(0, 40) + "..."
+                    : post.content}
+                </TableCell>
+                <TableCell>{post.commentCount}</TableCell>
+                <TableCell>
+                  <MoveButton onClick={() => handleNavigate(post.bookId)}>
+                    이동
+                  </MoveButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+        <PaginationWrapper>{renderPagination()}</PaginationWrapper>
+      </Container>
+    </Root>
   );
 };
 
-const CommunityBox: React.FC<{
-  title: string;
-  content: string;
-  commentsCount: number;
-  chapter: number;
-  onClick: () => void;
-}> = ({ title, content, commentsCount, chapter, onClick }) => {
-  return (
-    <div
-      className="m-[1vw] bg-white shadow-lg rounded-lg p-4 border-solid border-[0.05vw] border-slate-300 mt-[1.5vw]"
-      onClick={onClick}
-    >
-      <h2 className="font-bold text-[1.2vw]">{title}</h2>
-      <hr className="mt-[0.5vw] mb-[0.5vw] border-slate-400" />
-      <p className="text-gray-400 text-[1vw]">
-        {content.length > 20 ? `${content.substring(0, 20)}...` : content}
-      </p>
-      <div className="flex justify-between items-center mt-4">
-        <span className="text-gray-500 text-[1vw]">댓글 {commentsCount}</span>
-        {chapter && (
-          <span className="text-[1vw] bg-customColor rounded px-[0.5vw]">
-            Chapter {chapter}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-};
+// Styled Components
+const Root = styled.div`
+  padding-top: 20vh;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const Container = styled.div`
+  width: 80%;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 16px;
+`;
+
+const TableHeader = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-align: left;
+`;
+
+const TableRow = styled.tr`
+    background-color: #f9f9f9;
+`;
+
+const TableCell = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+`;
+
+const MoveButton = styled(Button)`
+`;
+
+const PaginationWrapper = styled.div`
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+`;
+
+const PaginationButton = styled.button<{ active: boolean }>`
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: ${({ active }) => (active ? "#007bff" : "#f0f0f0")};
+  color: ${({ active }) => (active ? "white" : "black")};
+  border: 1px solid #ddd;
+  cursor: pointer;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
 
 export default MyArticle;
