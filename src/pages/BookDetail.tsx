@@ -6,30 +6,30 @@ import Sidebanner from "../components/Sidebanner";
 import { Divider, message } from "antd";
 import { PRIMARY } from "../utils/colors";
 import { BASE_URL } from "../env";
-import bookDetailData from "../json/BookDetail.json";
-import { BookDetailType } from "../json/BookDetailType";
-import book1 from "../images/books/book1.png";
-import book2 from "../images/books/book2.png";
-import book3 from "../images/books/book3.png";
-import book4 from "../images/books/book4.png";
-import book5 from "../images/books/book5.png";
-import book6 from "../images/books/book6.png";
-import book7 from "../images/books/book7.png";
+//import bookDetailData from "../json/BookDetail.json";
+import { BookDetailType, BookDetails } from "../json/BookDetailType";
+// import book1 from "../images/books/book1.png";
+// import book2 from "../images/books/book2.png";
+// import book3 from "../images/books/book3.png";
+// import book4 from "../images/books/book4.png";
+// import book5 from "../images/books/book5.png";
+// import book6 from "../images/books/book6.png";
+// import book7 from "../images/books/book7.png";
 const BookDetail = () => {
   const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
   const navigate = useNavigate();
   const { bookId } = useParams<{ bookId: string }>();
-  const [book, setBook] = useState<BookDetailType | null>(null);
+  const [book, setBook] = useState<BookDetails | null>(null);
   const [memberId] = useState<number>(1);
 
   const fetchBookDetail = async (bookId: string) => {
     try {
-      const response = await axios.get<BookDetailType>(
-        `${BASE_URL}/api/books`,
-        {
-          params: { id: bookId, memberId: memberId },
-        }
-      );
+      const response = await axios.get<BookDetails>(`${BASE_URL}/api/books`, {
+        params: { id: bookId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching book details:", error);
@@ -39,7 +39,6 @@ const BookDetail = () => {
   };
 
   /**API 호출 */
-  /*
   useEffect(() => {
     const fetchData = async () => {
       if (!bookId) return;
@@ -53,34 +52,30 @@ const BookDetail = () => {
 
     fetchData();
   }, [bookId]);
-  */
 
-  useEffect(() => {
-    if (bookId) {
-      console.log("bookId: ", bookId);
-      const mockBookData = bookDetailData.books.find(
-        (book) => book.bookId.toString() === bookId
-      );
-      setBook(mockBookData || null);
-    }
-  }, [bookId]);
+  // useEffect(() => {
+  //   if (bookId) {
+  //     console.log("bookId: ", bookId);
+  //     const mockBookData = bookData.books.find(
+  //       (book) => book.bookId.toString() === bookId
+  //     );
+  //     setBook(mockBookData || null);
+  //   }
+  // }, [bookId]);
 
   //북마크 추가: 헤더에 토큰 값 추가
   const handleBookmarkBtn = async () => {
     try {
       console.log(bookId);
-  
-      await axios.post(
-        `${BASE_URL}/api/bookmark?BookId=${bookId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
+
+      await axios.post(`${BASE_URL}/api/bookmark?BookId=${bookId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       message.success("북마크에 추가되었습니다!");
-  
+
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -89,7 +84,6 @@ const BookDetail = () => {
       message.error("이미 북마크에 등록되었습니다.");
     }
   };
-  
 
   //북마크 취소: 헤더에 토큰 값 추가
   const handleDeleteBookmark = async () => {
@@ -102,10 +96,10 @@ const BookDetail = () => {
           },
         }
       );
-  
+
       if (response.status === 200) {
         message.success("북마크가 취소되었습니다 :)");
-  
+
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -114,23 +108,19 @@ const BookDetail = () => {
       message.error("오류가 발생했습니다.");
     }
   };
-  
 
   if (!book) return <p>Loading...</p>;
-  const bookImage: any = require("../images/books/book1.png");
+  //const bookImage: any = require("../images/books/book1.png");
 
   return (
     <Root>
       <Sidebanner />
       <Container>
-        <BookImage
-          src={require(`../images/books/${book.bookImage}`)}
-          alt={`Cover of ${book.bookTitle}`}
-        />
+        <BookImage src={book.pdfImage} alt={`Cover of ${book.title}`} />
         <ContentContainer>
           <div>
-            <BookTypo>{book.bookTitle}</BookTypo>
-            <TagBtn>{book.bookCategory}</TagBtn>
+            <BookTypo>{book.title}</BookTypo>
+            <TagBtn>{book.category}</TagBtn>
             <ContentTypo>{book.description}</ContentTypo>
           </div>
           <Divider style={{ borderColor: "#cacaca" }} />
@@ -140,7 +130,7 @@ const BookDetail = () => {
             >
               PDF 보러가기
             </GradientButton>
-            {!book.isMarked ? (
+            {!book.marked ? (
               <GradientButton onClick={() => handleBookmarkBtn()}>
                 책갈피에 추가하기
               </GradientButton>
