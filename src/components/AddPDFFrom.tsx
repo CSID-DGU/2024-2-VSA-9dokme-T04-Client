@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
 import { Button, Input, Select } from "antd";
+import { BASE_URL } from "../env";
 
 interface AddPDFFormProps {
   onClose: () => void;
@@ -59,9 +60,14 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
     formData.append("rent", rent.toString());
 
     try {
-      const response = await API.post("/admin/books", formData, {
+      const token = localStorage.getItem("token");
+      console.log(formData);      
+      console.log("토큰:" + token);
+
+      const response = await API.post(`${BASE_URL}/api/admin/books`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+          // "Content-Type": "multipart/form-data",
         },
       });
       if (response.status === 200) {
@@ -169,7 +175,7 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
           </StyledSelect>
         </LineContainer>
         <SubmitButtonContainer>
-          <SubmitButton>PDF 등록하기</SubmitButton>
+          <SubmitButton onClick = {handleSubmit}>PDF 등록하기</SubmitButton>
         </SubmitButtonContainer>
       </FormContainer>
     </Root>
