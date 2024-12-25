@@ -174,8 +174,10 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import postDetailData from "../json/PostDetail.json";
+// import postDetailData from "../json/PostDetail.json";
 import { Button, Input } from "antd";
+import axios from "axios";
+import { BASE_URL } from "../env";
 
 interface Comment {
   commentId: number;
@@ -207,14 +209,40 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isGeneratingReply, setIsGeneratingReply] = useState(false);
 
-  useEffect(() => {
-    const foundPost = (
-      postDetailData as { PostDetail: PostDetailType[] }
-    ).PostDetail.find((post) => post.questionId === questionId);
+  // useEffect(() => {
+  //   const foundPost = (
+  //     postDetailData as { PostDetail: PostDetailType[] }
+  //   ).PostDetail.find((post) => post.questionId === questionId);
 
-    if (foundPost) {
-      setPostDetail(foundPost);
-      setComments(foundPost.commentList);
+  //   if (foundPost) {
+  //     setPostDetail(foundPost);
+  //     setComments(foundPost.commentList);
+  //   }
+  // }, [questionId]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const fetchQuestionDetail = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/api/questiondetail/${questionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          setPostDetail(response.data.question);
+          setComments(response.data.commentList);
+        }
+        console.log("questionDetail: ", response.data);
+      } catch (error) {
+        console.error("Error fetching question detail:", error);
+      }
+    };
+
+    if (questionId) {
+      fetchQuestionDetail();
     }
   }, [questionId]);
 
@@ -273,18 +301,27 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
       <Divider />
       <CommentsTitle>댓글 {comments.length}</CommentsTitle>
       <CommentsList>
-        {comments.map((comment) => (
-          <Comment key={comment.commentId}>
-            <div style={{ display: "flex", gap: "7px", marginBottom: "10px" }}>
-              <span>{comment.nickName}</span>
-              {comment.isAiGenerated && <AiTag>✨#AI 답변✨</AiTag>}
-              <CreatedAt>
-                {new Date(comment.createdAt!).toLocaleDateString("en-CA")}
-              </CreatedAt>
-            </div>
-            <p>{comment.comment}</p>
-          </Comment>
-        ))}
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <Comment key={comment.commentId}>
+              <div
+                style={{ display: "flex", gap: "7px", marginBottom: "10px" }}
+              >
+                <span>{comment.nickName}</span>
+                {comment.isAiGenerated && <AiTag>✨#AI 답변✨</AiTag>}
+                <CreatedAt>
+                  {new Date(comment.createdAt!).toLocaleDateString("en-CA")}
+                </CreatedAt>
+              </div>
+              <p>{comment.comment}</p>
+            </Comment>
+          ))
+        ) : (
+          <div className="h-[10vw] font-bold flex justify-center items-center text-[1vw]">
+            아직 작성된 댓글이 없습니다. <br />
+            첫번째로 댓글을 남겨보세요! 👇
+          </div>
+        )}
       </CommentsList>
       <CommentInputWrapper>
         <CommentInput
