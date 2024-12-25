@@ -9,6 +9,8 @@ import XIcon from "../images/xIcon.png";
 import CommentIcon from "../images/comment.png";
 import { Dropdown, Menu, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../env";
+import axios from "axios";
 
 interface Post {
   questionId: number;
@@ -31,9 +33,32 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
   const navigate = useNavigate(); // 페이지 이동 훅
 
+  const fetchCommunityData = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/questionlist/${bookId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setFilterPost(response.data.questionList);
+      console.log("filterPost: ", response.data.questionList);
+    } catch (error) {
+      console.error("Failed to fetch community data: ", error);
+    } finally {
+      console.log("end.");
+    }
+  };
+
+  // useEffect(() => {
+  //   setFilterPost(communityposts.questionList);
+  // }, []);
   useEffect(() => {
-    setFilterPost(communityposts.questionList);
-  }, []);
+    fetchCommunityData();
+  }, [bookId]);
 
   const handlePostClick = (questionId: number) => {
     setSelectedPost(questionId);
