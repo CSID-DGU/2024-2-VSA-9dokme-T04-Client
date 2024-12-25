@@ -8,7 +8,7 @@ import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
 import API from "../api/axios";
-import booksData from "../json/mybooks.json";
+//import booksData from "../json/mybooks.json";
 
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";
@@ -51,16 +51,17 @@ const MyPage = () => {
     navigate(`/bookdetail/${bookId}`);
   };
 
-  useEffect(() => {
-    setBooks(booksData.bookData);
-    console.log("books: ", books);
-    setLoading(false);
-  }, []);
-  /**
+  // useEffect(() => {
+  //   setBooks(booksData.bookData);
+  //   console.log("books: ", books);
+  //   setLoading(false);
+  // }, []);
+
   useEffect(() => {
     const fetchMypageData = async () => {
       try {
         const memberId = localStorage.getItem("memberId");
+        console.log("memberId: ", memberId);
 
         if (memberId) {
           const response = await API.get(`/api/mypage`, {
@@ -81,25 +82,9 @@ const MyPage = () => {
         setLoading(false);
       }
     };
-     
 
     fetchMypageData();
   }, []);
-   */
-
-  const handleLogout = async (): Promise<void> => {
-    try {
-      // API 호출
-      const response = await API.get("/api/logout");
-      navigate("/");
-
-      // 응답 로깅
-      console.log("Logout successful:", response.data);
-    } catch (error) {
-      // 오류 처리
-      console.error("Logout failed:", error);
-    }
-  };
 
   const goToBarcodeSearch = () => {
     navigate("/barcodefilming");
