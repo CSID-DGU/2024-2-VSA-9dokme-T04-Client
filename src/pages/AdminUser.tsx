@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import AdminBanner from "../components/AdminBanner";
 import Users from "../json/UserList.json";
-import { User, UserList } from "../json/UserList";
+import { User } from "../json/UserList";
 import { useState } from "react";
 import EditProfile from "../components/EditProfile";
 import API from "../api/axios";
@@ -9,12 +9,17 @@ import { Button } from "antd";
 
 const AdminUser = () => {
   const [openEditor, setOpenEditor] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const usersPerPage = 10;
+
   const onBack = () => {
     setOpenEditor(false);
   };
+
   const onEditClick = () => {
     setOpenEditor(true);
   };
+
   const onDeleteClick = async (userId: string) => {
     try {
       const response = await API.post(`/api/admin/member/delete/${userId}`);
@@ -28,6 +33,14 @@ const AdminUser = () => {
       alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
     }
   };
+
+  // Pagination logic
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = Users.userList.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <Root>
       <Container>
@@ -46,22 +59,16 @@ const AdminUser = () => {
             </tr>
           </thead>
           <tbody>
-            {Users.userList.map((user: User) => (
+            {currentUsers.map((user: User) => (
               <TableRow key={user.username}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.expirationDate}</TableCell>
                 <TableCell>
-                  <StyledButton
-                    onClick={onEditClick}
-                  >
-                    수정
-                  </StyledButton>
+                  <StyledButton onClick={onEditClick}>수정</StyledButton>
                 </TableCell>
                 <TableCell>
-                  <StyledButton
-                    onClick={() => onDeleteClick(String(user.userId))}
-                  >
+                  <StyledButton onClick={() => onDeleteClick(String(user.userId))}>
                     삭제
                   </StyledButton>
                 </TableCell>
@@ -69,23 +76,41 @@ const AdminUser = () => {
             ))}
           </tbody>
         </Table>
+
+        <Pagination>
+          {Array.from(
+            { length: Math.ceil(Users.userList.length / usersPerPage) },
+            (_, index) => (
+              <PaginationButton
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                active={currentPage === index + 1}
+              >
+                {index + 1}
+              </PaginationButton>
+            )
+          )}
+        </Pagination>
       </Container>
     </Root>
   );
 };
 
 const StyledButton = styled(Button)`
-  
-`
+  /* Add custom styles for buttons if needed */
+`;
+
 const Root = styled.div`
   padding-top: 20vh;
   display: flex;
   justify-content: center;
   height: 100vh;
 `;
+
 const Container = styled.div`
   width: 80%;
 `;
+
 const Title = styled.h1`
   text-align: center;
   margin-bottom: 20px;
@@ -118,18 +143,23 @@ const TableCell = styled.td`
   text-align: left;
 `;
 
-const Box = styled.div`
-  width: 75vw;
-  height: auto;
-  border: 0.2vw solid black;
+const Pagination = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  background-color: transparent;
-  background-color: rgba(197, 181, 247, 0.4);
-  border-top: none;
-  overflow-x: auto;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button<{ active: boolean }>`
+  background-color: ${(props) => (props.active ? "#aa84c9;" : "white")};
+  color: ${(props) => (props.active ? "white" : "black")};
+  border: 1px solid #ddd;
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e6f7ff;
+  }
 `;
 
 export default AdminUser;

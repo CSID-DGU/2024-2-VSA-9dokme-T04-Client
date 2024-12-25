@@ -17,8 +17,8 @@ const LoginLoading = () => {
 
         console.log(res.data);
         // 로그인 시 message 추출
-        const message = res.data.message;
-
+        const { data: role, message } = res.data;
+        
         //message에서 닉네임, 이메일, 멤버아이디 추출
         const nicknameMatch = message.match(/nickname=([^,]*)/);
         const emailMatch = message.match(/email=([^,]*)/);
@@ -36,6 +36,8 @@ const LoginLoading = () => {
           localStorage.setItem("email", email);
           localStorage.setItem("memberId", memberId);
           localStorage.setItem("token", token);
+          localStorage.setItem("role", role); // role 저장
+
 
           //콘솔 출력으로 확인
           console.log("로컬스토리지 닉네임: ", localStorage.getItem("name"));
@@ -47,6 +49,10 @@ const LoginLoading = () => {
           console.log(
             "로컬스토리지 token: ",
             localStorage.getItem("token")
+          );
+          console.log(
+            "로컬스토리지 role: ",
+            localStorage.getItem("role")
           );
         } else {
           console.error("Failed to parse nickname or email from message");

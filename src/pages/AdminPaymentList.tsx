@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import paymentData from "../json/PaymentList.json";
 import AdminBanner from "../components/AdminBanner";
 
 const AdminPaymentList: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const paymentsPerPage = 10;
+
+  // Pagination logic
+  const indexOfLastPayment = currentPage * paymentsPerPage;
+  const indexOfFirstPayment = indexOfLastPayment - paymentsPerPage;
+  const currentPayments = paymentData.PaymentList.slice(
+    indexOfFirstPayment,
+    indexOfLastPayment
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <Root>
       <Container>
@@ -21,7 +34,7 @@ const AdminPaymentList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {paymentData.PaymentList.map((payment) => (
+            {currentPayments.map((payment) => (
               <TableRow key={payment.id}>
                 <TableCell>{payment.id}</TableCell>
                 <TableCell>{payment.membershipType}</TableCell>
@@ -36,15 +49,30 @@ const AdminPaymentList: React.FC = () => {
             ))}
           </tbody>
         </Table>
+
+        <Pagination>
+          {Array.from(
+            { length: Math.ceil(paymentData.PaymentList.length / paymentsPerPage) },
+            (_, index) => (
+              <PaginationButton
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                active={currentPage === index + 1}
+              >
+                {index + 1}
+              </PaginationButton>
+            )
+          )}
+        </Pagination>
       </Container>
     </Root>
   );
 };
 
 const Root = styled.div`
-padding-top: 20vh;
-display: flex;
-justify-content: center;
+  padding-top: 20vh;
+  display: flex;
+  justify-content: center;
   height: 100vh;
 `;
 
@@ -75,13 +103,32 @@ const TableHeader = styled.th`
 `;
 
 const TableRow = styled.tr`
-background-color: white;
+  background-color: white;
 `;
 
 const TableCell = styled.td`
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button<{ active: boolean }>`
+  background-color: ${(props) => (props.active ? "#aa84c9;" : "white")};
+  color: ${(props) => (props.active ? "white" : "black")};
+  border: 1px solid #ddd;
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e6f7ff;
+  }
 `;
 
 export default AdminPaymentList;
