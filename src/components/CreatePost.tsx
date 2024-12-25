@@ -19,6 +19,7 @@ const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
   const memberId = localStorage.getItem("memberId");
 
   const handleSubmit = async () => {
+    const token = localStorage.getItem("token");
     try {
       const payload = {
         userEmail: userEmail || "",
@@ -34,6 +35,7 @@ const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -57,21 +59,21 @@ const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
       <Form>
         <FormLabel>제목</FormLabel>
         <StyledInput
-          type='text'
+          type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <FormLabel>챕터</FormLabel>
         <StyledInput
-          type='number'
+          type="number"
           value={chapter}
           onChange={(e) => setChapter(e.target.value)}
         />
 
         <FormLabel>페이지</FormLabel>
         <StyledInput
-          type='number'
+          type="number"
           value={page}
           onChange={(e) => setPage(e.target.value)}
         />
@@ -93,8 +95,8 @@ const CreatePost: React.FC<Props> = ({ onBack, bookId, userEmail }) => {
 export default CreatePost;
 
 const WriteButton = styled(Button)`
-width: 100%;
-height: 5vh;
+  width: 100%;
+  height: 5vh;
   font-size: 1.1vw;
 `;
 
