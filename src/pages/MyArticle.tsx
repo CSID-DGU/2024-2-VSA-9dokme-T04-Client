@@ -45,11 +45,15 @@ const MyArticle: React.FC = () => {
   };
 
   const handleSearchBtnClick = async () => {
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(`${BASE_URL}/api/myHistory`, {
         params: {
           page: page,
           memberId: memberId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       });
 
