@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import API from "../api/axios";
 import { BASE_URL } from "../env";
-
+import book from "../images/book.png";
 interface Notification {
   notificationId: number;
   message: string;
@@ -17,6 +17,7 @@ interface NotificationListProps {
 }
 
 const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
+  const [notificationCnt, setNotificationCnt] = useState<number>();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -34,6 +35,7 @@ const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
         },
       });
       setNotifications(response.data.content);
+      setNotificationCnt(response.data.totalElements);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -42,6 +44,7 @@ const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
 
   useEffect(() => {
     fetchNotifications(currentPage);
+    console.log("notifications: ", notifications);
   }, [currentPage]);
 
   const handleDelete = async (id: number) => {
@@ -52,7 +55,9 @@ const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setNotifications((prev) => prev.filter((notif) => notif.notificationId !== id));
+      setNotifications((prev) =>
+        prev.filter((notif) => notif.notificationId !== id)
+      );
       alert("알림이 삭제되었습니다.");
     } catch (error) {
       console.error("Error deleting notification:", error);
@@ -71,14 +76,28 @@ const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
     <Container>
       <Title>알림 리스트</Title>
       <List>
-        {notifications.map((notification) => (
-          <NotificationItem key={notification.notificationId}>
-            <Message>{notification.message}</Message>
-            <DeleteButton onClick={() => handleDelete(notification.notificationId)}>
-              x
-            </DeleteButton>
-          </NotificationItem>
-        ))}
+        <NotificationCount>
+          🔔 알림 개수: {notificationCnt || 0}개
+        </NotificationCount>
+        {notifications.length > 0 ? (
+          notifications.map((notification) => (
+            <NotificationItem key={notification.notificationId}>
+              <Message>{notification.message}</Message>
+              <DeleteButton
+                onClick={() => handleDelete(notification.notificationId)}
+              >
+                x
+              </DeleteButton>
+            </NotificationItem>
+          ))
+        ) : (
+          <div className="text-[0.8vw] text-center flex flex-col justify-center items-center gap-4 h-[20vw]">
+            <img src={book} className="w-[4vw]" />
+            알림이 존재하지 않습니다.
+            <br />
+            교재 입고시 알림이 발송됩니다!
+          </div>
+        )}
       </List>
       <Pagination>
         <PageButton
@@ -88,7 +107,7 @@ const NotificationList: React.FC<NotificationListProps> = ({ onBack }) => {
           이전
         </PageButton>
         <PageIndicator>
-          {currentPage + 1} / {totalPages}
+          {currentPage + 1} / {totalPages + 1}
         </PageIndicator>
         <PageButton
           onClick={() => handlePageChange(currentPage + 1)}
@@ -165,6 +184,21 @@ const PageButton = styled.button`
 
 const PageIndicator = styled.span`
   font-size: 0.8vw;
+`;
+
+const NotificationCount = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #f0f8ff;
+  color: #004085;
+  font-size: 1vw;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #cce5ff;
 `;
 
 export default NotificationList;

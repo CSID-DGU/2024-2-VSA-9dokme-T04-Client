@@ -104,6 +104,7 @@ const PdfViewer: React.FC = () => {
     loadPdf();
   }, [bookData]);
 
+  // page 바뀔때마다 localStorage에 저장
   useEffect(() => {
     localStorage.setItem("lastPage", page.toString());
   }, [page]);
