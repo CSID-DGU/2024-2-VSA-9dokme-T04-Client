@@ -88,7 +88,7 @@ const PdfViewer: React.FC = () => {
 
     const loadPdf = async () => {
       if (bookData?.pdfUrl) {
-        const pdfUrl = `${BASE_URL}/pdf/${bookData?.pdfUrl}`;
+        const pdfUrl = `${BASE_URL}/files${bookData?.pdfUrl}`;
         // const pdfUrl = `${bookData?.pdfUrl}`;
         try {
           const loadedPdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
