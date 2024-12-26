@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import SlidingBanner from "../components/SlidingBanner";
 import Hashtag from "../components/Hashtag";
-import { Book } from "../json/BookList";
-import books from "../json/books.json";
 import { useNavigate } from "react-router-dom";
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";
@@ -13,7 +11,7 @@ import book6 from "../images/books/book6.png";
 import book7 from "../images/books/book7.png";
 import Sidebanner from "../components/Sidebanner";
 import { PRIMARY } from "../utils/colors";
-import { Button, Card, Input } from "antd";
+import { Button, Input } from "antd";
 import styled from "styled-components";
 import BookCard from "../components/BookCard";
 import axios from "axios"; // axios 임포트
@@ -29,7 +27,6 @@ const images: { [key: string]: string } = {
   "book7.png": book7,
 };
 
-/*Mobile, Browser view 조건부 렌더링*/
 interface MainProps {
   mobileView?: boolean;
 }
@@ -42,11 +39,10 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
 
   const [category, setCategory] = useState<string>("전체보기");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filterBooks, setFilterBooks] = useState<Book[]>([]);
+  const [filterBooks, setFilterBooks] = useState<any[]>([]);
   const [page, setPage] = useState<number>(0);
-  //const [memberId] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1); // 전체 페이지 수
   const memberId = localStorage.getItem("memberId");
-  console.log("member_id: ", memberId);
 
   const handleHashBtnClick = (newCategory: string) => {
     setCategory(newCategory);
@@ -58,47 +54,24 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
     setSearchQuery(event.target.value);
   };
 
-  // useEffect(() => {
-  //   if (category === "전체보기") {
-  //     setFilterBooks(books.bookData);
-  //   } else {
-  //     setFilterBooks(
-  //       books.bookData.filter((book) => book.category === category)
-  //     );
-  //   }
-  //   console.log("Updated filterBooks: ", filterBooks);
-  // }, [category]);
-
   const handleSearchBtnClick = async () => {
     const token = localStorage.getItem("token");
-    console.log("token: ", token);
     try {
       const response = await axios.get(`${BASE_URL}/api/mainpage/search`, {
         params: {
           title: searchQuery,
-          memberId: memberId,
           page: page,
         },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { content } = response.data;
-
-      //const content = books.bookData;
-      console.log("Fetched content: ", content);
+      const { content, totalPages } = response.data;
 
       setFilterBooks(content);
+      setTotalPages(totalPages);
     } catch (error) {
       console.error("Failed to fetch books", error);
-    }
-
-    if (searchQuery) {
-      setFilterBooks((prevBooks) =>
-        prevBooks.filter((book) =>
-          book.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
     }
   };
 
@@ -108,6 +81,18 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
 
   const goToBarcodeSearch = () => {
     navigate("/barcodefilming");
+  };
+
+  const goToPreviousPage = () => {
+    if (page > 0) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
@@ -155,15 +140,26 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
                     {filterBooks.map((book) => (
                       <BookCard
                         key={book.bookId}
-                        cover={images[book.bookUrl]}
-                        //cover={book.bookUrl}
+                        cover={images[book.bookUrl] || ""}
                         title={book.title}
                         onClick={() => handleImgClick(book.bookId)}
                         isMarked={book.isMarked}
-                        bookId={0}
+                        bookId={book.bookId}
                       />
                     ))}
                   </div>
+                  <PaginationContainer>
+                    <PaginationButton onClick={goToPreviousPage} disabled={page === 0}>
+                      이전
+                    </PaginationButton>
+                    <CurrentPage>{page + 1}</CurrentPage>
+                    <PaginationButton
+                      onClick={goToNextPage}
+                      disabled={page === totalPages - 1}
+                    >
+                      다음
+                    </PaginationButton>
+                  </PaginationContainer>
                 </BooksContainer>
               )}
             </div>
@@ -181,6 +177,7 @@ const Root = styled.div`
   justify-content: center;
   background-color: ${PRIMARY.LiGHT};
 `;
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -195,9 +192,9 @@ const NoneBook = styled.div`
   width: 100%;
   margin: 10vw 0;
 `;
+
 const BookContainer = styled.div`
   width: 70vw;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,8 +205,10 @@ const BookContainer = styled.div`
 const BooksContainer = styled.div`
   margin-top: 3vw;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
+
 const SearchContainer = styled.div`
   width: 100%;
   padding-top: 60px;
@@ -218,15 +217,11 @@ const SearchContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const SearchBox = styled(Input)`
   width: 52vw;
   height: 3vw;
   font-size: 1.5vw;
-  &:hover,
-  &:focus {
-    border-color: ${PRIMARY.DEFAULT};
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  }
 `;
 
 const SearchButton = styled(Button)`
@@ -236,14 +231,24 @@ const SearchButton = styled(Button)`
   background-color: ${PRIMARY.DEFAULT};
   color: white;
   border: none;
-  padding: 10px;
   border-radius: 5px;
-  cursor: pointer;
+`;
 
-  &:hover,
-  &:focus {
-    background-color: ${PRIMARY.DEFAULT};
-  }
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+`;
+
+const PaginationButton = styled(Button)`
+  margin: 0 10px;
+`;
+
+const CurrentPage = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 10px;
 `;
 
 const SubscribeBtn = styled.button`
@@ -260,20 +265,6 @@ const SubscribeBtn = styled.button`
   border: none;
   padding: 0.8vw 5vw;
   border-radius: 8px;
-  cursor: pointer;
-  outline: none;
-  font-size: 1.2vw;
-  font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s;
-  margin-top: 2vw;
-  margin-bottom: 2vw;
-  width: 35vw;
-  height: 5vw;
-  font-size: 1.6vw;
-
-  &:hover {
-    opacity: 0.8;
-  }
 `;
+
 export default Main;

@@ -58,7 +58,7 @@ const BookCard: React.FC<BookCardProps> = ({
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <Root>
       <BookmarkIcon
         src={isMarked ? onBookmark : offBookmark}
         alt="Bookmark Icon"
@@ -70,9 +70,14 @@ const BookCard: React.FC<BookCardProps> = ({
         </CoverImageWrapper>
         <Title>{title.length > 15 ? `${title.slice(0, 15)}...` : title}</Title>
       </CardContainer>
-    </div>
+    </Root>
   );
 };
+
+const Root = styled.div`
+  position: relative;
+  margin: 20px;
+`
 
 const BookmarkIcon = styled.img`
   position: absolute;
