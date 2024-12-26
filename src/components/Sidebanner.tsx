@@ -5,6 +5,9 @@ import API from "../api/axios";
 import banner from "../images/banner.png";
 import { GRAY } from "../utils/colors";
 import NotificationList from "./NotificationList";
+import { BASE_URL } from "../env";
+import axios from "axios";
+import { message } from "antd";
 
 const Sidebanner = () => {
   const navigate = useNavigate();
@@ -31,14 +34,23 @@ const Sidebanner = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await API.get("/api/user/logout");
-      alert("로그아웃되었습니다.");
+      const response = await axios.post(
+        `${BASE_URL}/api/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // JWT 토큰 추가
+          },
+        }
+      );
+      message.success("로그아웃되었습니다.");
       navigate("/");
       console.log("Logout successful:", response.data);
     } catch (error) {
-      console.error("Logout failed:", error);
+      message.error("로그아웃에 실패했습니다.");
     }
   };
+  
 
   const handleSwitchToNotifications = () => {
     setCurrentTab("notifications");

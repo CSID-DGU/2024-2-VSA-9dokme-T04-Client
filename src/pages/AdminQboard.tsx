@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import AdminBanner from "../components/AdminBanner";
 // import QueryDetail from "../components/QueryDetail";
 import { BASE_URL } from "../env";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 const AdminQboard: React.FC = () => {
   const [openEditor, setOpenEditor] = useState<boolean>(false);
@@ -61,9 +61,9 @@ const AdminQboard: React.FC = () => {
       );
       if (response.status === 200 || response.status === 204) {
         fetchQueries(currentPage);
-        alert("문의글이 삭제되었습니다.");
+        message.success("문의글이 성공적으로 삭제되었습니다.")
       } else {
-        alert("문의글 삭제에 실패했습니다.");
+        message.error("문의글 삭제에 실패했습니다.")
       }
     } catch (error) {
       console.error("문의글 삭제 오류: ", error);
