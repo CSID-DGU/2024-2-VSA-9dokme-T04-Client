@@ -10,10 +10,10 @@ interface EditPDFFormProps {
 }
 
 const EditPDFForm: React.FC<EditPDFFormProps> = ({ book, onClose }) => {
-  const [title, setTitle] = useState<string>(book.bookTitle);
+  const [title, setTitle] = useState<string>(book.title);
   const [publishDate, setPublishDate] = useState<string>(book.publishDate);
   const [author, setAuthor] = useState<string>(book.author);
-  const [bookCategory, setBookCategory] = useState<string>(book.bookCategory);
+  const [bookCategory, setBookCategory] = useState<string>(book.category);
   const [bookImage, setBookImage] = useState<string>(book.bookImage);
   const [description, setDescription] = useState<string>(book.description);
   const [bookURL, setBookURL] = useState<string>(book.bookURL);

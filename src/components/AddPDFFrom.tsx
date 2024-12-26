@@ -115,12 +115,12 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
             onChange={(value) => setCategory(String(value))}
           >
             <Select.Option value="">카테고리 선택</Select.Option>
-            <Select.Option value="science">과학</Select.Option>
-            <Select.Option value="nature">자연</Select.Option>
-            <Select.Option value="art">예술</Select.Option>
-            <Select.Option value="humanities">인문/사회</Select.Option>
-            <Select.Option value="sports">체육</Select.Option>
-            <Select.Option value="business">경영/경제</Select.Option>
+            <Select.Option value="과학">과학</Select.Option>
+            <Select.Option value="자연">자연</Select.Option>
+            <Select.Option value="예술">예술</Select.Option>
+            <Select.Option value="인문/사회">인문/사회</Select.Option>
+            <Select.Option value="체육">체육</Select.Option>
+            <Select.Option value="경영/경제">경영/경제</Select.Option>
           </StyledSelect>
         </LineContainer>
         <LineContainer>

@@ -2,8 +2,8 @@
 export interface BookDetailType {
   bookId: number;
   publishDate: string;
-  bookTitle: string;
-  bookCategory: string;
+  title: string;
+  category: string;
   bookImage: string;
   bookURL: string;
   author: string;

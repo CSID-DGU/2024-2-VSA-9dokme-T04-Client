@@ -1,21 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "antd";
 import styled from "styled-components";
-import BookDetail from "../json/BookDetail.json";
+import axios from "axios";
+import { BASE_URL } from "../env";
 import EditPDFForm from "../components/EditPDFForm";
 import AddPDFForm from "../components/AddPDFFrom";
-import { BookDetailType } from "../json/BookDetailType";
 import AdminBanner from "../components/AdminBanner";
+import { BookDetailType } from "../json/BookDetailType";
 
 const AdminPDF: React.FC = () => {
-  const [books, setBooks] = useState<BookDetailType[]>(BookDetail.books);
+  const [books, setBooks] = useState<BookDetailType[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState<BookDetailType | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 10;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const booksPerPage = 8;
 
-  // Calculate the indices for pagination
+  // API 호출
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/mainpage`);
+        const bookList: BookDetailType[] = response.data.data.bookList.content;
+        setBooks(bookList);
+        console.log(bookList);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  // 현재 페이지에 표시할 책 목록 계산
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
@@ -23,10 +40,7 @@ const AdminPDF: React.FC = () => {
   const handleDelete = async (bookId: number) => {
     if (window.confirm("정말로 이 책을 삭제하시겠습니까?")) {
       try {
-        // Simulated API call
-        setBooks((prevBooks) =>
-          prevBooks.filter((book) => book.bookId !== bookId)
-        );
+        setBooks((prevBooks) => prevBooks.filter((book) => book.bookId !== bookId));
         alert("책이 성공적으로 삭제되었습니다.");
       } catch (error) {
         alert("책 삭제에 실패하였습니다.");
@@ -69,7 +83,7 @@ const AdminPDF: React.FC = () => {
           <thead>
             <TableRow>
               <TableHeader>책 제목</TableHeader>
-              <TableHeader>저자</TableHeader>
+              <TableHeader>카테고리</TableHeader>
               <TableHeader>수정</TableHeader>
               <TableHeader>삭제</TableHeader>
             </TableRow>
@@ -77,8 +91,8 @@ const AdminPDF: React.FC = () => {
           <tbody>
             {currentBooks.map((book) => (
               <TableRow key={book.bookId}>
-                <TableCell>{book.bookTitle}</TableCell>
-                <TableCell>{book.author}</TableCell>
+                <TableCell>{book.title}</TableCell>
+                <TableCell>{book.category || "카테고리 없음"}</TableCell>
                 <TableCell>
                   <button onClick={() => handleOpenEditModal(book)}>수정</button>
                 </TableCell>
