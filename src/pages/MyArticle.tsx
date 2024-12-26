@@ -147,7 +147,7 @@ const TableHeader = styled.th`
 `;
 
 const TableRow = styled.tr`
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 `;
 
 const TableCell = styled.td`
@@ -156,8 +156,7 @@ const TableCell = styled.td`
   text-align: left;
 `;
 
-const MoveButton = styled(Button)`
-`;
+const MoveButton = styled(Button)``;
 
 const PaginationWrapper = styled.div`
   margin-top: 30px;

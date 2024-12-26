@@ -150,7 +150,10 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
                     ))}
                   </div>
                   <PaginationContainer>
-                    <PaginationButton onClick={goToPreviousPage} disabled={page === 0}>
+                    <PaginationButton
+                      onClick={goToPreviousPage}
+                      disabled={page === 0}
+                    >
                       이전
                     </PaginationButton>
                     <CurrentPage>{page + 1}</CurrentPage>

@@ -5,6 +5,8 @@ import refreshBtn from "../images/refreshBtn.png";
 import captureBtn from "../images/captureBtn.png";
 import RedirectPdfModal from "../components/RegisterPdfModal";
 import RegisterPdfModal from "../components/RegisterPdfModal";
+import axios from "axios";
+import { BASE_URL } from "../env";
 
 const videoConstraints = {
   width: 400,
@@ -15,10 +17,11 @@ const videoConstraints = {
 const Camera: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+  const [isExisted, setIsExisted] = useState<boolean>(true); // 책 존재 여부 상태
+  const [bookInfo, setBookInfo] = useState<any | null>(null);
+
   const [url, setUrl] = useState<string | null>(null);
   const webcamRef = useRef<Webcam | null>(null);
-  /* 이미 등록된 url인지 아닌지 판별*/
-  const [isExisted, setisExisted] = useState<boolean>(true);
 
   const handleOpenModal = () => setIsModalOpen(true);
 
@@ -41,14 +44,49 @@ const Camera: React.FC = () => {
     }
   }, [webcamRef]);
 
-  const sendPhotoServer = async () => {
-    setIsSubmitModalOpen(true);
-    // handleOpenModal();
-    // if (!url) return;
+  // const sendPhotoServer = async () => {
+  //   setIsSubmitModalOpen(true);
+  //   handleOpenModal();
+  //   if (!url) return;
 
-    // const formData = new FormData();
-    // formData.append("image", url);
-    // console.log("Photo sent!");
+  //   const formData = new FormData();
+  //   formData.append("image", url);
+  //   console.log("Photo sent!");
+  // };
+  const sendPhotoServer = async () => {
+    if (!url) return;
+
+    try {
+      // 이미지 데이터를 Blob 형태로 변환
+      const blob = await fetch(url).then((res) => res.blob());
+
+      const formData = new FormData();
+      formData.append("file", "barcode.png"); // 이미지 파일 추가
+
+      const response = await axios.post(
+        `${BASE_URL}/api/barcode/extract`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // 반드시 form-data로 설정
+          },
+        }
+      );
+
+      // API 응답 처리
+      if (response.data.bookId) {
+        // 책이 존재할 경우
+        setIsExisted(true);
+        setBookInfo(response.data);
+        console.log("Book Info: ", response.data);
+      } else {
+        // 책이 존재하지 않을 경우
+        setIsExisted(false);
+      }
+      setIsSubmitModalOpen(true); // 결과 모달 열기
+    } catch (error) {
+      console.error("Failed to send photo to server", error);
+    }
   };
 
   const handleCloseModal = () => {

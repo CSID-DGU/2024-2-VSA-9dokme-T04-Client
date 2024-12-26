@@ -67,8 +67,7 @@ const BookCard: React.FC<BookCardProps> = ({
       />
       <CardContainer onClick={onClick}>
         <CoverImageWrapper>
-          <CoverImage alt={title}           src={`${BASE_URL}/files${cover}`}
-           />
+          <CoverImage alt={title} src={`${BASE_URL}/files${cover}`} />
         </CoverImageWrapper>
         <Title>{title.length > 15 ? `${title.slice(0, 15)}...` : title}</Title>
       </CardContainer>
@@ -79,7 +78,7 @@ const BookCard: React.FC<BookCardProps> = ({
 const Root = styled.div`
   position: relative;
   margin: 20px;
-`
+`;
 
 const BookmarkIcon = styled.img`
   position: absolute;
