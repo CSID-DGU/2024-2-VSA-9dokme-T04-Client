@@ -3,6 +3,7 @@ import styled from "styled-components";
 import API from "../api/axios";
 import { Button, Input, Select } from "antd";
 import { BASE_URL } from "../env";
+import axios from "axios";
 
 interface AddPDFFormProps {
   onClose: () => void;
@@ -18,7 +19,7 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [bookImage, setBookImage] = useState<File | null>(null);
-  const [bookURL, setBookURL] = useState<string>("");
+  const [bookPDF, setBookPDF] = useState<File | null>(null);
   const [bookChapter, setBookChapter] = useState<number>(0);
   const [bookFullPage, setBookFullPage] = useState<number>(0);
   const [rent, setRent] = useState<number>(0);
@@ -29,17 +30,16 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
     }
   };
 
+  const handlePDFChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setBookPDF(event.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (
-      !title ||
-      !author ||
-      !publisher ||
-      !category ||
-      !description ||
-      !bookURL
-    ) {
+    if (!title || !author || !publisher || !category || !description || !bookImage || !bookPDF) {
       alert("모든 필드를 채워주세요.");
       return;
     }
@@ -51,32 +51,29 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
     formData.append("publisher", publisher);
     formData.append("category", category);
     formData.append("description", description);
-    if (bookImage) {
-      formData.append("bookImage", bookImage);
-    }
-    formData.append("bookURL", bookURL);
+    formData.append("bookImage", bookImage);
+    formData.append("bookPDF", bookPDF);
     formData.append("bookChapter", bookChapter.toString());
     formData.append("bookFullPage", bookFullPage.toString());
     formData.append("rent", rent.toString());
 
     try {
       const token = localStorage.getItem("token");
-      console.log(formData);      
-      console.log("토큰:" + token);
-
-      const response = await API.post(`${BASE_URL}/api/admin/books`, formData, {
+    
+      const response = await axios.post(`${BASE_URL}/admin/books`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          // "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       });
+    
       if (response.status === 200) {
-        alert("PDF가 성공적으로 등록되었습니다.");
+        alert("PDF와 이미지가 성공적으로 등록되었습니다.");
         onClose();
       }
     } catch (error) {
-      console.error("Error uploading PDF:", error);
-      alert("PDF 등록에 실패했습니다.");
+      console.error("Error uploading PDF or image:", error);
+      alert("등록에 실패했습니다.");
     }
   };
 
@@ -142,10 +139,11 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
           />
         </LineContainer>
         <LineContainer>
-          <Tag>PDF URL</Tag>
+          <Tag>PDF 파일</Tag>
           <StyledInput
-            value={bookURL}
-            onChange={(e) => setBookURL(e.target.value)}
+            type="file"
+            accept=".pdf"
+            onChange={handlePDFChange}
           />
         </LineContainer>
         <LineContainer>
@@ -168,14 +166,14 @@ const AddPDFForm: React.FC<AddPDFFormProps> = ({ onClose }) => {
           <Tag>대여 여부</Tag>
           <StyledSelect
             value={rent.toString()}
-            onChange={(value) => setRent(Number(value))} // value를 바로 사용
+            onChange={(value) => setRent(Number(value))}
           >
             <Select.Option value="0">불가능</Select.Option>
             <Select.Option value="1">가능</Select.Option>
           </StyledSelect>
         </LineContainer>
         <SubmitButtonContainer>
-          <SubmitButton onClick = {handleSubmit}>PDF 등록하기</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>PDF 등록하기</SubmitButton>
         </SubmitButtonContainer>
       </FormContainer>
     </Root>
