@@ -143,7 +143,7 @@ const MyPage = () => {
                   {books.map((book) => (
                     <BookCard
                       bookId={book.bookId}
-                      cover={images[book.bookUrl]}
+                      cover={book.bookUrl}
                       title={book.title}
                       isMarked={book.isMarked}
                       onClick={() => handleImgClick(book.bookId)}
