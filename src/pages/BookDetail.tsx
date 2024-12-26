@@ -121,7 +121,10 @@ const BookDetail = () => {
     <Root>
       <Sidebanner />
       <Container>
-        <BookImage src={book.pdfImage} alt={`Cover of ${book.title}`} />
+        <BookImage
+          src={`${BASE_URL}/files${book.pdfImage}`}
+          alt={`Cover of ${book.title}`}
+        />
         <ContentContainer>
           <div>
             <BookTypo>{book.title}</BookTypo>
@@ -145,7 +148,7 @@ const BookDetail = () => {
               </GradientButton>
             ) : (
               <GreyButton
-                className="bg-grey"
+                className='bg-grey'
                 onClick={() => handleDeleteBookmark()}
               >
                 책갈피 취소하기

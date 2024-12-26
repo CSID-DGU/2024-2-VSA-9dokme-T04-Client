@@ -70,6 +70,7 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
 
       setFilterBooks(content);
       setTotalPages(totalPages);
+      console.log(content);
     } catch (error) {
       console.error("Failed to fetch books", error);
     }
@@ -140,7 +141,7 @@ const Main: React.FC<MainProps> = ({ mobileView }) => {
                     {filterBooks.map((book) => (
                       <BookCard
                         key={book.bookId}
-                        cover={images[book.bookUrl] || ""}
+                        cover={book.bookUrl}
                         title={book.title}
                         onClick={() => handleImgClick(book.bookId)}
                         isMarked={book.isMarked}

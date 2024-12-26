@@ -4,6 +4,7 @@ import onBookmark from "../images/onBookmark.png";
 import offBookmark from "../images/offBookmark.png";
 import defaultCover from "../images/bookcover.png";
 import API from "../api/axios";
+import { BASE_URL } from "../env";
 
 interface BookCardProps {
   bookId: number;
@@ -66,7 +67,8 @@ const BookCard: React.FC<BookCardProps> = ({
       />
       <CardContainer onClick={onClick}>
         <CoverImageWrapper>
-          <CoverImage alt={title} src={coverSrc} />
+          <CoverImage alt={title}           src={`${BASE_URL}/files${cover}`}
+           />
         </CoverImageWrapper>
         <Title>{title.length > 15 ? `${title.slice(0, 15)}...` : title}</Title>
       </CardContainer>
