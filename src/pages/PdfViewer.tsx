@@ -88,7 +88,7 @@ const PdfViewer: React.FC = () => {
 
     const loadPdf = async () => {
       if (bookData?.pdfUrl) {
-        const pdfUrl = `${BASE_URL}${bookData?.pdfUrl}`;
+        const pdfUrl = `${BASE_URL}/pdf/${bookData?.pdfUrl}`;
         // const pdfUrl = `${bookData?.pdfUrl}`;
         try {
           const loadedPdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
@@ -180,9 +180,9 @@ const PdfViewer: React.FC = () => {
           <div className="font-bold text-[1.5vw]">[{book?.title}]</div>
           <p className="text-[1.2vw] mt-[0.2vw]">{book?.author}</p>
         </div>
-        <div>
+        {/* <div>
           <TagBtn>{book?.category ? book.category : "카테고리 없음"}</TagBtn>
-        </div>
+        </div> */}
         {error ? (
           <ErrorMessage>
             <img src={No} className="w-[7vw] mb-[2vw]" />
@@ -257,7 +257,7 @@ const CanvasWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 10px;
-  height: 750px;
+  height: 100%;
   width: 100%;
   overflow: hidden; /* 스크롤바 숨김 */
 `;

@@ -4,12 +4,10 @@ import User from "../json/User.json";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import bg from "../images/bg.png";
-import BookCard from "../components/BookCard"; // BookCard 컴포넌트 import
+import BookCard from "../components/BookCard";
 import axios from "axios";
 import Sidebanner from "../components/Sidebanner";
 import { BASE_URL } from "../env";
-
-// import booksData from "../json/mybooks.json";
 
 import book1 from "../images/books/book1.png";
 import book2 from "../images/books/book2.png";
@@ -93,7 +91,6 @@ const MyPage = () => {
   const handleLogout = async (): Promise<void> => {
     const token = localStorage.getItem("token");
     try {
-      // API 호출
       const response = await axios.get(`${BASE_URL}/api/user/logout`, {
         headers: {
           Autorization: `Bearer ${token}`,
@@ -101,10 +98,8 @@ const MyPage = () => {
       });
       navigate("/");
 
-      // 응답 로깅
       console.log("Logout successful:", response.data);
     } catch (error) {
-      // 오류 처리
       console.error("Logout failed:", error);
     }
   };
@@ -148,12 +143,10 @@ const MyPage = () => {
                   {books.map((book) => (
                     <BookCard
                       bookId={book.bookId}
-                      // key={book.bookId}
                       cover={images[book.bookUrl]}
                       title={book.title}
                       isMarked={book.isMarked}
-                      // bookImage={book.bookImage}
-                      onClick={() => handleImgClick(book.bookId)} // 핸들러에서 book.bookId를 인자로 전달
+                      onClick={() => handleImgClick(book.bookId)}
                     />
                   ))}
                 </div>

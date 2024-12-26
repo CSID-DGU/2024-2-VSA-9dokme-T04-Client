@@ -55,7 +55,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
 
   useEffect(() => {
     fetchCommunityData();
-  }, [bookId, filterPost]);
+  }, [bookId]);
 
   const handlePostClick = (questionId: number) => {
     setSelectedPost(questionId);
