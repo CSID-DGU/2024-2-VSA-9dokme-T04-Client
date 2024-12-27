@@ -4,11 +4,17 @@ import styled from "styled-components";
 interface ParameterProps {
   handleModalClose: () => void;
   isExisted: boolean; // 부모 컴포넌트에서 전달받는 상태
+  bookId: number;
+  publisher: string;
+  title: string;
 }
 
 const RegisterPdfModal: React.FC<ParameterProps> = ({
   handleModalClose,
   isExisted,
+  bookId,
+  publisher,
+  title,
 }) => {
   const [modalSize, setModalSize] = useState({ width: "37vw", height: "30vh" });
 
@@ -19,7 +25,7 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
   };
 
   const registerPdfRequest = () => {
-    alert("pdf 등록이 요청되었습니다!");
+    alert("pdf 등록이 요청되었습니다!✨");
     window.location.href = "/mypage";
   };
   useEffect(() => {
@@ -46,11 +52,10 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
           {isExisted ? (
             <p>
               이미 등록되어있는 교재입니다. <br />
-              📚교재 이름: AI 시대의 컴퓨터 개론
+              📚교재 이름: {title}
               <br />
-              🔖출판사: 인피니티북스
+              🔖출판사: {publisher}
               <br />
-              📅출판 년도: 2019년
             </p>
           ) : (
             <p>
@@ -58,11 +63,10 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
               <br />
               9DOKME에 교재 등록 요청을 보낼까요?
               <div className="text-left rounded shadow-lg bg-gray-200 p-2">
-                📚교재 이름: AI 시대의 컴퓨터 개론
+                📚교재 이름: {title}
                 <br />
-                🔖출판사: 인피니티북스
+                🔖출판사: {publisher}
                 <br />
-                📅출판 년도: 2019년
               </div>
             </p>
           )}
@@ -72,7 +76,7 @@ const RegisterPdfModal: React.FC<ParameterProps> = ({
         {isExisted ? (
           <RegisterButton
             onClick={() => {
-              window.location.href = "/bookdetail/3";
+              window.location.href = `/bookdetail/${bookId}`;
             }}
           >
             해당 PDF 조회하기

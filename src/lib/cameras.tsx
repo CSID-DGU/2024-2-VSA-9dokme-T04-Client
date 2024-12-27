@@ -17,8 +17,10 @@ const videoConstraints = {
 const Camera: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
-  const [isExisted, setIsExisted] = useState<boolean>(true); // 책 존재 여부 상태
+  const [isExisted, setIsExisted] = useState<boolean>(false); // 책 존재 여부 상태
   const [bookInfo, setBookInfo] = useState<any | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isValidBarcode, setIsValidBarcode] = useState<boolean>(false);
 
   const [url, setUrl] = useState<string | null>(null);
   const webcamRef = useRef<Webcam | null>(null);
@@ -44,53 +46,78 @@ const Camera: React.FC = () => {
     }
   }, [webcamRef]);
 
-  // const sendPhotoServer = async () => {
-  //   setIsSubmitModalOpen(true);
-  //   handleOpenModal();
-  //   if (!url) return;
+  const handleCloseModal = () => {
+    setIsSubmitModalOpen(false);
+  };
+  const bringPhoto = () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*"; // 이미지 파일만 허용
+    fileInput.onchange = (event) => {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (!file) return;
 
-  //   const formData = new FormData();
-  //   formData.append("image", url);
-  //   console.log("Photo sent!");
-  // };
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.result && typeof reader.result === "string") {
+          setUrl(reader.result); // 이미지 미리보기
+        }
+      };
+      reader.readAsDataURL(file);
+
+      setSelectedFile(file); // 선택된 파일을 상태로 저장
+      setIsSubmitModalOpen(true); // 전송 모달 열기
+    };
+    fileInput.click();
+  };
+
   const sendPhotoServer = async () => {
-    if (!url) return;
+    if (!selectedFile && !url) return;
 
     try {
-      // 이미지 데이터를 Blob 형태로 변환
-      const blob = await fetch(url).then((res) => res.blob());
-
       const formData = new FormData();
-      formData.append("file", "barcode.png"); // 이미지 파일 추가
+
+      if (selectedFile) {
+        // 선택된 파일 전송
+        formData.append("file", selectedFile);
+      } else if (url) {
+        // 캡처된 이미지를 전송
+        const blob = await fetch(url).then((res) => res.blob());
+        const file = new File([blob], "captured_image.png", {
+          type: blob.type,
+        });
+        formData.append("file", file);
+      }
 
       const response = await axios.post(
         `${BASE_URL}/api/barcode/extract`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // 반드시 form-data로 설정
+            "Content-Type": "multipart/form-data",
           },
+          validateStatus: (status) => true,
         }
       );
+      console.log("response: ", response);
 
-      // API 응답 처리
-      if (response.data.bookId) {
-        // 책이 존재할 경우
+      if (response.status === 200) {
         setIsExisted(true);
         setBookInfo(response.data);
-        console.log("Book Info: ", response.data);
+        setIsValidBarcode(true);
       } else {
-        // 책이 존재하지 않을 경우
         setIsExisted(false);
+        setBookInfo(response.data);
+        setIsValidBarcode(true);
       }
+
+      console.log("Book Info: ", response);
       setIsSubmitModalOpen(true); // 결과 모달 열기
     } catch (error) {
+      setIsValidBarcode(false);
       console.error("Failed to send photo to server", error);
+      alert("바코드를 인식할 수 없습니다. 다시 시도해주세요. 📸");
     }
-  };
-
-  const handleCloseModal = () => {
-    setIsSubmitModalOpen(false);
   };
 
   return (
@@ -106,13 +133,19 @@ const Camera: React.FC = () => {
         />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-row gap-4">
         <button
           onClick={capturePhoto}
           className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 shadow-md"
         >
           <img src={captureBtn} alt="Capture" className="w-6 h-6 mr-2" />
           사진 촬영
+        </button>
+        <button
+          onClick={bringPhoto}
+          className="flex items-center px-4 py-2 bg-green-400 text-white rounded-lg hover:bg-green-600 shadow-md"
+        >
+          사진 불러오기
         </button>
       </div>
 
@@ -134,10 +167,13 @@ const Camera: React.FC = () => {
               >
                 ✓ 전송하기
               </button>
-              {isSubmitModalOpen && (
+              {isSubmitModalOpen && isValidBarcode && (
                 <RegisterPdfModal
                   handleModalClose={handleCloseModal}
                   isExisted={isExisted}
+                  bookId={bookInfo?.bookId || 0}
+                  publisher={bookInfo?.publisher || "출판사 없음."}
+                  title={bookInfo?.title || "제목  없음."}
                 />
               )}
               <button
