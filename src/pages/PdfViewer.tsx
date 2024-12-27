@@ -172,7 +172,11 @@ const PdfViewer: React.FC = () => {
   return (
     <Frame className="bg-customGradient w-full h-[150vh]">
       <Sidebanner />
-      <CommunityTab bookId={bookId ? parseInt(bookId, 10) : 0} />
+      <CommunityTab
+        pdfUrl={`${BASE_URL}/files${bookData?.pdfUrl}`}
+        bookId={bookId ? parseInt(bookId, 10) : 0}
+        bookTitle={book?.title || "no title"}
+      />
       {/* <CommunityTab bookId={bookId} />
       <AIChat /> */}
       <div className="flex flex-col items-center justify-center">

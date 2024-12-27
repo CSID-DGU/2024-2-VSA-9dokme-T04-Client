@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Button, Input } from "antd";
 import axios from "axios";
 import { BASE_URL } from "../env";
+import { url } from "inspector";
 
 interface Comment {
   commentId: number;
@@ -26,10 +27,17 @@ interface PostDetailType {
 
 interface PostDetailProps {
   questionId: number;
+  pdfUrl: string;
+  bookTitle: string;
   onBack: () => void;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
+const PostDetail: React.FC<PostDetailProps> = ({
+  questionId,
+  pdfUrl,
+  bookTitle,
+  onBack,
+}) => {
   const [postDetail, setPostDetail] = useState<PostDetailType | null>(null);
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<Comment[]>([]);
@@ -38,7 +46,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("questionId: ", questionId);
+    //console.log("questionId: ", questionId);
     const fetchQuestionDetail = async () => {
       try {
         const response = await axios.get(
@@ -51,9 +59,10 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
         );
         if (response.status === 200) {
           setPostDetail(response.data.question);
+          //console.log("postDetail: ", postDetail);
           setComments(response.data.commentList);
         }
-        console.log("questionDetail: ", response.data);
+        //console.log("questionDetail: ", response.data);
       } catch (error) {
         console.error("Error fetching question detail:", error);
       }
@@ -67,6 +76,80 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
   if (!postDetail) {
     return <div>Loading...</div>;
   }
+
+  // const requestAIAnswer = async () => {
+  //   const token = localStorage.getItem("token");
+  //   const url = pdfUrl;
+  //   const question = postDetail.content;
+  //   const bookName = bookTitle;
+  //   try {
+  //     const payload = {
+  //       url: url,
+  //       question: question,
+  //       bookName: bookName,
+  //     };
+
+  //     const response = await axios.post(`${BASE_URL}/api/chat/pdf`, payload, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     if (response.status === 200) {
+  //       console.log("response.data: ", response.data);
+  //       setComment("");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error posting the comment:", error);
+  //     alert(
+  //       "AI 답변 요청에 실패했습니다. 잠시 후 다시 시도해보세요.🤖 문제가 지속된다면 관리자에게 문의글을 남겨주세요."
+  //     );
+  //   }
+  // };
+  const requestAIAnswer = async () => {
+    const token = localStorage.getItem("token");
+    const url = pdfUrl;
+    const question = postDetail.content;
+    const bookName = bookTitle;
+
+    setIsGeneratingReply(true); // 버튼 로딩 상태로 전환
+
+    try {
+      const payload = {
+        url: url,
+        question: question,
+        bookName: bookName,
+      };
+
+      const response = await axios.post(`${BASE_URL}/api/chat/pdf`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        const aiReply: Comment = {
+          commentId: comments.length + 1,
+          content: response.data.answer, // AI 생성 답변
+          nickName: "AI Assistant",
+          createdAt: new Date().toISOString(),
+          isAiGenerated: true,
+        };
+
+        // AI 답변을 comments 리스트에 추가
+        setComments((prevComments) => [...prevComments, aiReply]);
+        console.log("AI 답변 생성 성공:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching AI answer:", error);
+      alert(
+        "AI 답변 요청에 실패했습니다. 잠시 후 다시 시도해보세요.🤖 문제가 지속된다면 관리자에게 문의글을 남겨주세요."
+      );
+    } finally {
+      setIsGeneratingReply(false); // 로딩 상태 해제
+    }
+  };
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지
@@ -129,7 +212,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ questionId, onBack }) => {
       <Content>{postDetail.content}</Content>
       <AiReplyButton>
         <Button
-          onClick={handleGenerateAiReply}
+          onClick={requestAIAnswer}
           loading={isGeneratingReply}
           disabled={isGeneratingReply}
           type="primary"

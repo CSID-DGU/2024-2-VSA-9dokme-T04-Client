@@ -23,8 +23,14 @@ interface Post {
 
 interface CommunityTabProps {
   bookId: number;
+  pdfUrl: string;
+  bookTitle: string;
 }
-const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
+const CommunityTab: React.FC<CommunityTabProps> = ({
+  bookId,
+  pdfUrl,
+  bookTitle,
+}) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [createPostBtn, setCreatePostBtn] = useState<boolean>(false);
   const [searchTitle, setSearchTitle] = useState<string>("");
@@ -121,7 +127,12 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ bookId }) => {
             userEmail="example@gmail.com"
           />
         ) : selectedPost ? (
-          <PostDetail questionId={selectedPost} onBack={handleBackFromDetail} />
+          <PostDetail
+            questionId={selectedPost}
+            pdfUrl={pdfUrl}
+            onBack={handleBackFromDetail}
+            bookTitle={bookTitle}
+          />
         ) : (
           <>
             <Title>커뮤니티</Title>
